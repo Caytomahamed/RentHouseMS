@@ -1,0 +1,189 @@
+{
+  "fields": [
+    {
+      "label": "driver Id",
+      "name": "driverId",
+      "type": "text",
+      "placeholder": "Enter your driver id",
+      "validationRules": {
+        "required": true,
+        "minLength": 1
+      }
+    },
+    {
+      "label": "Car type",
+      "name": "carType",
+      "type": "text",
+      "placeholder": "Enter your carType",
+      "validationRules": {
+        "required": true,
+        "minLength": 2
+      }
+    },
+    {
+      "label": "Make",
+      "name": "make",
+      "type": "text",
+      "placeholder": "Enter your make",
+      "validationRules": {
+        "required": true,
+        "minLength": 2
+      }
+    },
+    {
+      "label": "Modal",
+      "name": "model",
+      "type": "text",
+      "placeholder": "Enter your modal",
+      "validationRules": {
+        "required": true,
+        "minLength": 8
+      }
+    },
+    {
+      "label": "year",
+      "name": "year",
+      "type": "number",
+      "placeholder": "Enter your year",
+      "validationRules": {
+        "required": true,
+        "minLength": 2
+      }
+    },
+    {
+      "label": "color",
+      "name": "color",
+      "type": "text",
+      "placeholder": "Enter your color",
+      "validationRules": {
+        "required": true,
+        "minLength": 2
+      }
+    },
+    {
+      "label": "capacity",
+      "name": "capacity",
+      "type": "number",
+      "placeholder": "Enter your capacity",
+      "validationRules": {
+        "required": true,
+        "min": 1,
+        "max": 3
+      }
+    },
+    {
+      "label": "carPlate Number",
+      "name": "carPlateNumber",
+      "type": "text",
+      "placeholder": "Enter your CarPlate Number",
+      "validationRules": {
+        "required": true,
+        "minLength": 4
+      }
+    },
+    {
+      "label": "LicenseNumber",
+      "name": "LicenseNumber",
+      "type": "text",
+      "placeholder": "Enter LicenseNumber",
+      "validationRules": {
+        "required": true,
+        "minLength": 4
+      }
+    },
+    {
+      "label": "Car Image",
+      "name": "carImg",
+      "type": "file",
+      "placeholder": "Enter carImg",
+      "validationRules": {
+        "required": true,
+        "pattern": "\\.(jpeg|jpg|gif|png)$"
+      }
+    }
+  ],
+  "headers": [
+    {
+      "title": "ID NO#",
+      "key": "id",
+      "className": "id"
+    },
+    {
+      "title": "Car description"
+    },
+    {
+      "title": "status"
+    },
+    {
+      "title": "Car type"
+    },
+    {
+      "title": "driver id"
+    },
+    {
+      "title": "driver name"
+    },
+    {
+      "title": "car info"
+    },
+
+    {
+      "title": "Action",
+      "className": "action-header"
+    }
+  ],
+  "sortOptions": [
+    [
+      {
+        "column": "firstname",
+        "title": "First Name",
+        "sortOrder": "asc",
+        "label": "Sort by Firstname",
+        "selected": true
+      },
+      {
+        "column": "firstname",
+        "sortOrder": "asc",
+        "label": "Sort by Firstname(ascending default)"
+      },
+      {
+        "column": "firstname",
+        "sortOrder": "desc",
+        "label": "Sort by Firstname(descending)"
+      }
+    ],
+    [
+      {
+        "column": "lastname",
+        "title": "Last Name",
+        "sortOrder": "asc",
+        "label": "Sort by Last Name",
+        "selected": true
+      },
+      {
+        "column": "lastname",
+        "sortOrder": "asc",
+        "label": "Sort by Lastname(ascending default)"
+      },
+      {
+        "column": "lastname",
+        "sortOrder": "desc",
+        "label": "Sort by Lastname(descending)"
+      }
+    ],
+    [
+      {
+        "column": "address",
+        "title": "Address",
+        "sortOrder": "asc",
+        "label": "Sort by Address",
+        "selected": true
+      },
+      {
+        "column": "address",
+        "sortOrder": "asc",
+        "label": "Sort by Address(ascending default)"
+      }
+    ]
+  ]
+}

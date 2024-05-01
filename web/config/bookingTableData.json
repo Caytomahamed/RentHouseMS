@@ -1,0 +1,130 @@
+{
+  "fields": [
+    {
+      "label": "tenantId",
+      "name": "tenantId",
+      "type": "number",
+      "placeholder": "Enter your tenantId",
+      "validationRules": {
+        "required": true,
+        "minLength": 1
+      }
+    },
+    {
+      "label": "propertyId",
+      "name": "propertyId",
+      "type": "number",
+      "placeholder": "Enter your propertyId",
+      "validationRules": {
+        "required": true,
+        "minLength": 1
+      }
+    },
+    {
+      "label": "startDate",
+      "name": "startDate",
+      "type": "date",
+      "placeholder": "Enter your startDate",
+      "validationRules": {
+        "required": true,
+        "minLength": 1
+      }
+    },
+    {
+      "label": "endDate",
+      "name": "endDate",
+      "type": "date",
+      "placeholder": "Enter your endDate",
+      "validationRules": {
+        "required": true,
+        "minLength": 1
+      }
+    }
+  ],
+  "headers": [
+    {
+      "title": "ID NO#",
+      "key": "id",
+      "className": "id"
+    },
+    {
+      "title": "tenant Id"
+    },
+    {
+      "title": "property id"
+    },
+
+    {
+      "title": "rentAmout"
+    },
+
+    {
+      "title": "securityDeposit"
+    },
+    {
+      "title": "start Date"
+    },
+    {
+      "title": "finish date"
+    },
+
+    {
+      "title": "Action",
+      "className": "action-header"
+    }
+  ],
+  "sortOptions": [
+    [
+      {
+        "column": "firstname",
+        "title": "First Name",
+        "sortOrder": "asc",
+        "label": "Sort by Firstname",
+        "selected": true
+      },
+      {
+        "column": "firstname",
+        "sortOrder": "asc",
+        "label": "Sort by Firstname(ascending default)"
+      },
+      {
+        "column": "firstname",
+        "sortOrder": "desc",
+        "label": "Sort by Firstname(descending)"
+      }
+    ],
+    [
+      {
+        "column": "lastname",
+        "title": "Last Name",
+        "sortOrder": "asc",
+        "label": "Sort by Last Name",
+        "selected": true
+      },
+      {
+        "column": "lastname",
+        "sortOrder": "asc",
+        "label": "Sort by Lastname(ascending default)"
+      },
+      {
+        "column": "lastname",
+        "sortOrder": "desc",
+        "label": "Sort by Lastname(descending)"
+      }
+    ],
+    [
+      {
+        "column": "address",
+        "title": "Address",
+        "sortOrder": "asc",
+        "label": "Sort by Address",
+        "selected": true
+      },
+      {
+        "column": "address",
+        "sortOrder": "asc",
+        "label": "Sort by Address(ascending default)"
+      }
+    ]
+  ]
+}

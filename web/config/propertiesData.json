@@ -1,0 +1,208 @@
+{
+  "fields": [
+    {
+      "label": "Address",
+      "name": "address",
+      "type": "text",
+      "placeholder": "Enter Address",
+      "validationRules": {
+        "required": true
+      }
+    },
+    {
+      "label": "City",
+      "name": "city",
+      "type": "text",
+      "placeholder": "Enter City",
+      "validationRules": {
+        "required": true
+      }
+    },
+    {
+      "label": "State",
+      "name": "state",
+      "type": "text",
+      "placeholder": "Enter State",
+      "validationRules": {
+        "required": true,
+        "minLength": 2,
+        "maxLength": 2
+      }
+    },
+    {
+      "label": "Map Link",
+      "name": "maplink",
+      "type": "text",
+      "placeholder": "Enter Map Link",
+      "validationRules": {
+        "required": true,
+        "pattern": "^https?:\\/\\/.+$"
+      }
+    },
+    {
+      "label": "Square Footage",
+      "name": "squareFootage",
+      "type": "number",
+      "placeholder": "Enter Square Footage",
+      "validationRules": {
+        "required": true,
+        "min": 0
+      }
+    },
+    {
+      "label": "Bedrooms",
+      "name": "bedrooms",
+      "type": "number",
+      "placeholder": "Enter Bedrooms",
+      "validationRules": {
+        "required": true,
+        "min": 1
+      }
+    },
+    {
+      "label": "Bathrooms",
+      "name": "bathrooms",
+      "type": "number",
+      "placeholder": "Enter Bathrooms",
+      "validationRules": {
+        "required": true,
+        "min": 1
+      }
+    },
+    {
+      "label": "Rent Amount",
+      "name": "rentAmount",
+      "type": "number",
+      "placeholder": "Enter Rent Amount",
+      "validationRules": {
+        "required": true,
+        "min": 0
+      }
+    },
+    {
+      "label": "landLordId",
+      "name": "landLordId",
+      "type": "number",
+      "placeholder": "Enter Landlord ID",
+      "validationRules": {
+        "required": true,
+        "min": 1
+      }
+    },
+    {
+      "label": "Property TypeId",
+      "name": "propertyTypeId",
+      "type": "number",
+      "placeholder": "Enter Property Type ID",
+      "validationRules": {
+        "required": true,
+        "min": 1
+      }
+    },
+    {
+      "label": "Description",
+      "name": "description",
+      "type": "textarea",
+      "placeholder": "Enter Description",
+      "validationRules": {
+        "required": true,
+        "minLength": 10
+      }
+    },
+    {
+      "label": "Image URLs",
+      "name": "imageUrls",
+      "type": "text",
+      "placeholder": "Enter Image URLs",
+      "validationRules": {
+        "required": true,
+        "isArray": true,
+        "minArrayLength": 1,
+        "pattern": "^https?:\\/\\/.+$"
+      }
+    }
+  ],
+  "headers": [
+    {
+      "title": "ID NO#",
+      "key": "id",
+      "className": "id"
+    },
+    {
+      "title": "Tenants Profile"
+    },
+    {
+      "title": "state"
+    },
+    {
+      "title": "city"
+    },
+    {
+      "title": "Phone"
+    },
+    {
+      "title": "Type User"
+    },
+    {
+      "title": "Status"
+    },
+    {
+      "title": "Action",
+      "className": "action-header"
+    }
+  ],
+  "sortOptions": [
+    [
+      {
+        "column": "firstname",
+        "title": "First Name",
+        "sortOrder": "asc",
+        "label": "Sort by Firstname",
+        "selected": true
+      },
+      {
+        "column": "firstname",
+        "sortOrder": "asc",
+        "label": "Sort by Firstname(ascending default)"
+      },
+      {
+        "column": "firstname",
+        "sortOrder": "desc",
+        "label": "Sort by Firstname(descending)"
+      }
+    ],
+    [
+      {
+        "column": "lastname",
+        "title": "Last Name",
+        "sortOrder": "asc",
+        "label": "Sort by Last Name",
+        "selected": true
+      },
+      {
+        "column": "lastname",
+        "sortOrder": "asc",
+        "label": "Sort by Lastname(ascending default)"
+      },
+      {
+        "column": "lastname",
+        "sortOrder": "desc",
+        "label": "Sort by Lastname(descending)"
+      }
+    ],
+    [
+      {
+        "column": "address",
+        "title": "Address",
+        "sortOrder": "asc",
+        "label": "Sort by Address",
+        "selected": true
+      },
+      {
+        "column": "address",
+        "sortOrder": "asc",
+        "label": "Sort by Address(ascending default)"
+      }
+    ]
+  ]
+}

@@ -1,0 +1,19 @@
+.error-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  text-align: center;
+}
+
+.error-heading {
+  font-size: 5rem;
+  font-weight: bold;
+  margin: 3rem 0;
+}
+
+.not-found {
+  margin: 3rem 0;
+  color: gray;
+}

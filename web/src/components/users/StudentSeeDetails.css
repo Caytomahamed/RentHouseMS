@@ -1,0 +1,25 @@
+.see-con {
+  height: 80vh;
+  background: red;
+  border-radius: 2rem;
+  width: 100%;
+  display: flex;
+  margin-bottom: 3rem;
+  overflow: hidden;
+}
+
+.right-see-con {
+  height: 100%;
+  background: blue;
+  flex: 1;
+}
+.middle-see-con {
+  height: 100%;
+  background: green;
+  flex: 1;
+}
+.left-see-con {
+  height: 100%;
+  background: yellow;
+  flex: 1;
+}

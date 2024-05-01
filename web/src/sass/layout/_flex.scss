@@ -1,0 +1,41 @@
+// All layout of the website
+.dashboard {
+  display: flex;
+
+  &__sidebar {
+    width: 200px;
+    display: flex;
+    padding-top: 2rem;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 1rem 3rem rgba(225, 225, 225, 1);
+    height: 100vh;
+    position: fixed;
+  }
+
+  &__content {
+    flex: 1;
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    margin-left: 20rem; /* Adjust this value based on your design */
+
+    &--main {
+      padding: 2rem;
+    }
+
+    &__profile {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      justify-content: end;
+      padding: 1rem 2rem;
+      /* background-color: red; */
+      /* box-shadow: 0 1rem 3rem rgba(225, 225, 225, 1); */
+      border-bottom: 1px solid rgba(225, 225, 225, 1);
+    }
+  }
+}

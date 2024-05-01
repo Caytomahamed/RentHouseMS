@@ -1,0 +1,198 @@
+{
+  "fields": [
+    {
+      "label": "First Name",
+      "name": "firstname",
+      "type": "text",
+      "placeholder": "Enter your First name",
+      "validationRules": {
+        "required": true,
+        "minLength": 2
+      }
+    },
+    {
+      "label": "Last Name",
+      "name": "lastname",
+      "type": "text",
+      "placeholder": "Enter your Last name",
+      "validationRules": {
+        "required": true,
+        "minLength": 2
+      }
+    },
+    {
+      "label": "Email",
+      "name": "email",
+      "type": "email",
+      "placeholder": "Enter your Email",
+      "validationRules": {
+        "required": true,
+        "pattern": "^\\S+@\\S+\\.\\S+$"
+      }
+    },
+    {
+      "label": "Password",
+      "name": "password",
+      "type": "password",
+      "placeholder": "Enter your Password",
+      "validationRules": {
+        "required": true,
+        "minLength": 8
+      }
+    },
+    {
+      "label": "Phone",
+      "name": "phone",
+      "type": "text",
+      "placeholder": "Enter your Phone",
+      "validationRules": {
+        "required": true,
+        "pattern": "^\\d{10}$"
+      }
+    },
+    {
+      "label": "state",
+      "name": "state",
+      "type": "text",
+      "placeholder": "Enter your state",
+      "validationRules": {
+        "required": true,
+        "min": 1,
+        "max": 6
+      },
+      "errorMessage": "state is required"
+    },
+    {
+      "label": "city",
+      "name": "city",
+      "type": "text",
+      "placeholder": "Enter your city",
+      "validationRules": {
+        "required": true,
+        "min": 1,
+        "max": 6
+      },
+      "errorMessage": "state is required"
+    },
+    {
+      "label": "Address",
+      "name": "address",
+      "type": "text",
+      "placeholder": "Enter your Address",
+      "validationRules": {
+        "required": true
+      }
+    },
+    {
+      "label": "Type User",
+      "name": "userType",
+      "type": "select",
+      "options": [
+        {
+          "label": "Admin",
+          "value": "admin"
+        },
+        {
+          "label": "User",
+          "value": "user"
+        }
+      ],
+      "validationRules": {
+        "required": true
+      }
+    },
+    {
+      "label": "Image URL",
+      "name": "imageUrl",
+      "type": "text",
+      "placeholder": "Enter Image URL",
+      "validationRules": {
+        "required": true,
+        "pattern": "\\.(jpeg|jpg|gif|png)$"
+      }
+    }
+  ],
+  "headers": [
+    {
+      "title": "ID NO#",
+      "key": "id",
+      "className": "id"
+    },
+    {
+      "title": "Tenants Profile"
+    },
+    {
+      "title": "state"
+    },
+    {
+      "title": "city"
+    },
+    {
+      "title": "Phone"
+    },
+    {
+      "title": "Type User"
+    },
+    {
+      "title": "Status"
+    },
+    {
+      "title": "Action",
+      "className": "action-header"
+    }
+  ],
+  "sortOptions": [
+    [
+      {
+        "column": "firstname",
+        "title": "First Name",
+        "sortOrder": "asc",
+        "label": "Sort by Firstname",
+        "selected": true
+      },
+      {
+        "column": "firstname",
+        "sortOrder": "asc",
+        "label": "Sort by Firstname(ascending default)"
+      },
+      {
+        "column": "firstname",
+        "sortOrder": "desc",
+        "label": "Sort by Firstname(descending)"
+      }
+    ],
+    [
+      {
+        "column": "lastname",
+        "title": "Last Name",
+        "sortOrder": "asc",
+        "label": "Sort by Last Name",
+        "selected": true
+      },
+      {
+        "column": "lastname",
+        "sortOrder": "asc",
+        "label": "Sort by Lastname(ascending default)"
+      },
+      {
+        "column": "lastname",
+        "sortOrder": "desc",
+        "label": "Sort by Lastname(descending)"
+      }
+    ],
+    [
+      {
+        "column": "address",
+        "title": "Address",
+        "sortOrder": "asc",
+        "label": "Sort by Address",
+        "selected": true
+      },
+      {
+        "column": "address",
+        "sortOrder": "asc",
+        "label": "Sort by Address(ascending default)"
+      }
+    ]
+  ]
+}

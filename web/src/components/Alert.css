@@ -1,0 +1,23 @@
+.alert-container {
+  position: fixed;
+  margin-top: 4rem;
+  left: 50%;
+  z-index: 999; /* Ensure the alert is above other elements */
+  background-color: white;
+  box-shadow: 0 1.5rem 4rem rgba(0, 0, 0, 0.15);
+  padding: 2rem;
+  animation: fadeIn 0.5s ease-in-out; /* Add animation */
+  gap: 1rem;
+}
+
+/* Animation keyframes */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

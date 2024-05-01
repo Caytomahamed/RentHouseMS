@@ -1,0 +1,42 @@
+/* CustomInput.css */
+.custom-input-container {
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 4rem;
+}
+
+.custom-label {
+  display: block;
+  font-weight: bold;
+  flex: 1;
+  text-transform: capitalize;
+}
+
+.custom-input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.input-error {
+  border-color: #ff0000;
+}
+
+.input-error-message {
+  color: #ff0000;
+  font-size: 12px;
+  margin-top: 5px;
+}
+.custom-input-box {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  flex: 1;
+}
+.input-error-box {
+  width: 22rem;
+}

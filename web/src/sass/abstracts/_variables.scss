@@ -1,0 +1,61 @@
+// Color variables
+$color-primary: #55c57a;
+$color-primary-light: #80d671;
+$color-primary-dark: #28b485;
+
+$color-secondary-light: #ffb900;
+$color-secondary-dark: #ff7730;
+
+$color-tertiary-light: #2998ff;
+$color-tertiary-dark: #5643fa;
+
+$color-grey-light-1: #f7f7f7;
+$color-grey-light-2: #eee;
+
+$color-grey-dark: #777;
+$color-grey-dark-2: #999;
+$color-grey-dark-3: #333;
+
+$color-white: #fff;
+$color-black: #000;
+
+$default-font-size: 1.6rem;
+
+
+
+/* Fonts */
+$font-family: 'Roboto', sans-serif;
+
+.roboto-thin,
+.roboto-light,
+.roboto-regular,
+.roboto-medium,
+.roboto-bold,
+.roboto-black {
+  font-family: $font-family;
+  font-style: normal;
+}
+
+.roboto-thin {
+  font-weight: 100;
+}
+
+.roboto-light {
+  font-weight: 300;
+}
+
+.roboto-regular {
+  font-weight: 400;
+}
+
+.roboto-medium {
+  font-weight: 500;
+}
+
+.roboto-bold {
+  font-weight: 700;
+}
+
+.roboto-black {
+  font-weight: 900;
+}
