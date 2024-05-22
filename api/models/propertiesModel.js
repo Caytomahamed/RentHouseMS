@@ -26,9 +26,11 @@ exports.find = async () => {
       'u.state as landLordState',
       'u.city as landLordCity',
       'u.address as landLordAddress',
-      'pt.Id as propertyTypeId',
+      // 'pt.Id as propertyTypeId',
+      'pt.type as propertyType',
       'imageUrls',
-    );
+    )
+    .where('available', true);
 };
 
 // find by Id

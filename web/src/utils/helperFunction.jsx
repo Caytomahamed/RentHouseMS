@@ -47,3 +47,18 @@ export function formatDate(time) {
   const day = String(date.getDate()).padStart(2, '0');
   return `${year}-${month}-${day}`;
 }
+
+export function formatNumberWithCommas(number) {
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
+
+export function calculateDateAfter35Days() {
+  // Get the current date
+  let currentDate = new Date();
+
+  // Add 35 days to the current date
+  currentDate.setDate(currentDate.getDate() + 35);
+
+  // Return the date 35 days from now
+  return currentDate;
+}

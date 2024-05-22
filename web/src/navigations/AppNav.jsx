@@ -19,6 +19,7 @@ const AppNav = () => {
         <Route path="/bookings" element={<Bookings />} />
         <Route path="/cars" element={<Cars />} />
         <Route path="/routes" element={<OurRoutes />} />
+
         <Route path="*" element={<ErrorPage />} />
       </Routes>
     </Router>

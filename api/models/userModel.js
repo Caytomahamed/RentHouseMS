@@ -89,6 +89,7 @@ exports.findById = async id =>
 
 // Update user by ID and return the updated user
 exports.findByIdandUpdate = async (id, changes) => {
+  console.log('changes', changes);
   return db('users').update(changes).where('id', id).returning('*');
 };
 
@@ -97,7 +98,7 @@ exports.create = async studentData => {
   let userId;
 
   await db.transaction(async trx => {
-    const [role] = await trx('roles').where('name', 'tenants');
+    const [role] = await trx('roles').where('name', studentData.roleName);
     const roleIdToUse = role ? role.id : 3;
 
     const hash = await bcrypt.hashSync(studentData.password, 12);
@@ -173,7 +174,24 @@ exports.findByUserNotify = async id =>
 
 // Find a single user by filter
 exports.findOne = async ({ condition, field }) => {
-  return db.select().from('users as u').where(condition, field).first();
+  return await db('users as u')
+    .select(
+      'u.id',
+      'firstname',
+      'lastname',
+      'email',
+      'password',
+      'phone',
+      'imageUrl',
+      'state',
+      'city',
+      'address',
+      'name as userType',
+      'isActive',
+    )
+    .join('roles as r', 'u.roleId', '=', 'r.id')
+    .where(condition, field)
+    .first();
 };
 
 // Check if the provided password matches the user's hashed password

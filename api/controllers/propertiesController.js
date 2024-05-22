@@ -172,6 +172,6 @@ exports.updateProperty = catchAsync(async (req, res, next) => {
 });
 
 exports.getAllProperties = handleFactory.getAll(propertiesModel);
-exports.getSchedule = handleFactory.getOne(propertiesModel);
+exports.getProperty = handleFactory.getOne(propertiesModel);
 exports.deleteProperty = handleFactory.deleteOne(propertiesModel);
 exports.searchProperties = handleFactory.searching(propertiesModel);

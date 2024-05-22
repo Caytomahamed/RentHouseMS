@@ -1,8 +1,13 @@
 import { ArcElement, Chart, Legend, Tooltip } from 'chart.js/auto';
+// eslint-disable-next-line no-unused-vars
 import React, { useEffect, useState } from 'react';
 import { Doughnut } from 'react-chartjs-2';
 import { useDispatch, useSelector } from 'react-redux';
-import { getCars, selectFilteredAndSortedCars } from '../../store/slices/carSlice.js';
+
+import {
+  getAllUsers,
+  selectFilteredAndSortedUsers,
+} from '../../store/slices/userSlice.js';
 
 Chart.register(ArcElement, Tooltip, Legend);
 
@@ -11,15 +16,14 @@ const CarTypesPieChart = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getCars());
+    dispatch(getAllUsers());
   }, [dispatch]);
 
-  const { paginatedList } = useSelector(selectFilteredAndSortedCars);
-
+  const { paginatedList } = useSelector(selectFilteredAndSortedUsers);
 
   useEffect(() => {
     const carTypesData = paginatedList.reduce((acc, car) => {
-      acc[car.carType] = (acc[car.carType] || 0) + 1;
+      acc[car.userType] = (acc[car.userType] || 0) + 1;
       return acc;
     }, {});
 
@@ -37,7 +41,6 @@ const CarTypesPieChart = () => {
       ],
     });
   }, [paginatedList]);
-
 
   return (
     <div style={{ width: '25rem' }}>

@@ -1,5 +1,6 @@
 import axios from 'axios';
 import * as actions from '../apiActionCreator';
+const TOKEN_KEY = 'authToken';
 
 const apiMiddleware =
   ({ dispatch }) =>
@@ -12,13 +13,17 @@ const apiMiddleware =
     if (onStart) dispatch({ type: onStart });
 
     next(action);
-
+    const token = await localStorage.getItem(TOKEN_KEY);
     try {
       const response = axios.request({
         baseURL: 'http://localhost:9000/api/v1',
         url,
         data,
         method,
+        headers: {
+          // Add your token to the headers
+          Authorization: `Bearer ${token}`,
+        },
       });
 
       // General

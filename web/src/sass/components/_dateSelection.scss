@@ -1,0 +1,40 @@
+/* Existing styles for DateSelection component */
+.date-selection {
+  //   margin-bottom: 20px;
+  position: relative;
+}
+
+// label {
+//   font-weight: bold;
+// }
+
+/* Modal styles */
+.date-modal {
+  //   display: none;
+  position: relative;
+  top: -4rem;
+  left: 50rem;
+  //   background-color: rgba(0, 0, 0, 1);
+  z-index: 1000;
+  min-height: 10rem;
+  width: 18rem;
+  z-index: 1000;
+  box-shadow: 0 0.7rem 1rem rgba(0, 0, 0, 0.1), 0 -0.7rem 1rem rgba(0, 0, 0, 0.1);
+}
+
+.date-modal-content {
+  background-color: #fff;
+  margin: 0 auto;
+  //   padding: 20px;
+  width: 60%;
+  border-radius: 4px;
+  //   position: relative;
+}
+
+.date-close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  cursor: pointer;
+  padding: 10px;
+}

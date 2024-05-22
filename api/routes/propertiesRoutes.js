@@ -28,7 +28,7 @@ router
 
 router
   .route('/:id')
-  .get(propertiesController.getSchedule)
+  .get(propertiesController.getProperty)
   .patch(fileUpload.propertyImages, propertiesController.updateProperty)
   .delete(propertiesController.deleteProperty);
 

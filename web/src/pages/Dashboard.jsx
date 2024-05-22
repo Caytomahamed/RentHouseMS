@@ -92,6 +92,13 @@ function Dashboard() {
   const finish = Object.keys(finishCounts);
   const data2 = Object.values(finishCounts);
 
+  // Graphs data
+  // 1. User Roles Distribution:
+  // 2. Property Types Distribution:
+  // 3. Booking Relationships:
+  // How are properties, tenants, and bookings interconnected?
+  // This question visualizes the relationships between 'properties', 'users' (tenants), and 'booking' tables, highlighting how bookings are linked to specific properties and tenants.
+
   // const scheduleGroupbyStart = groupBy(schpaginatedList, 'start');
 
   // Function to calculate the total booked seats for each start point

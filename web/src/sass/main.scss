@@ -17,6 +17,15 @@
 @import 'components/popup';
 @import 'components/story';
 @import 'components/componayreport';
+@import 'components/banner';
+@import 'components/discover';
+@import 'components/rentNow';
+@import 'components/becomeLandlord';
+@import 'components/rentPropertyNow';
+@import 'components/landLordProperty';
+@import 'components/searching';
+@import 'components/customDropdown';
+@import 'components/dateSelection';
 
 @import 'layout/footer';
 @import 'layout/flex';
@@ -25,3 +34,5 @@
 @import 'layout/profile-dashboard';
 
 @import 'pages/home';
+@import 'pages/propertyDetails';
+@import 'pages/profile';

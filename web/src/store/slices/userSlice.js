@@ -131,6 +131,15 @@ export const getUsers = () => {
     onError: usersRequestFail.type,
   });
 };
+export const getAllUsers = () => {
+  return apiCallBegin({
+    url: '/users',
+    method: 'get',
+    onSuccess: usersRecieve.type,
+    onStart: usersRequest.type,
+    onError: usersRequestFail.type,
+  });
+};
 
 export const getDashSummary = () => {
   return apiCallBegin({
@@ -143,6 +152,7 @@ export const getDashSummary = () => {
 };
 
 export const updateUser = (data, file) => {
+  console.log('slice',  data, file);
   const formData = new FormData();
   formData.append('body', JSON.stringify(data));
   formData.append('file', file);

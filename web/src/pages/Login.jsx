@@ -2,29 +2,62 @@
 import React, { useState } from 'react';
 import './Login.css';
 import Logo from '../assets/images/logo.png';
+import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { login } from '../store/slices/auth';
+import { useNavigate } from 'react-router-dom';
 
 function Login() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const dispatch = useDispatch();
+  const navigateTo = useNavigate();
 
+  const [formData, setFormData] = useState({
+    email: 'me@gmail.com',
+    password: 'qwertyu',
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+
+    // window.location = 'http://localhost:5173/';
+  };
+
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+
+  //   dispatch(login(formData));
+  //   setFormData({
+  //     email: '',
+  //     password: '',
+  //   });
+  //   // TODO: Replace with your actual login logic (API call, authentication server, etc.)
+  //   // try {
+  //   //   // Simulate a successful login with dummy credentials
+  //   //   if (email === 'admin@gmail.com' && password === '12345678') {
+  //   //     localStorage.setItem('isLoggedIn', true);
+  //   //     alert('Login successful!');
+  //   //     // Redirect to the home page or desired route
+  //   //     window.location.reload();
+  //   //   } else {
+  //   //     alert('Invalid email or password');
+  //   //   }
+  //   // } catch (error) {
+  //   //   console.error(error);
+  //   //   alert('An error occurred during login');
+  //   // }
+  // };
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // TODO: Replace with your actual login logic (API call, authentication server, etc.)
-    try {
-      // Simulate a successful login with dummy credentials
-      if (email === 'admin@gmail.com' && password === '12345678') {
-        localStorage.setItem('isLoggedIn', true);
-        alert('Login successful!');
-        // Redirect to the home page or desired route
-        window.location.reload();
-      } else {
-        alert('Invalid email or password');
-      }
-    } catch (error) {
-      console.error(error);
-      alert('An error occurred during login');
-    }
+    dispatch(login(formData));
+    setFormData({
+      email: '',
+      password: '',
+    });
+    navigateTo('/');
   };
   return (
     <div className="login__form">
@@ -33,21 +66,24 @@ function Login() {
       </div>
       <form method="POST" onSubmit={handleSubmit}>
         <h1>Welcome Back</h1>
-        <p>Enter your credentials to acces your account</p>
+        <p>
+          No have acount?
+          <Link to="/startCreateAccount"> Create now</Link>
+        </p>
 
         <fieldset>
           <label>
             <img src={Logo} alt="email icon" />
             <input
-              type="text"
+              type="email"
               name="email"
               id="email"
               //   autocomplete="off"
               autoCorrect="off"
               autoComplete="off"
               placeholder="Enter your email *"
-              onChange={(e) => setEmail(e.target.value)}
-              value={email}
+              value={formData.email}
+              onChange={handleChange}
             />
           </label>
           <label>
@@ -56,8 +92,8 @@ function Login() {
               autoComplete="off"
               type="password"
               name="password"
-              placeholder="Enter your password *"
-              onChange={(e) => setPassword(e.target.value)}
+              value={formData.password}
+              onChange={handleChange}
             />
           </label>
         </fieldset>
@@ -65,7 +101,7 @@ function Login() {
           type="submit"
           name="Login"
           id="submit"
-          disabled={!email || !password}
+          disabled={!formData.email || !formData.password}
           value="submit"
           className="btn"
           style={{ textTransform: 'capitalize' }}

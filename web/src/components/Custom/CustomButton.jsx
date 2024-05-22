@@ -2,7 +2,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import './CustomButton.css';
-const CustomButton = ({ onClick, label, color, disabled }) => {
+const CustomButton = ({ onClick, label, color, disabled, style }) => {
   const buttonStyle = {
     backgroundColor: color || '#4CAF50', // Default color is green
     color: color === 'white' ? 'black' : 'white',
@@ -15,6 +15,7 @@ const CustomButton = ({ onClick, label, color, disabled }) => {
     borderRadius: '4px',
     userSelect: 'none',
     opacity: disabled ? '0.6' : '1',
+    ...style,
   };
 
   return (
@@ -34,6 +35,7 @@ CustomButton.propTypes = {
   label: PropTypes.string.isRequired,
   color: PropTypes.string,
   disabled: PropTypes.bool,
+  style: PropTypes.object,
 };
 
 export default CustomButton;

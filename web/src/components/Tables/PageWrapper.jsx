@@ -39,6 +39,7 @@ const PageWrapper = ({
   onCreate,
   // eslint-disable-next-line react/prop-types
   children,
+  menuType,
 }) => {
   // Custom hook to manage filter and sort modals
   const {
@@ -135,7 +136,7 @@ const PageWrapper = ({
   } = editDeleteModal;
 
   return (
-    <DashLayout title={title}>
+    <DashLayout title={title} menuType={menuType}>
       <div className="table__box">
         <div className="table__ssf">
           {/* Search input */}
@@ -241,6 +242,7 @@ const PageWrapper = ({
 // PropTypes for type checking
 PageWrapper.propTypes = {
   title: PropTypes.string.isRequired,
+  menuType: PropTypes.string,
   store: PropTypes.shape({
     dispatch: PropTypes.func.isRequired,
     setSearchQuery: PropTypes.func.isRequired,

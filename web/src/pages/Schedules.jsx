@@ -318,7 +318,7 @@ function Schedules() {
                             alignItems: 'center',
                           }}
                         >
-                        
+
                           <button
                             className="btn btn--white editeBtn"
                             onClick={() => {

@@ -64,9 +64,19 @@ exports.up = function (knex) {
     .createTable('booking', function (table) {
       table.increments('id').primary();
       table.integer('propertyId').notNullable();
-      table.foreign('propertyId').references('id').on('properties');
+      table
+        .foreign('propertyId')
+        .references('id')
+        .on('properties')
+        .onDelete('CASCADE')
+        .onUpdate('CASCADE');
       table.integer('tenantId').notNullable();
-      table.foreign('tenantId').references('id').on('users');
+      table
+        .foreign('tenantId')
+        .references('id')
+        .on('users')
+        .onDelete('CASCADE')
+        .onUpdate('CASCADE');
       table.date('startDate').notNullable();
       table.date('endDate').notNullable();
       table.decimal('securityDeposit').notNullable();

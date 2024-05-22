@@ -32,6 +32,7 @@ const TableWrapper = ({
   onUpdate,
   tableType,
   onCreate,
+  menuType,
 }) => {
   // Custom hook to manage filter and sort modals
   const {
@@ -128,7 +129,7 @@ const TableWrapper = ({
   } = editDeleteModal;
 
   return (
-    <DashLayout title={title}>
+    <DashLayout title={title} menuType={menuType}>
       <div className="table__box">
         <div className="table__ssf">
           {/* Search input */}
@@ -248,6 +249,7 @@ const TableWrapper = ({
 // PropTypes for type checking
 TableWrapper.propTypes = {
   title: PropTypes.string.isRequired,
+  menuType: PropTypes.string,
   store: PropTypes.shape({
     dispatch: PropTypes.func.isRequired,
     setSearchQuery: PropTypes.func.isRequired,

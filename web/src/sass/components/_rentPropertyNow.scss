@@ -1,0 +1,58 @@
+.rentnow {
+  // height: 20rem;
+  // background-color: red;
+  outline: 2px solid #e477753b;
+  border-radius: 1.5rem;
+  padding: 2rem 4rem;
+
+  p {
+    color: #878787;
+  }
+
+  &__title {
+    display: block;
+    color: #e47675;
+    margin-top: 2rem;
+
+    &--main {
+      font-weight: bold;
+      font-size: 3rem;
+    }
+  }
+
+  &__info {
+    margin-top: 1.2rem;
+    font-size: 1.4rem;
+    line-height: 1.7;
+    margin-bottom: 1.6rem;
+
+    div {
+      display: flex;
+      justify-content: space-between;
+
+      p {
+        color: rgba(0, 0, 0, 0.7) !important;
+        font-weight: bold;
+      }
+
+      .info__rent_p {
+        min-width: 4rem;
+      }
+    }
+  }
+
+  &__total {
+    border-top: 2px solid #e477753b;
+    padding-top: 1.5rem;
+
+    p {
+      color: rgba(0, 0, 0, 1) !important;
+      font-weight: bold;
+    }
+
+    div {
+      display: flex;
+      justify-content: space-between;
+    }
+  }
+}

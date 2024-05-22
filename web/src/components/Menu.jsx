@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 // eslint-disable-next-line no-unused-vars
 import React from 'react';
 
@@ -6,8 +7,8 @@ import dashIcon from '../assets/icons/dashboard.svg';
 import bookingIcon from '../assets/icons/booking.svg';
 import scheduleIcon from '../assets/icons/schedule.svg';
 import userIcon from '../assets/icons/users.svg';
-import carIcon from '../assets/icons/drivers.svg';
-import routeIcon from '../assets/icons/dash-routes.svg';
+// import carIcon from '../assets/icons/drivers.svg';
+// import routeIcon from '../assets/icons/dash-routes.svg';
 import driverIcon from '../assets/icons/dash-drivers.svg';
 
 /// Links
@@ -29,45 +30,62 @@ const getRandomColor = () => {
   return letters[Math.floor(Math.random() * letters.length)];
 };
 
-function Menu() {
-  const menus = [
-    {
-      name: 'dashboard',
-      path: '/',
-      icon: dashIcon,
-    },
-    {
-      name: 'Properties',
-      path: '/schedules',
-      icon: scheduleIcon,
-    },
+function Menu({ menuType = 'admin' }) {
+  let menus;
 
-    {
-      name: 'Tenants',
-      path: '/students',
-      icon: userIcon,
-    },
-    {
-      name: 'landlords',
-      path: '/drivers',
-      icon: driverIcon,
-    },
-    {
-      name: 'cars',
-      path: '/cars',
-      icon: carIcon,
-    },
-    {
-      name: 'bookings',
-      path: '/bookings',
-      icon: bookingIcon,
-    },
-    {
-      name: 'routes',
-      path: '/routes',
-      icon: routeIcon,
-    },
-  ];
+  if (menuType === 'landlord') {
+    menus = [
+      {
+        name: 'dashboard',
+        path: '/',
+        icon: dashIcon,
+      },
+      {
+        name: 'Properties',
+        path: '/landLordProperties',
+        icon: scheduleIcon,
+      },
+      {
+        name: 'bookings',
+        path: '/landLordBook',
+        icon: bookingIcon,
+      },
+
+      // {
+      //   name: 'drivers',
+      //   path: '/drivers',
+      //   icon: driverIcon,
+      // },
+    ];
+  } else {
+    menus = [
+      {
+        name: 'dashboard',
+        path: '/',
+        icon: dashIcon,
+      },
+      {
+        name: 'Properties',
+        path: '/schedules',
+        icon: scheduleIcon,
+      },
+      {
+        name: 'Tenants',
+        path: '/students',
+        icon: userIcon,
+      },
+      {
+        name: 'landlords',
+        path: '/drivers',
+        icon: driverIcon,
+      },
+      {
+        name: 'bookings',
+        path: '/bookings',
+        icon: bookingIcon,
+      },
+    ];
+  }
   return (
     <ul style={{ display: 'flex', flexDirection: 'column' }}>
       {menus.map((menu) => {

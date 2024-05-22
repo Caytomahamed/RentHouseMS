@@ -85,7 +85,10 @@ const createTokenandSent = (user, statusCode, res) => {
     status: 'success',
     token,
     userType: user.userType,
-    data: user,
+    data: {
+      ...user,
+      token,
+    },
   });
 };
 
@@ -290,9 +293,10 @@ exports.updatepassword = catchAsync(async (req, res, next) => {
     return next(new AppError('Your current password is wrong!', 401));
   }
 
-  // 3) if so, update password
+  const hash = await bcrypt.hashSync(req.body.password, 12);
+  // 3) if so, update password and hash
   const changes = {
-    password: req.body.password,
+    password: hash,
     updatedAt: Date.now() - 1000,
   };
   await usersModel.findByIdandUpdate(user.id, changes);

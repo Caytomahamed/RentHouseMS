@@ -9,9 +9,16 @@ import Menu from './Menu';
 // icons
 import logoutIcon from '../assets/icons/logout.svg';
 import profileIcon from '../assets/icons/profile-icon.svg';
+import { useDispatch } from 'react-redux';
+import { userLogout } from '../store/slices/auth';
 
 // eslint-disable-next-line react/prop-types
-const DashLayout = ({ children, title }) => {
+const DashLayout = ({ children, title, menuType }) => {
+  const dispatch = useDispatch();
+  const handleLogout = () => {
+    // logout logic
+    dispatch(userLogout());
+  };
   // const getRandomColor = () => {
   //   var letters = [
   //     'linear-gradient( to right bottom,  rgba(255, 185, 0, 0.85),  rgba(255, 119, 48, 0.85))',
@@ -45,7 +52,7 @@ const DashLayout = ({ children, title }) => {
             <img src={Logo} alt="logo" />
           </div>
           <div className="dashboard__menu">
-            <Menu />
+            <Menu menuType={menuType} />
           </div>
         </div>
       </div>
@@ -60,11 +67,16 @@ const DashLayout = ({ children, title }) => {
           </div>
           <div className="dashboard__profile_icon">
             <img src={profileIcon} alt="profileicon" />
-            <img src={logoutIcon} alt="logouticon" />
+            <img
+              src={logoutIcon}
+              alt="logouticon"
+              onClick={handleLogout}
+              style={{ cursor: 'pointer' }}
+            />
           </div>
         </div>
         <div className="dashboard__content--main">
-          <h1 className="header">{title}</h1>
+          <h1 className="dashboard__content__header">{title}</h1>
           {children}
         </div>
       </div>

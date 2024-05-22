@@ -14,6 +14,7 @@ const initialState = {
   currentPage: 1, // For pagination
   itemsPerPage: 10, // For pagination - set as needed
   sortOrder: 'asc',
+  property: {},
 };
 
 const usersSlice = createSlice({
@@ -47,6 +48,21 @@ const usersSlice = createSlice({
       state.isLoading = false;
       state.error = action.payload;
       state.searchList = [];
+    },
+    propertyRequest: (state) => {
+      state.isLoading = true;
+      state.error = null;
+      state.property = {};
+    },
+    propertyReceive: (state, action) => {
+      state.property = action.payload;
+      state.error = null;
+      state.isLoading = false;
+    },
+    propertyRequestFail: (state, action) => {
+      state.isLoading = false;
+      state.error = action.payload;
+      state.property = {};
     },
     createScheduleRequest: (state) => {
       state.createLoad = true;
@@ -102,6 +118,9 @@ export const {
   setItemsPerPage,
   setSortKey,
   setSortOrder,
+  propertyRequest,
+  propertyRequestFail,
+  propertyReceive,
 } = usersSlice.actions;
 
 export default usersSlice.reducer;
@@ -113,6 +132,15 @@ export const getSchedules = () => {
     onSuccess: schedulesReceive.type,
     onStart: schedulesRequest.type,
     onError: schedulesRequestFail.type,
+  });
+};
+export const getProperty = (id) => {
+  return apiCallBegin({
+    url: `/properties/${id}`,
+    method: 'get',
+    onSuccess: propertyReceive.type,
+    onStart: propertyRequest.type,
+    onError: propertyRequestFail.type,
   });
 };
 export const searchSchedule = (query) => {
@@ -139,6 +167,7 @@ export const createProperties = (data, file) => {
     onError: createScheduleRequestFail.type,
   });
 };
+
 export const updateProperties = (data, file) => {
   const formData = new FormData();
   formData.append('body', JSON.stringify(data));

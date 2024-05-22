@@ -15,6 +15,7 @@ const init = {
   successMsg: '',
   updateLoad: false,
   deleteLoad: false,
+  yourProperty: [],
 };
 
 const slice = createSlice({
@@ -29,6 +30,7 @@ const slice = createSlice({
     booksRecieve: (users, action) => {
       users.isLoading = false;
       users.list = action.payload;
+      console.log('booking', action.payload.data);
     },
     booksRequestFail: (users, action) => {
       users.isLoading = false;
@@ -53,6 +55,21 @@ const slice = createSlice({
     deleteRecieve: (users) => {
       users.deleteLoad = false;
       users.successMsg = 'user successFull deleted';
+    },
+    propertyRequest: (state) => {
+      state.isLoading = true;
+      state.error = null;
+      state.yourProperty = [];
+    },
+    propertyReceive: (state, action) => {
+      state.yourProperty = action.payload;
+      state.error = null;
+      state.isLoading = false;
+    },
+    propertyRequestFail: (state, action) => {
+      state.isLoading = false;
+      state.error = action.payload;
+      state.yourProperty = [];
     },
     delteRequestFail: (users, action) => {
       users.deleteLoad = false;
@@ -100,6 +117,9 @@ export const {
   setCurrentPage,
   setItemsPerPage,
   setSortOrder,
+  propertyRequest,
+  propertyRequestFail,
+  propertyReceive,
 } = slice.actions;
 
 export default slice.reducer;
@@ -112,6 +132,27 @@ export const getBooking = () => {
     onSuccess: booksRecieve.type,
     onStart: booksRequest.type,
     onError: booksRequestFail.type,
+  });
+};
+
+export const rentProperty = (data) => {
+  return apiCallBegin({
+    url: `/booking/now`,
+    method: 'post',
+    data,
+    onSuccess: booksRecieve.type,
+    onStart: booksRecieve.type,
+    onError: booksRequestFail.type,
+  });
+};
+
+export const getYourRentProperty = () => {
+  return apiCallBegin({
+    url: `/booking/booked`,
+    method: 'get',
+    onSuccess: propertyReceive.type,
+    onStart: propertyRequest.type,
+    onError: propertyReceive.type,
   });
 };
 
