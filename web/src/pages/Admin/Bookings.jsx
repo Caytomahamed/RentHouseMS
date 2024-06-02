@@ -1,4 +1,3 @@
-import './Students.css';
 // eslint-disable-next-line no-unused-vars
 import React, { useEffect, useState } from 'react';
 
@@ -17,13 +16,13 @@ import {
   setSortOrder,
   setSortKey,
   setItemsPerPage,
-} from '../store/slices/boookSlice';
-import TableWrapper from '../components/Tables/TableWrapper';
-import useEditDeleteModal from '../hooks/useEditDeleteModal';
-import bookingsTableData from './../../config/bookingTableData.json';
-import { groupBy } from '../utils/groupBy';
+} from '../../store/slices/boookSlice';
+import TableWrapper from '../../components/Tables/TableWrapper';
+import useEditDeleteModal from '../../hooks/useEditDeleteModal';
+import bookingsTableData from './../../../config/bookingTableData.json';
+import { groupBy } from '../../utils/groupBy';
 import { toast } from 'react-toastify';
-import { formatDate } from '../utils/helperFunction';
+import { formatDate } from '../../utils/helperFunction';
 
 function Cars() {
   // get user call

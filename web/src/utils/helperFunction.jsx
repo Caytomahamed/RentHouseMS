@@ -62,3 +62,55 @@ export function calculateDateAfter35Days() {
   // Return the date 35 days from now
   return currentDate;
 }
+
+export function createTransactionId(paymentMethod) {
+  // Validate the payment method
+  const validMethods = ['ZAAD', 'E-DAHAB', 'CASH'];
+  if (!validMethods.includes(paymentMethod)) {
+    throw new Error('Invalid payment method provided.');
+  }
+
+  // Generate a random 6-digit number (converted to string for leading zeros)
+  const number = Math.floor(Math.random() * 1000000)
+    .toString()
+    .padStart(6, '0');
+
+  // Combine prefix and number
+  return `${paymentMethod}-${number}`;
+}
+
+export function timeAgo(date) {
+  const currentDate = new Date();
+  const inputDate = new Date(date);
+
+  const yearsDifference = currentDate.getFullYear() - inputDate.getFullYear();
+  const monthsDifference = currentDate.getMonth() - inputDate.getMonth();
+  const daysDifference = currentDate.getDate() - inputDate.getDate();
+
+  if (
+    yearsDifference > 0 ||
+    (yearsDifference === 0 &&
+      (monthsDifference > 0 || (monthsDifference === 0 && daysDifference >= 0)))
+  ) {
+    // Calculate months difference within the same year
+    let totalMonthsDifference = yearsDifference * 12 + monthsDifference;
+    if (daysDifference < 0) {
+      totalMonthsDifference -= 1;
+    }
+
+    const years = Math.floor(totalMonthsDifference / 12);
+    const months = totalMonthsDifference % 12;
+
+    return years > 0
+      ? `${years} year${years > 1 ? 's' : ''} ago`
+      : `${months} month${months > 1 ? 's' : ''} ago`;
+  } else {
+    const totalMonthsDifference =
+      (currentDate.getFullYear() - inputDate.getFullYear()) * 12 +
+      currentDate.getMonth() -
+      inputDate.getMonth();
+    return `${totalMonthsDifference} month${
+      totalMonthsDifference !== 1 ? 's' : ''
+    } ago`;
+  }
+}

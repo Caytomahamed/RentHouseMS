@@ -2,7 +2,7 @@
 /* eslint-disable react/prop-types */
 // eslint-disable-next-line no-unused-vars
 import React from 'react';
-import { formatDate } from '../../utils/helperFunction';
+import { formatDate, timeAgo } from '../../utils/helperFunction';
 import shellIcon from '../../assets/icons/shell.svg';
 
 const LandLordProperty = ({ data }) => {
@@ -13,6 +13,7 @@ const LandLordProperty = ({ data }) => {
   }`;
 
   const img = img_url.replace(/['"]+/g, '');
+
   return (
     <div className="conlandlord">
       <h1>Meet your landlord</h1>
@@ -31,10 +32,15 @@ const LandLordProperty = ({ data }) => {
 
       <div className="conlandlord__boi">
         <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam
-          voluptates, quos, quas, quae autem nemo ipsam iusto quia
-          necessitatibus repellendus quod. Quisquam voluptates, quos, quas, quae
-          autem nemo ipsam iusto quia necessitatibus repellendus quod.
+          {data.landLordFirstName} {data.landLordLastName}, with over{' '}
+          {timeAgo(data.landLordCreatedAt)} of experience, manages a diverse
+          range of residential and commercial properties in {data.landLordCity}{' '}
+          {data.landLordState}. Known for his reliability and professionalism,{' '}
+          {data.landLordFirstName} is dedicated to maintaining high standards
+          and ensuring tenant satisfaction. He holds a degree in Business
+          Administration from [University] and is committed to making renting a
+          positive experience through prompt maintenance and clear
+          communication.
         </p>
       </div>
     </div>

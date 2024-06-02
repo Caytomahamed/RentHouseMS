@@ -5,9 +5,10 @@ import dropdownIcon from '../../assets/icons/dropdown.svg';
 
 const CustomDropdown = ({ options, onSelect, width }) => {
   const [selectedOption, setSelectedOption] = useState({
-    label: 'Option 1',
-    value: 'option1',
+    label: options[0].label,
+    value: options[0].label,
   });
+
   const [isOpen, setIsOpen] = useState(false);
 
   const handleSelect = (option) => {
@@ -15,6 +16,7 @@ const CustomDropdown = ({ options, onSelect, width }) => {
     onSelect(option);
     setIsOpen(false);
   };
+  const displayOptions = options.slice(1, options.length);
 
   return (
     <div
@@ -29,7 +31,7 @@ const CustomDropdown = ({ options, onSelect, width }) => {
       </div>
       {isOpen && (
         <ul className="options-list">
-          {options.map((option) => (
+          {displayOptions.map((option) => (
             <li key={option.value} onClick={() => handleSelect(option)}>
               {option.label}
             </li>

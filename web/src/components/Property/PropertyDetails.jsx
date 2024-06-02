@@ -7,6 +7,7 @@ import LandLordProperty from './LandLordProperty';
 import {
   calculateDateAfter35Days,
   capitalize,
+  createTransactionId,
 } from '../../utils/helperFunction';
 import RentPropertyNow from './RentPropertyNow';
 import bedIcon from '../../assets/icons/bed.svg';
@@ -73,13 +74,21 @@ const PropertyDetails = () => {
 
   const type = capitalize(property.propertyType);
 
-  const handleRentNow = () => {
+  const handleRentNow = (method) => {
     const endRent = calculateDateAfter35Days();
+    const transactionID = createTransactionId(method);
     dispatch(
       rentProperty({
         propertyId: property.id,
         endDate: endRent,
         securityDeposit: property.rentAmount * 0.5,
+        amount:
+          property.rentAmount +
+          property.rentAmount * 0.5 +
+          property.rentAmount * 0.1,
+        status: 'completed',
+        paymentMethod: method,
+        transactionId: transactionID,
       })
     );
 
@@ -156,11 +165,18 @@ const PropertyDetails = () => {
             <div className="propertydetails__info__details__description">
               <h1>About this home</h1>
               <p>
-                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Fugiat
-                fugit sit quis odio dolor suscipit dolores adipisci soluta a.
-                Molestias quia alias animi accusantium libero cumque debitis
-                neque deleniti iure. Corporis obcaecati voluptate iusto? Libero
-                sapiente architecto molestias perspiciatis beatae!
+                Discover a cozy haven in this charming
+                <b> {property.bedrooms}</b>
+                -bedroom, two-bathroom home nestled in a serene neighborhood. A
+                welcoming living space with a fireplace sets the tone for cozy
+                gatherings, while the chef's kitchen and dining area offer
+                modern convenience and a lovely view of the lush backyard. The
+                master suite provides a private retreat, complemented by{' '}
+                <b>{property.bathrooms} </b> additional bedrooms for
+                versatility. Outside, a peaceful patio surrounded by nature
+                invites relaxation and outdoor enjoyment. With its convenient
+                location near amenities, this home blends comfort and
+                convenience for a delightful living experience.
               </p>
             </div>
             <div className="propertydetails__info__details__landlord">

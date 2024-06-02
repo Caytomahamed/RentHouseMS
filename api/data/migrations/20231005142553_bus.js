@@ -80,12 +80,37 @@ exports.up = function (knex) {
       table.date('startDate').notNullable();
       table.date('endDate').notNullable();
       table.decimal('securityDeposit').notNullable();
-      //table.string('lease_agreement'); // Optional reference to uploaded lease document
+      table
+        .string('leaseAgreement')
+        .defaultTo(
+          'https://docs.google.com/document/d/1d9RoFWCsiNR9XTmht3za25zCzEix4fC3vyRP1fHleOg/edit?usp=sharing',
+        );
+    })
+    .createTable('payments', function (table) {
+      table.increments('id').primary();
+      table.integer('bookingId').unsigned().notNullable();
+      table
+        .foreign('bookingId')
+        .references('id')
+        .inTable('booking')
+        .onDelete('CASCADE');
+      table.decimal('amount', 10, 2).notNullable();
+      table
+        .enu('status', ['pending', 'completed', 'failed'])
+        .notNullable()
+        .defaultTo('pending');
+      table.string('paymentMethod').notNullable();
+      table.string('transactionId').unique().notNullable();
+      table.timestamp('paidAt').nullable();
+      table.timestamps(true, true); // This will create 'created_at' and 'updated_at' columns
+
+      table.index(['bookingId', 'status']); // Adding index for faster queries on booking_id and status
     });
 };
 
 exports.down = function (knex) {
   return knex.schema
+    .dropTableIfExists('payments')
     .dropTableIfExists('booking')
     .dropTableIfExists('properties')
     .dropTableIfExists('propertyTypes')

@@ -27,6 +27,11 @@ exports.bookingNow = catchAsync(async (req, res, next) => {
     propertyId: req.body.propertyId,
     endDate: req.body.endDate,
     securityDeposit: req.body.securityDeposit,
+    amount: req.body.amount,
+    status: 'completed',
+    paymentMethod: req.body.paymentMethod,
+    transactionId: req.body.transactionId,
+    paidAt: new Date(),
   });
 
   if (!booking) {

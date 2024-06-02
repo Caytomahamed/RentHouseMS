@@ -26,6 +26,7 @@ exports.find = async () => {
       'u.state as landLordState',
       'u.city as landLordCity',
       'u.address as landLordAddress',
+      'u.createdAt as landLordCreatedAt',
       // 'pt.Id as propertyTypeId',
       'pt.type as propertyType',
       'imageUrls',
@@ -58,6 +59,7 @@ exports.findById = async id => {
       'u.state as landLordState',
       'u.city as landLordCity',
       'u.address as landLordAddress',
+      'u.createdAt as landLordCreatedAt',
       'pt.type as propertyType',
       'imageUrls',
     )

@@ -1,7 +1,7 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useEffect } from 'react';
 import MenuHeader from '../../components/Header/MenuHeader';
-import PropertyList from '../../components/Property/PropertyList';
+// import PropertyList from '../../components/Property/PropertyList';
 import { useDispatch, useSelector } from 'react-redux';
 import { getYourRentProperty, selectBook } from '../../store/slices/boookSlice';
 import Loading from '../../components/Custom/Loading';
@@ -44,8 +44,6 @@ const YourHome = () => {
       </div>
     );
   }
-
-  console.log('your', yourProperty);
 
   return (
     <div>
@@ -113,10 +111,6 @@ const YourHome = () => {
                           {formatDate(Date.now())}
                         </p>
                       </div>
-                      {/* <div style={{ display: 'flex', margin: '1rem 2rem' }}>
-                        <h1 style={{ marginRight: '1rem' }}>Payment status:</h1>
-                        <p style={{ fontWeight: 'bold' }}>Paid</p>
-                      </div> */}
                     </div>
                   </div>
                 </div>

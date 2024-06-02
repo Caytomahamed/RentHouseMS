@@ -1,39 +1,39 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useEffect } from 'react';
 // import TableLayout from '../components/TableLayout';
-import DashLayout from '../components/DashLayout';
-import bookingIcon from '../assets/icons/dash-book.svg';
-import scheduleIcon from '../assets/icons/dash-schedule.svg';
-import userIcon from '../assets/icons/dash-users.svg';
-import driverIcon from '../assets/icons/dash-driver.svg';
+import DashLayout from '../../components/DashLayout.jsx';
+import bookingIcon from '../../assets/icons/dash-book.svg';
+import scheduleIcon from '../../assets/icons/dash-schedule.svg';
+import userIcon from '../../assets/icons/dash-users.svg';
+import driverIcon from '../../assets/icons/dash-driver.svg';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   getBooking,
   selectFilteredAndSortedBooks,
-} from '../store/slices/boookSlice';
+} from '../../store/slices/boookSlice.js';
 
-import '../sass/main.scss';
+import '../../sass/main.scss';
 
-import CarTypesPieChart from '../components/graphs/CarTypesPieChart.jsx';
-import MyLineChart from '../components/graphs/MyLineChart.jsx';
+import CarTypesPieChart from '../../components/graphs/CarTypesPieChart.jsx';
+import MyLineChart from '../../components/graphs/MyLineChart.jsx';
 import { Link } from 'react-router-dom';
-import { getDashSummary, selectUsers } from '../store/slices/userSlice';
-import PolarAreaChart from '../components/graphs/PolarAreaChart';
+import { getDashSummary, selectUsers } from '../../store/slices/userSlice.js';
+import PolarAreaChart from '../../components/graphs/PolarAreaChart.jsx';
 import {
   getSchedules,
   selectFilteredAndSortedSchedule,
   selectSchedules,
-} from '../store/slices/schedules';
-import LineChart from '../components/graphs/LineChart.jsx';
-import ScheduleChart from '../components/graphs/ScheduleChart.jsx';
-import DynamicChart from '../components/graphs/DynamicChart.jsx';
+} from '../../store/slices/schedules.js';
+import LineChart from '../../components/graphs/LineChart.jsx';
+import ScheduleChart from '../../components/graphs/ScheduleChart.jsx';
+import DynamicChart from '../../components/graphs/DynamicChart.jsx';
 import {
   getTranportReport,
   selectReport,
-} from '../store/slices/reportSlices.js';
-import TransportationReport from '../components/reports/TransportationReport.jsx';
-import BarChart from '../components/graphs/BarChart.jsx';
-import { groupBy } from '../utils/groupBy.jsx';
+} from '../../store/slices/reportSlices.js';
+import TransportationReport from '../../components/reports/TransportationReport.jsx';
+import BarChart from '../../components/graphs/BarChart.jsx';
+import { groupBy } from '../../utils/groupBy.jsx';
 
 function Dashboard() {
   // get user call
@@ -154,7 +154,7 @@ function Dashboard() {
 
             <div className="systme__summary__box__text">
               <p>schedule</p>
-              <h1>{schedules ? schedules : 10}</h1>
+              <h1>{schedules ? schedules : 2}</h1>
             </div>
           </div>
           <div className="systme__summary__box">
@@ -164,7 +164,7 @@ function Dashboard() {
 
             <div className="systme__summary__box__text">
               <p>Drivers</p>
-              <h1>{drivers ? drivers : 10}</h1>
+              <h1>{drivers ? drivers : 7}</h1>
             </div>
           </div>
         </div>
@@ -211,6 +211,7 @@ function Dashboard() {
                             borderWidth: '1px',
                             borderStyle: 'solid',
                             fontWeight: 'bold',
+                            width: '10rem',
                           }}
                         >
                           <p>{item.startDate}</p>

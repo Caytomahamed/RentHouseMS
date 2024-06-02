@@ -1125,3 +1125,61 @@ tr:nth-child(odd) {
   outline: 6px solid #000080;
   transform: scale(1.09);
 }
+
+
+/// studetn
+.user-tr td {
+  vertical-align: middle;
+}
+.table-user-profile {
+  display: flex;
+  gap: 1rem;
+}
+
+.table-user-profile-box {
+  width: 5rem;
+  height: 5rem;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.table-user-profile-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.table-user-profile h2 {
+  font-size: 1.5rem;
+  text-transform: capitalize;
+  /* background-color: red;  */
+  font-weight: 700;
+  margin-bottom: 2px;
+}
+.table-user-profile p {
+  font-size: 1.2rem;
+  color: gray;
+  margin-top: 5px;
+}
+.table-user-profile-address {
+  font-size: 1.2rem;
+  color: gray;
+}
+
+.userType {
+  width: 70%;
+  padding: 8px 1rem;
+  text-align: center;
+  text-transform: capitalize;
+  color: #fff;
+  font-size: 1.2rem;
+}
+
+.overlaymodal-delete {
+  font-size: 2.3rem;
+  margin-bottom: 1rem;
+  font-weight: bold;
+}
+.overlaymodal-delete-p {
+  margin: 2rem 0;
+}

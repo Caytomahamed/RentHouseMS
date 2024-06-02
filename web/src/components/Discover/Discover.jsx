@@ -2,6 +2,7 @@
 import React from 'react';
 // import Button from '@mui/material/Button';
 import CustomButton from '../Custom/CustomButton';
+import { NavLink, Link } from 'react-router-dom';
 
 const Discover = () => {
   return (
@@ -11,22 +12,30 @@ const Discover = () => {
         <div className="composition__left">
           <div className="composition__left--info">
             <h1>Post your house and get a client</h1>
+
+            {/* <Link
+              to="/signup"
+              style={{ textDecoration: 'none' }}
+              state={{ type: 'landlord' }}
+            > */}
             <CustomButton
               label="Get a client"
               color={'#E47675'}
               style={{ padding: '1.5rem 2rem' }}
             />
+            {/* </Link> */}
           </div>
         </div>
         <div className="composition__right">
           <div className="composition__left--info">
             <h1>Get a home , Rent and enjoyed</h1>
-
-            <CustomButton
-              label="Rent a house"
-              color={'#E47675'}
-              style={{ padding: '1.5rem 2rem' }}
-            />
+            <NavLink to="/propertyList" className="link">
+              <CustomButton
+                label="Rent a house"
+                color={'#E47675'}
+                style={{ padding: '1.5rem 2rem' }}
+              />
+            </NavLink>
           </div>
         </div>
       </div>

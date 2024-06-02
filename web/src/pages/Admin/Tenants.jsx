@@ -1,4 +1,3 @@
-import './Students.css';
 // eslint-disable-next-line no-unused-vars
 import React, { useEffect } from 'react';
 
@@ -16,16 +15,16 @@ import {
   setSortKey,
   setSortOrder,
   updateUser,
-} from '../store/slices/userSlice';
+} from '../../store/slices/userSlice';
 
-import useEditDeleteModal from '../hooks/useEditDeleteModal';
+import useEditDeleteModal from '../../hooks/useEditDeleteModal';
 
-import TableWrapper from '../components/Tables/TableWrapper';
-import { groupBy } from '../utils/groupBy';
-import studentsTableData from './../../config/studentsTableData.json';
+import TableWrapper from '../../components/Tables/TableWrapper';
+import { groupBy } from '../../utils/groupBy';
+import studentsTableData from './../../../config/studentsTableData.json';
 import { toast } from 'react-toastify';
 
-function Users() {
+const Tenants = () => {
   const {
     isAction,
     isEdit,
@@ -115,7 +114,6 @@ function Users() {
 
     delete user.userType;
 
-
     dispatch(updateUser({ ...user, roleId: role, isActive: isToggled }, file));
     onCloseEditModal();
     toast.success('User updated successfully');
@@ -176,7 +174,6 @@ function Users() {
     onCloseEditModal,
     onCloseDeleteModal,
   };
-
   return (
     <TableWrapper
       title="All tenants"
@@ -189,6 +186,6 @@ function Users() {
       tableType={'students'}
     />
   );
-}
+};
 
-export default Users;
+export default Tenants;

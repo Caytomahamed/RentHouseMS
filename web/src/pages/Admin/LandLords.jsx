@@ -1,9 +1,8 @@
-import './Students.css';
 // eslint-disable-next-line no-unused-vars
 import React, { useEffect, useState } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteUser, updateUser } from '../store/slices/userSlice';
+import { deleteUser, updateUser } from '../../store/slices/userSlice';
 
 import {
   setCurrentPage,
@@ -17,13 +16,13 @@ import {
   selectDriver,
   selectFilteredAndSortedDrivers,
   createDriver,
-} from '../store/slices/driverSlice';
+} from '../../store/slices/driverSlice';
 
-import TableWrapper from '../components/Tables/TableWrapper';
-import useEditDeleteModal from '../hooks/useEditDeleteModal';
-import { groupBy } from '../utils/groupBy';
+import TableWrapper from '../../components/Tables/TableWrapper';
+import useEditDeleteModal from '../../hooks/useEditDeleteModal';
+import { groupBy } from '../../utils/groupBy';
 
-import driversTableData from './../../config/driversTableData.json';
+import driversTableData from '../../../config/driversTableData.json';
 import { toast } from 'react-toastify';
 
 function LandLords() {

@@ -4,6 +4,8 @@
 import React, { useState } from 'react';
 import CustomButton from '../Custom/CustomButton';
 import { formatNumberWithCommas } from '../../utils/helperFunction';
+import CheckoutModal from '../modols/CheckoutModal';
+import { useOutsideClick } from '../../hooks/useOutsideClick';
 
 const RentPropertyNow = ({ item, onRent }) => {
   const price = formatNumberWithCommas(item.rentAmount);
@@ -17,6 +19,17 @@ const RentPropertyNow = ({ item, onRent }) => {
 
   const labels = item.available ? 'Apply Now' : 'Pay Rent';
 
+  const [isCheckout, setIsCheckout] = useState(false);
+  const onCloseCheckModal = () => {
+    setIsCheckout(false);
+  };
+
+  const onOpenCheckModal = () => {
+    setIsCheckout(true);
+  };
+
+  const onModalRef = useOutsideClick(() => onCloseCheckModal());
+
   console.log('Avaiable', item.available);
   return (
     <div className="rentnow">
@@ -29,7 +42,16 @@ const RentPropertyNow = ({ item, onRent }) => {
         label={labels}
         color={'#E47675'}
         style={{ padding: '1.5rem 2rem', marginTop: '2rem', width: '100%' }}
-        onClick={onRent}
+        onClick={onOpenCheckModal}
+      />
+
+      <CheckoutModal
+        isCheckout={isCheckout}
+        onModalRef={onModalRef}
+        onPay={onRent}
+        onCloseCheckModal={onCloseCheckModal}
+        modalWidth="30rem"
+        item={item}
       />
 
       {item.available !== 0 && (

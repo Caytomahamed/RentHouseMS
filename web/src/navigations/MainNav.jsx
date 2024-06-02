@@ -5,8 +5,9 @@ import LandLordNav from './LandLordNav';
 import TenantNav from './TenantNav';
 import { appSelectUsers, checkAuth } from '../store/slices/auth';
 import { useDispatch, useSelector } from 'react-redux';
-import AppNav from './AppNav';
 import Loading from '../components/Custom/Loading';
+import AdminNav from './AdminNav';
+
 const MainNav = () => {
   const dispatch = useDispatch();
   const { token, userType, error, isLoading, isLogin } =
@@ -51,7 +52,7 @@ const MainNav = () => {
       {isLogin ? (
         <>
           {userType === 'landlord' && <LandLordNav />}
-          {userType === 'admin' && <AppNav />}
+          {userType === 'admin' && <AdminNav />}
           {userType === 'tenants' && <TenantNav />}
         </>
       ) : (

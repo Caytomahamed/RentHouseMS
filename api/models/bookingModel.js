@@ -109,6 +109,7 @@ exports.findBookingsByUserId = async id => {
       'u.city as landLordCity',
       'u.address as landLordAddress',
       'pt.type as propertyType',
+      'u.createdAt as landLordCreatedAt',
       'imageUrls',
     )
     .where('tenantId', id);
@@ -116,10 +117,26 @@ exports.findBookingsByUserId = async id => {
 
 // create booking
 exports.create = async data => {
-  const [id] = await db('booking').insert(data);
+  const book = {
+    tenantId: data.tenantId,
+    propertyId: data.propertyId,
+    startDate: data.startDate,
+    endDate: data.endDate,
+    securityDeposit: data.securityDeposit,
+  };
+
+  const [id] = await db('booking').insert(book);
   await db('properties')
     .update({ available: false })
     .where('id', data.propertyId);
+
+  await db('payments').insert({
+    bookingId: id,
+    status: data.status,
+    paymentMethod: data.paymentMethod,
+    transactionId: data.transactionId,
+    paidAt: data.paidAt,
+  });
   return this.findById(id);
 };
 

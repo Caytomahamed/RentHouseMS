@@ -66,12 +66,12 @@ function Menu({ menuType = 'admin' }) {
       },
       {
         name: 'Properties',
-        path: '/schedules',
+        path: '/properties',
         icon: scheduleIcon,
       },
       {
         name: 'Tenants',
-        path: '/students',
+        path: '/tenants',
         icon: userIcon,
       },
       {
