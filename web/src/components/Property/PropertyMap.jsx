@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 // eslint-disable-next-line no-unused-vars
 import React, { useState } from 'react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
@@ -7,11 +8,12 @@ import 'leaflet/dist/leaflet.css';
 
 import markIcon from '../../assets/icons/pin.svg';
 
-const PropertyMap = () => {
+// eslint-disable-next-line react/prop-types
+const PropertyMap = ({ item }) => {
   const [mapType, setMapType] = useState(
     'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
   );
-  const position = [9.5612, 44.0669];
+  const position = [item.lat, item.long];
   const zoom = 13;
 
   const customIcon = new L.Icon({

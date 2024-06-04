@@ -94,15 +94,15 @@ const CheckoutModal = ({
                   </label>
                   <div
                     style={{
-                      width: '15rem',
-                      padding: '.3rem 0rem',
+                      width: '22rem',
+                      padding: '.5rem 1.3rem',
                       border: '1px solid black',
                     }}
                   >
                     <CustomDropdown
                       options={options}
                       onSelect={handleSelect}
-                      width={'14rem'}
+                      width={'18rem'}
                     />
                   </div>
 

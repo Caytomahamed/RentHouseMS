@@ -5,7 +5,6 @@ const initialState = {
   list: [],
   isLoading: false,
   error: null,
-  searchList: [],
   createLoad: false,
   searchQuery: '', // For searching
   filter: '', // For filtering
@@ -37,17 +36,18 @@ const usersSlice = createSlice({
     schedulesSearchRequest: (state) => {
       state.isLoading = true;
       state.error = null;
-      state.searchList = [];
+      state.list = [];
     },
     schedulesSearchReceive: (state, action) => {
-      state.searchList = action.payload.data;
+      console.log('action payload', action.payload);
+      state.list = action.payload;
       state.error = null;
       state.isLoading = false;
     },
     schedulesSearchRequestFail: (state, action) => {
       state.isLoading = false;
       state.error = action.payload;
-      state.searchList = [];
+      state.list = [];
     },
     propertyRequest: (state) => {
       state.isLoading = true;
@@ -143,9 +143,29 @@ export const getProperty = (id) => {
     onError: propertyRequestFail.type,
   });
 };
-export const searchSchedule = (query) => {
+
+// /
+export const searchProperties = ({ location, price, type } = {}) => {
+  // Build the query string with optional parameters
+  let queryString = 'properties/search?';
+
+  if (location) {
+    queryString += `location=${location}&`;
+  }
+
+  if (price) {
+    queryString += `price=${price}&`;
+  }
+
+  if (type) {
+    queryString += `type=${type}`; // No trailing '&' for the last parameter
+  }
+
+  // Remove the trailing '&' if no parameters were added
+  if (price && !type) queryString = queryString.slice(0, -1); // Remove the last character (trailing '&')
+
   return apiCallBegin({
-    url: `/schedules/search?start=${query}`,
+    url: queryString,
     method: 'get',
     onSuccess: schedulesSearchReceive.type,
     onStart: schedulesSearchRequest.type,
@@ -238,4 +258,4 @@ export const selectFilteredAndSortedSchedule = (state) => {
 };
 
 /// selecter
-export const selectSchedules = (state) => state.entities.schedules;
+export const selectProperties = (state) => state.entities.schedules;

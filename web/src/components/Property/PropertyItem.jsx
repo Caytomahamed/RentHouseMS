@@ -1,11 +1,7 @@
 /* eslint-disable react/prop-types */
 // eslint-disable-next-line no-unused-vars
 import React from 'react';
-import {
-  capitalize,
-  formatNumberWithCommas,
-  getRandomcolor,
-} from '../../utils/helperFunction';
+import { capitalize, formatNumberWithCommas } from '../../utils/helperFunction';
 
 import heartIcon from '../../assets/icons/heart.svg';
 import bedIcon from '../../assets/icons/bedcolor.svg';
@@ -13,8 +9,6 @@ import bathIcon from '../../assets/icons/bathcolor.svg';
 import areaIcon from '../../assets/icons/areacolor.svg';
 
 const PropertyItem = ({ item }) => {
-  const color = getRandomcolor();
-  const firstColor = color;
   const bg = `url('http://localhost:9000/uploads/${
     JSON.parse(item.imageUrls)[0]
   }')`;
@@ -22,7 +16,8 @@ const PropertyItem = ({ item }) => {
   const price = formatNumberWithCommas(item.rentAmount);
   const type = capitalize(item.propertyType);
 
-  const address = `${item.state}, ${item.city}, ${item.address}`.slice(0, 27);
+  
+  const address = `${item.address}, ${item.city}`;
   return (
     <div className="col-1-of-3" data-id="11" key={item.id}>
       <div className="card" data-id="11">

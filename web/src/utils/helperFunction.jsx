@@ -114,3 +114,66 @@ export function timeAgo(date) {
     } ago`;
   }
 }
+
+export function getAbbreviationStates(fullName) {
+  // Convert the full name to uppercase for case-insensitive matching
+  const upperName = fullName.toUpperCase();
+
+  const abbreviations = {
+    MaroodiJeex: 'MDJ',
+    TogDheer: 'TGD',
+    Awdal: 'ADL',
+    SAAXIL: 'SXL',
+    Sanaag: 'SNG',
+    Lascaanood: 'LAS',
+  };
+
+  // Check if the full name exists as a key in the abbreviations object
+  if (Object.prototype.hasOwnProperty.call(abbreviations, upperName)) {
+    return abbreviations[upperName];
+  } else {
+    // If not found, return an empty string or a default message
+    return ''; // You can replace this with "Abbreviation not found" or a similar message
+  }
+}
+
+export function addFourDays(date = new Date()) {
+  // Create a copy of the date to avoid modifying the original
+  const newDate = new Date(date.getTime());
+
+  // Add 4 days in milliseconds (1 day has 24 * 60 * 60 * 1000 milliseconds)
+  newDate.setDate(newDate.getDate() + 4);
+
+  // Return the new date object
+  return newDate;
+}
+
+export function formatDateWithLong(date = new Date()) {
+  // Create an array of weekdays for easy indexing
+  const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
+  // Create an array of month names for easy indexing
+  const months = [
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'May',
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec',
+  ];
+
+  // Extract day, month, year, and hours (optional)
+  const day = days[date.getDay()];
+  const month = months[date.getMonth()];
+  const year = date.getFullYear();
+  const dayOfMonth = date.getDate().toString().padStart(2, '0'); // Add leading zero for single digits
+
+  // Format the date string
+  return `${day} ${month} ${dayOfMonth} ${year}`;
+}

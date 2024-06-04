@@ -13,7 +13,7 @@ exports.deleteOne = Model =>
       message: `success`,
       data: 'successfully deleted',
     });
-  }); 
+  });
 
 exports.updateOne = Model =>
   catchAsync(async (req, res, next) => {
@@ -73,7 +73,7 @@ exports.getAll = Model =>
       return next(new AppError('OH! No document found.Please try again', 404));
     }
 
-    // 7) Sent back
+    // 7) <S></S>ent back
     res.status(200).json({
       status: 'success',
       result: doc.length,
@@ -84,6 +84,7 @@ exports.getAll = Model =>
 exports.searching = Model =>
   catchAsync(async (req, res, next) => {
     // 2) get all
+    console.log('query', req.query);
     const doc = await Model.searching(req.query);
 
     if (!doc || Object.keys(doc).length === 0) {

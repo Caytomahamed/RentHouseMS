@@ -7,7 +7,7 @@ import {
   deleteProperty,
   getSchedules,
   selectFilteredAndSortedSchedule,
-  selectSchedules,
+  selectProperties,
   setCurrentPage,
   setFilter,
   setFilterColumn,
@@ -41,7 +41,7 @@ function Properties() {
     searchQuery,
     sortKey,
     currentPage,
-  } = useSelector(selectSchedules);
+  } = useSelector(selectProperties);
 
   const {
     isAction,

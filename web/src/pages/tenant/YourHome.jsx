@@ -1,5 +1,5 @@
 // eslint-disable-next-line no-unused-vars
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import MenuHeader from '../../components/Header/MenuHeader';
 // import PropertyList from '../../components/Property/PropertyList';
 import { useDispatch, useSelector } from 'react-redux';
@@ -8,10 +8,24 @@ import Loading from '../../components/Custom/Loading';
 import { Link } from 'react-router-dom';
 import PropertyItem from '../../components/Property/PropertyItem';
 import emptyHouse from '../../assets/images/emptyhouse.jpg';
-import { formatDate } from '../../utils/helperFunction';
+import { addFourDays, formatDateWithLong } from '../../utils/helperFunction';
+import CustomButton from '../../components/Custom/CustomButton';
+import { useOutsideClick } from '../../hooks/useOutsideClick';
+import CheckoutModal from '../../components/modols/CheckoutModal';
 
 const YourHome = () => {
   const dispatch = useDispatch();
+  const [isCheckout, setIsCheckout] = useState(false);
+
+  const onCloseCheckModal = () => {
+    setIsCheckout(false);
+  };
+
+  const onOpenCheckModal = () => {
+    setIsCheckout(true);
+  };
+
+  const onModalRef = useOutsideClick(() => onCloseCheckModal());
 
   useEffect(() => {
     dispatch(getYourRentProperty());
@@ -45,16 +59,24 @@ const YourHome = () => {
     );
   }
 
+  const [property] = yourProperty;
+
+  const { endDate, startDate } = property;
+
+  const takeOverKeyDate = formatDateWithLong(addFourDays(new Date(startDate)));
+
   return (
     <div>
       <MenuHeader />
+
       <div style={{ minHeight: '40vh' }}>
         {yourProperty.length !== 0 && typeof yourProperty == 'object' ? (
           <>
             <h1
               style={{
                 textAlign: 'center',
-                marginTop: '4rem',
+                margin: '4rem 0rem',
+                marginTop: '5rem',
                 fontSize: '3rem',
                 fontWeight: 'bold',
               }}
@@ -71,13 +93,24 @@ const YourHome = () => {
               }}
             >
               {yourProperty.map((property) => (
-                <Link
-                  to={`/propertyDetails/${property.propertyId}`}
-                  key={property.id}
-                  className="link"
-                >
-                  <PropertyItem item={property} key={property.id} />
-                </Link>
+                <>
+                  <Link
+                    to={`/propertyDetails/${property.propertyId}`}
+                    key={property.id}
+                    className="link"
+                  >
+                    <PropertyItem item={property} key={property.id} />
+                  </Link>
+
+                  <CheckoutModal
+                    isCheckout={isCheckout}
+                    onModalRef={onModalRef}
+                    // onPay={onRent}
+                    onCloseCheckModal={onCloseCheckModal}
+                    modalWidth="30rem"
+                    item={property}
+                  />
+                </>
               ))}
 
               <div
@@ -100,16 +133,35 @@ const YourHome = () => {
                     >
                       Information About Payment
                     </h1>
-                    <div>
-                      <div style={{ display: 'flex', margin: '1rem 2rem' }}>
+                    <div style={{ margin: '1rem 2rem' }}>
+                      <div style={{ display: 'flex', margin: '1rem 0' }}>
                         <h1 style={{ marginRight: '1rem' }}>Payment status:</h1>
                         <p style={{ fontWeight: 'bold' }}>Paid</p>
                       </div>
-                      <div style={{ display: 'flex', margin: '1rem 2rem' }}>
+
+                      <div style={{ display: 'flex', margin: '1rem 0' }}>
+                        <h1 style={{ marginRight: '1rem' }}>Payment start:</h1>
+                        <p style={{ fontWeight: 'bold' }}>
+                          {formatDateWithLong(new Date(startDate))}
+                        </p>
+                      </div>
+                      <div style={{ display: 'flex', margin: '1rem 0' }}>
                         <h1 style={{ marginRight: '1rem' }}>Payment Due:</h1>
                         <p style={{ fontWeight: 'bold' }}>
-                          {formatDate(Date.now())}
+                          {formatDateWithLong(new Date(endDate))}
                         </p>
+                      </div>
+                      <div style={{ display: 'flex', margin: '1rem 0' }}>
+                        <h1 style={{ marginRight: '1rem' }}>key takeover:</h1>
+                        <p style={{ fontWeight: 'bold' }}>{takeOverKeyDate}</p>
+                      </div>
+                      <div style={{ marginTop: '2rem' }}>
+                        <CustomButton
+                          label="Paid Rent"
+                          style={{ marginRight: '2rem' }}
+                          onClick={onOpenCheckModal}
+                        />
+                        <CustomButton label="Cancle" color={'#E47675'} />
                       </div>
                     </div>
                   </div>
@@ -129,7 +181,6 @@ const YourHome = () => {
                 justifyContent: 'center',
                 alignItems: 'center',
                 minHeight: '100vh',
-                // minWidth: '10ovw',
                 flexDirection: 'column',
               }}
             >

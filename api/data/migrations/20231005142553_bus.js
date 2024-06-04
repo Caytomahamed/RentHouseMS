@@ -41,6 +41,8 @@ exports.up = function (knex) {
       table.string('maplink', 50).notNullable();
       table.integer('squareFootage');
       table.integer('bedrooms');
+      table.integer('lat');
+      table.integer('long');
       table.integer('bathrooms');
       table.decimal('rentAmount').notNullable();
       table.boolean('available').notNullable().defaultTo(true); // true if the property is available for rent

@@ -5,22 +5,22 @@
   //   width: 20rem; /* Adjust width as needed */
   display: flex;
   align-items: center;
-  justify-content: space-evenly;
+  // justify-content: space-evenly;
   //   background-color: red;
 }
 
 .selected-option {
-  padding: 10px;
+  // padding: 10px;
   //   border: 1px solid #ccc;
   cursor: pointer;
-  text-align: center;
+  // text-align: center;
 }
 
 .options-list {
   position: absolute;
-  top: 100%;
+  top: 155%;
   left: 0;
-  width: 100%;
+  width: 90%;
   max-height: 200px; /* Max height for dropdown */
   overflow-y: auto;
   background-color: #fff;
@@ -36,7 +36,7 @@
 .options-list li {
   padding: 10px;
   cursor: pointer;
-  margin-left:1rem;
+  margin-left: 1rem;
 }
 
 .options-list li:hover {
@@ -52,4 +52,5 @@
   justify-content: center;
   align-items: center;
   border-radius: 50%;
+  margin-left: 5rem;
 }

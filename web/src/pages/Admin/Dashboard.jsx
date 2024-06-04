@@ -22,7 +22,7 @@ import PolarAreaChart from '../../components/graphs/PolarAreaChart.jsx';
 import {
   getSchedules,
   selectFilteredAndSortedSchedule,
-  selectSchedules,
+  selectProperties,
 } from '../../store/slices/schedules.js';
 import LineChart from '../../components/graphs/LineChart.jsx';
 import ScheduleChart from '../../components/graphs/ScheduleChart.jsx';
@@ -50,7 +50,7 @@ function Dashboard() {
     deleteLoad: schdeleteLoad,
     createLoad: schcreateLoad,
     updateLoad: schupdateLoad,
-  } = useSelector(selectSchedules);
+  } = useSelector(selectProperties);
   useEffect(() => {
     dispatch(getSchedules());
   }, [schdeleteLoad, schcreateLoad, schupdateLoad, dispatch]);

@@ -1,7 +1,7 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getProperty, selectSchedules } from '../../store/slices/schedules';
+import { getProperty, selectProperties } from '../../store/slices/schedules';
 import { Link, useParams } from 'react-router-dom';
 import LandLordProperty from './LandLordProperty';
 import {
@@ -30,7 +30,7 @@ const PropertyDetails = () => {
     dispatch(getProperty(+params.id));
   }, [dispatch, params.id]);
 
-  const { property } = useSelector(selectSchedules);
+  const { property } = useSelector(selectProperties);
 
   if (!property || Object.keys(property).length === 0) {
     return (
@@ -185,7 +185,7 @@ const PropertyDetails = () => {
 
             <div className="propertydetails__info__details__map">
               <h1>Where you’ll be</h1>
-              <PropertyMap />
+              <PropertyMap item={property} />
             </div>
           </div>
 

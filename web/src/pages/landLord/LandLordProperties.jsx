@@ -7,7 +7,7 @@ import {
   deleteProperty,
   getSchedules,
   selectFilteredAndSortedSchedule,
-  selectSchedules,
+  selectProperties,
   setCurrentPage,
   setFilter,
   setFilterColumn,
@@ -40,7 +40,7 @@ const LandLordProperties = () => {
     searchQuery,
     sortKey,
     currentPage,
-  } = useSelector(selectSchedules);
+  } = useSelector(selectProperties);
 
   const {
     isAction,

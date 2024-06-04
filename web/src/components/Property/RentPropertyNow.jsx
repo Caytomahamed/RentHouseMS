@@ -30,7 +30,6 @@ const RentPropertyNow = ({ item, onRent }) => {
 
   const onModalRef = useOutsideClick(() => onCloseCheckModal());
 
-  console.log('Avaiable', item.available);
   return (
     <div className="rentnow">
       <p>Rent price</p>

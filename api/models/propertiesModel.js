@@ -17,6 +17,8 @@ exports.find = async () => {
       'rentAmount',
       'available',
       'description',
+      'lat',
+      'long',
       'u.firstname as landLordFirstName',
       'u.id as landLordId',
       'u.lastname as landLordLastName',
@@ -49,6 +51,8 @@ exports.findById = async id => {
       'bedrooms',
       'bathrooms',
       'rentAmount',
+      'lat',
+      'long',
       'available',
       'description',
       'u.firstname as landLordFirstName',
@@ -82,7 +86,13 @@ exports.findByIdandDelete = async id => db('properties').where('id', id).del();
 
 //searching
 exports.searching = async search => {
-  const { city, state } = search;
+  const { location, price, type } = search;
+
+
+  if (price) {
+    var [minPrice, maxPrice] = price.split(' - ').map(Number);
+  }
+
   let query = db('properties as p')
     .join('users as u', 'p.landLordId', 'u.id')
     .join('propertyTypes as pt', 'p.propertyTypeId', 'pt.id')
@@ -95,6 +105,8 @@ exports.searching = async search => {
       'squareFootage',
       'bedrooms',
       'bathrooms',
+      'lat',
+      'long',
       'rentAmount',
       'available',
       'description',
@@ -111,9 +123,20 @@ exports.searching = async search => {
     )
     .where('available', true);
 
-  query = query
-    .where('propertyCity', 'LIKE', `%${city}%`)
-    .orWhere('propertyState', 'LIKE', `%${state}%`);
+  if (location) {
+    query = query
+      .where('p.city', 'LIKE', `%${location}%`)
+      .orWhere('p.state', 'LIKE', `%${location}%`)
+      .orWhere('p.address', 'LIKE', `%${location}%`);
+  }
+
+  if (price) {
+    query = query.whereBetween('rentAmount', [minPrice, maxPrice]);
+  }
+
+  if (type) {
+    query = query.where('pt.type', type);
+  }
 
   return query;
 };
@@ -134,6 +157,8 @@ exports.findByUserAddress = async address => {
       'carType',
       'model',
       'year',
+      'lat',
+      'long',
       'carImg',
       'bookedSeats',
       'u.firstname as driverFirstName',
@@ -166,40 +191,4 @@ exports.findByUserAddress = async address => {
   orderByAverage.sort((a, b) => a.average - b.average);
 
   return orderByAverage;
-};
-
-exports.findRecovery = async () => {
-  return await db('schedules as s')
-    .select(
-      's.id as scheduleId',
-      's.driverId',
-      'state',
-      'r.price',
-      'r.start',
-      'r.finish',
-      'r.description',
-      'address as driverAddress',
-      'statusName as status',
-      'bookedSeats',
-      'seatsLeft',
-      'capacity',
-      'carType',
-      'model',
-      'year',
-      'carImg',
-      'bookedSeats',
-      'u.firstname as driverFirstName',
-      'u.lastname as driverLastName',
-      'u.email as driverEmail',
-      'u.phone as driverPhone',
-      's.createdAt as scheduleCreatedAt',
-      's.updatedAt as scheduleUpdatedAt',
-    )
-    .join('drivers as d', 's.driverId', 'd.id')
-    .join('cars as c', 'd.id', 'c.driverId')
-    .join('status as st', 'd.statusId', 'st.id')
-    .join('routes as r', 's.routeId', 'r.id')
-    .join('users as u', 'd.userId', 'u.id')
-    .where('state', '=', 'recovery')
-    .where('st.statusName', '=', 'null');
 };
