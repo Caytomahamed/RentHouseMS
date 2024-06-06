@@ -20,7 +20,7 @@ exports.seed = async function (knex) {
       phone: 4123567,
       address: '150',
       imageUrl: 'url_to_image',
-      roleId: 3,
+      roleId: 1,
       isActive: true,
       city: 'Hargeisa',
       state: 'Maroodi Jeex',
@@ -29,7 +29,7 @@ exports.seed = async function (knex) {
     {
       firstname: 'Fatima',
       lastname: 'Ali',
-      email: 'user@gmail.com',
+      email: 'land@gmail.com',
       password: '$2b$12$CWOjqpYOA18P69FhUbPMvuF3yiBMh7Gjjlsp7C0txbVNzvTnbhOK6',
       phone: 4123567,
       address: 'New Hargeisa',
@@ -43,7 +43,7 @@ exports.seed = async function (knex) {
     {
       firstname: 'Ahmed',
       lastname: 'Hassan',
-      email: 'land@gmail.com',
+      email: 'me@gmail.com',
       password: '$2b$12$CWOjqpYOA18P69FhUbPMvuF3yiBMh7Gjjlsp7C0txbVNzvTnbhOK6',
       phone: 4123567,
       address: 'Jigjiga Yar',

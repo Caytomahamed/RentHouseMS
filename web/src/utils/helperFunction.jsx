@@ -141,8 +141,8 @@ export function addFourDays(date = new Date()) {
   // Create a copy of the date to avoid modifying the original
   const newDate = new Date(date.getTime());
 
-  // Add 4 days in milliseconds (1 day has 24 * 60 * 60 * 1000 milliseconds)
-  newDate.setDate(newDate.getDate() + 4);
+  // Add 4 days in milliseconds (1 day has 24 *s 60 * 60 * 1000 milliseconds)
+  newDate.setDate(newDate.getDate() + 5);
 
   // Return the new date object
   return newDate;
@@ -176,4 +176,48 @@ export function formatDateWithLong(date = new Date()) {
 
   // Format the date string
   return `${day} ${month} ${dayOfMonth} ${year}`;
+}
+
+export function addDaysToDate(date, daysToAdd) {
+  // Ensure date is a valid Date object
+  if (!(date instanceof Date)) {
+    throw new Error('Invalid date object');
+  }
+
+  // Ensure daysToAdd is a number
+  if (typeof daysToAdd !== 'number') {
+    throw new Error('daysToAdd must be a number');
+  }
+
+  // Create a copy of the date object to avoid modifying the original
+  const newDate = new Date(date.getTime());
+
+  // Add the number of days to the date
+  newDate.setDate(newDate.getDate() + daysToAdd);
+
+  // Return the new date object
+  return newDate;
+}
+
+export function isEventInThreeDaysOrPassed(eventDate) {
+  // Ensure eventDate is a valid Date object
+  if (!(eventDate instanceof Date)) {
+    throw new Error('Invalid date object');
+  }
+
+  // Get the current date
+  const today = new Date();
+
+  // Set the time portion to 00:00:00 for accurate day comparison
+  today.setHours(0, 0, 0, 0);
+  eventDate.setHours(0, 0, 0, 0);
+
+  // Calculate the difference in time
+  const timeDiff = eventDate - today;
+
+  // Convert the time difference from milliseconds to days
+  const daysDiff = timeDiff / (1000 * 60 * 60 * 24);
+
+  // Return true if the difference is exactly 3 days or less
+  return daysDiff <= 3;
 }

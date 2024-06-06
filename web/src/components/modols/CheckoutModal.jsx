@@ -1,15 +1,12 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useState } from 'react';
 import OverlayModal from '../OverlayModal';
-
 import PropTypes from 'prop-types';
-
 import billImage from '../../assets/images/bill.png';
 import { formatNumberWithCommas } from '../../utils/helperFunction';
 import CustomDropdown from '../Custom/CustomDropdown';
 import { toast } from 'react-toastify';
 import CustomButton from '../Custom/CustomButton';
-
 
 const CheckoutModal = ({
   onCloseCheckModal,
@@ -18,45 +15,48 @@ const CheckoutModal = ({
   onPay,
   isCheckout,
   item,
+  rentPaid,
 }) => {
   const [isChecked, setIsChecked] = useState(false);
+  const [selectedOption, setSelectedOption] = useState(null);
 
   const handleCheckboxChange = () => {
     setIsChecked(!isChecked);
   };
-
-  const rentPrice =
-    '$' +
-    formatNumberWithCommas(
-      item.rentAmount + item.rentAmount * 0.5 + item.rentAmount * 0.1
-    );
-
-  const options = [
-    { label: 'payment method', value: 'Select Payment Method' },
-    { label: 'CASH', value: 'CHASH' },
-    { label: 'ZAAD', value: 'ZAAD' },
-    { label: 'E-DAHAB', value: 'E-DAHAB' },
-  ];
-
-  const [selectedOption, setSelectedOption] = useState(null);
 
   const handleSelect = (option) => {
     setSelectedOption(option);
   };
 
   const check = () => {
-    if (selectedOption && isChecked) {
-      onPay(selectedOption.value);
-      // console.log('Payment method:', selectedOption.value);
+    // console.log('selectedOption:', selectedOption);
+    // console.log('isCheck:', isChecked);
 
+    if (selectedOption) {
+      onPay(selectedOption.value);
       onCloseCheckModal();
+
+      console.log('check');
       return;
     }
 
-    toast.error('Please select payment method and agree to the terms');
-
+    toast.error('Please select a payment method and agree to the terms');
     onCloseCheckModal();
   };
+
+  const rentPrice = rentPaid
+    ? '$' + formatNumberWithCommas(item.rentAmount)
+    : '$' +
+      formatNumberWithCommas(
+        item.rentAmount + item.rentAmount * 0.5 + item.rentAmount * 0.1
+      );
+
+  const options = [
+    { label: 'Select Payment Method', value: '' },
+    { label: 'CASH', value: 'CASH' },
+    { label: 'ZAAD', value: 'ZAAD' },
+    { label: 'E-DAHAB', value: 'E-DAHAB' },
+  ];
 
   return (
     <>
@@ -86,9 +86,9 @@ const CheckoutModal = ({
                   <label>
                     <input
                       type="text"
-                      name="amaout"
+                      name="amount"
                       value={rentPrice}
-                      placeholder="amount"
+                      placeholder="Amount"
                       readOnly
                     />
                   </label>
@@ -131,7 +131,6 @@ const CheckoutModal = ({
                     color={'#E47675'}
                     style={{
                       padding: '1.5rem 2rem',
-                      // marginTop: '2rem',
                       width: '100%',
                     }}
                     onClick={check}
@@ -154,5 +153,7 @@ CheckoutModal.propTypes = {
   onPay: PropTypes.func.isRequired,
   isCheckout: PropTypes.bool.isRequired,
   item: PropTypes.object.isRequired,
+  rentPaid: PropTypes.bool,
 };
+
 export default CheckoutModal;

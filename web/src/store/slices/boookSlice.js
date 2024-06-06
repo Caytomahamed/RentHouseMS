@@ -30,7 +30,6 @@ const slice = createSlice({
     booksRecieve: (users, action) => {
       users.isLoading = false;
       users.list = action.payload;
-      console.log('booking', action.payload.data);
     },
     booksRequestFail: (users, action) => {
       users.isLoading = false;
@@ -146,6 +145,17 @@ export const rentProperty = (data) => {
   });
 };
 
+export const paidRentProperty = (data) => {
+  return apiCallBegin({
+    url: `/booking/paid`,
+    method: 'post',
+    data,
+    onSuccess: booksRecieve.type,
+    onStart: booksRecieve.type,
+    onError: booksRequestFail.type,
+  });
+};
+
 export const getYourRentProperty = () => {
   return apiCallBegin({
     url: `/booking/booked`,
@@ -170,6 +180,16 @@ export const deleteBook = (id) => {
   return apiCallBegin({
     url: `/booking/${id}`,
     method: 'delete',
+    onSuccess: deleteRecieve.type,
+    onStart: deleteRequest.type,
+    onError: delteRequestFail.type,
+  });
+};
+
+export const requestCancellation = (id) => {
+  return apiCallBegin({
+    url: `/booking/${id}/requestCancellation`,
+    method: 'patch',
     onSuccess: deleteRecieve.type,
     onStart: deleteRequest.type,
     onError: delteRequestFail.type,

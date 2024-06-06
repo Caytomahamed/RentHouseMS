@@ -6,6 +6,8 @@ const router = express.Router();
 
 router.post('/now', authController.proctect, bookingController.bookingNow);
 
+router.post('/paid', authController.proctect, bookingController.paidNow);
+
 // get current users booked schedule
 router.get(
   '/booked',
@@ -13,12 +15,18 @@ router.get(
   bookingController.getBookingByUserId,
 );
 
-
 // unbooking
 router.delete(
   '/:bookingId/unBooking',
   authController.proctect,
   bookingController.unBooking,
+);
+
+// request cancellation
+router.patch(
+  '/:bookingId/requestCancellation',
+  authController.proctect,
+  bookingController.cancellation,
 );
 
 router

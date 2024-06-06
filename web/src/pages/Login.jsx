@@ -13,7 +13,7 @@ function Login() {
 
   const [formData, setFormData] = useState({
     email: 'me@gmail.com',
-    password: 'qwertyu',
+    password: '12345678',
   });
 
   const handleChange = (e) => {

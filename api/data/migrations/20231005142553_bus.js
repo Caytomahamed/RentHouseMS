@@ -81,7 +81,9 @@ exports.up = function (knex) {
         .onUpdate('CASCADE');
       table.date('startDate').notNullable();
       table.date('endDate').notNullable();
+      table.string('cancellationStatus');
       table.decimal('securityDeposit').notNullable();
+      table.date('cancellationRequestedAt');
       table
         .string('leaseAgreement')
         .defaultTo(
