@@ -26,31 +26,41 @@ import { useOutsideClick } from '../../hooks/useOutsideClick';
 import CheckoutModal from '../../components/modols/CheckoutModal';
 import { toast } from 'react-toastify';
 import DeleteModal from '../../components/modols/DeleteModal';
+import ReqMaintanceModal from '../../components/modols/ReqMaintanceModal';
 
 const YourHome = () => {
   const dispatch = useDispatch();
   const [isCheckout, setIsCheckout] = useState(false);
+  const [isReqMain, setIsReqMain] = useState(false);
   const [isCancle, setIsCancle] = useState(false);
 
+  // cancle modal
   const onCloseCancleModal = () => {
     setIsCancle(false);
   };
-
   const onOpenCancleModal = () => {
     setIsCancle(true);
   };
-
   const onRef = useOutsideClick(() => onCloseCancleModal());
 
+  // checkout modal
   const onCloseCheckModal = () => {
     setIsCheckout(false);
   };
-
   const onOpenCheckModal = () => {
     setIsCheckout(true);
   };
-
   const onModalRef = useOutsideClick(() => onCloseCheckModal());
+
+  // req maintance modal
+
+  const onCloseReqMainModal = () => {
+    setIsReqMain(false);
+  };
+  const onOpenReqMainModal = () => {
+    setIsReqMain(true);
+  };
+  const onReqMainRef = useOutsideClick(() => onCloseReqMainModal());
 
   useEffect(() => {
     dispatch(getYourRentProperty());
@@ -179,6 +189,14 @@ const YourHome = () => {
                 onModalRef={onRef}
                 table="Book Or [Cancle Rent] "
               />
+
+              <ReqMaintanceModal
+                onCloseReqMaintanceModal={onCloseReqMainModal}
+                onModalRef={onReqMainRef}
+                isCheckout={isReqMain}
+                modalWidth="30rem"
+                item={property}
+              />
               <div
                 className="col-1-of-3"
                 data-id="11"
@@ -201,12 +219,12 @@ const YourHome = () => {
                     </h1>
                     <div style={{ margin: '1rem 2rem' }}>
                       <div style={{ display: 'flex', margin: '1rem 0' }}>
-                        <h1 style={{ marginRight: '1rem' }}>Payment status:</h1>
+                        <h1 style={{ marginRight: '1rem' }}>Payment Status:</h1>
                         <p style={{ fontWeight: 'bold' }}>Paid</p>
                       </div>
 
                       <div style={{ display: 'flex', margin: '1rem 0' }}>
-                        <h1 style={{ marginRight: '1rem' }}>Payment start:</h1>
+                        <h1 style={{ marginRight: '1rem' }}>Payment Start:</h1>
                         <p style={{ fontWeight: 'bold' }}>
                           {formatDateWithLong(new Date(startDate))}
                         </p>
@@ -255,17 +273,36 @@ const YourHome = () => {
                         <CustomButton
                           label="Req. Maintenance"
                           style={{ marginRight: '2rem', width: '100%' }}
-                          onClick={onOpenCancleModal}
+                          onClick={onOpenReqMainModal}
                           color={' #ff9900'}
                         />
                       </div>
+
+                      {property.maintenanceTypes && (
+                        <p
+                          style={{
+                            width: '100%',
+                            wordWrap: 'break-word',
+                            fontSize: '1.2rem',
+                            marginTop: '1rem',
+                            lineHeight: '1.4',
+                          }}
+                        >
+                          <span
+                            style={{ fontWeight: 'bold', fontSize: '1.4rem' }}
+                          >
+                            Request maintenance is
+                          </span>{' '}
+                          {property.maintenanceTypes}
+                        </p>
+                      )}
 
                       <h1
                         style={{
                           margin: '2rem 0rem',
                           fontSize: '1.8rem',
                           fontWeight: 'bold',
-                          marginTop: '3rem',
+                          marginTop: '2rem',
                         }}
                       >
                         Paid Rent and Canclellation Req.

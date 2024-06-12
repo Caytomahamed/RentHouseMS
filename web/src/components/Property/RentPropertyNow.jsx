@@ -6,6 +6,7 @@ import CustomButton from '../Custom/CustomButton';
 import { formatNumberWithCommas } from '../../utils/helperFunction';
 import CheckoutModal from '../modols/CheckoutModal';
 import { useOutsideClick } from '../../hooks/useOutsideClick';
+import ReviewModal from '../modols/ReviewModal';
 
 const RentPropertyNow = ({ item, onRent }) => {
   const price = formatNumberWithCommas(item.rentAmount);
@@ -30,6 +31,24 @@ const RentPropertyNow = ({ item, onRent }) => {
 
   const onModalRef = useOutsideClick(() => onCloseCheckModal());
 
+  const [isReview, setIsReview] = useState(false);
+
+  // open and close review modal
+  const onOpenReviewModal = () => {
+    setIsReview(true);
+  };
+
+  const onCloseReviewModal = () => {
+    setIsReview(false);
+  };
+
+  const onReview = () => {
+    console.log('Review');
+    onCloseReviewModal();
+  };
+
+  const onModalRefReview = useOutsideClick(() => onCloseReviewModal());
+
   return (
     <div className="rentnow">
       <p>Rent price</p>
@@ -44,6 +63,14 @@ const RentPropertyNow = ({ item, onRent }) => {
         onClick={onOpenCheckModal}
       />
 
+      {item.available === 0 && (
+        <CustomButton
+          label={'Review'}
+          style={{ padding: '1.5rem 2rem', marginTop: '2rem', width: '100%' }}
+          onClick={onOpenReviewModal}
+        />
+      )}
+
       <CheckoutModal
         isCheckout={isCheckout}
         onModalRef={onModalRef}
@@ -51,6 +78,13 @@ const RentPropertyNow = ({ item, onRent }) => {
         onCloseCheckModal={onCloseCheckModal}
         modalWidth="30rem"
         item={item}
+      />
+
+      <ReviewModal
+        isReview={isReview}
+        onClose={onCloseReviewModal}
+        onReview={onReview}
+        onModalRef={onModalRefReview}
       />
 
       {item.available !== 0 && (

@@ -12,7 +12,7 @@ const apiMiddleware =
 
     if (onStart) dispatch({ type: onStart });
 
-    next(action);
+    next(action);   
     const token = await localStorage.getItem(TOKEN_KEY);
     try {
       const response = axios.request({

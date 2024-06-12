@@ -46,7 +46,7 @@ exports.seed = async function (knex) {
     maplink: 'https://goo.gl/maps/1234',
     lat: 9.558290,
     long: 44.065731,
-    available: true,
+    available: false,
     description: 'Cozy apartment in a great location',
     imageUrls: JSON.stringify([
       'file-1709407143359.jpg',

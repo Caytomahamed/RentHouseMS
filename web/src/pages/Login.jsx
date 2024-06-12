@@ -103,7 +103,6 @@ function Login() {
           id="submit"
           disabled={!formData.email || !formData.password}
           value="submit"
-          className="btn"
           style={{ textTransform: 'capitalize' }}
         />
       </form>

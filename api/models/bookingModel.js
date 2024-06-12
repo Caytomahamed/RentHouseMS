@@ -79,14 +79,17 @@ exports.findByUserId = async id => {
 };
 
 exports.findBookingsByUserId = async id => {
-  return db('booking as b')
+  let house = await db('booking as b')
     .join('users as u', 'p.landLordId', 'u.id')
-    .join('properties as p', 'b.propertyId', 'p.id')
     .join('propertyTypes as pt', 'p.propertyTypeId', 'pt.id')
+    .join('properties as p', 'b.propertyId', 'p.id')
+    .join('maintenanceRequests as m', 'b.tenantId', 'm.tenantId')
     .select(
       'b.id as id',
-      'tenantId',
-      'propertyId',
+      'b.tenantId as tenantId',
+      'b.propertyId as propertyId',
+      db.raw('group_concat(m.type)  as maintenanceTypes'),
+      'm.id as maintenanceId',
       'startDate',
       'endDate',
       'securityDeposit',
@@ -99,7 +102,7 @@ exports.findBookingsByUserId = async id => {
       'bathrooms',
       'rentAmount',
       'available',
-      'description',
+      'p.description as description',
       'u.firstname as landLordFirstName',
       'u.id as landLordId',
       'u.lastname as landLordLastName',
@@ -115,7 +118,48 @@ exports.findBookingsByUserId = async id => {
       'u.createdAt as landLordCreatedAt',
       'imageUrls',
     )
-    .where('tenantId', id);
+    .where('b.tenantId', id)
+    .groupBy('b.id');
+    
+  if (house && house.length > 0) return house;
+
+  return db('booking as b')
+    .join('users as u', 'p.landLordId', 'u.id')
+    .join('propertyTypes as pt', 'p.propertyTypeId', 'pt.id')
+    .join('properties as p', 'b.propertyId', 'p.id')
+    .select(
+      'b.id as id',
+      'b.tenantId as tenantId',
+      'b.propertyId as propertyId',
+      'startDate',
+      'endDate',
+      'securityDeposit',
+      'p.address as address',
+      'p.city as city',
+      'p.state as state',
+      'maplink',
+      'squareFootage',
+      'bedrooms',
+      'bathrooms',
+      'rentAmount',
+      'available',
+      'p.description as description',
+      'u.firstname as landLordFirstName',
+      'u.id as landLordId',
+      'u.lastname as landLordLastName',
+      'u.email as landLordEmail',
+      'u.phone as landLordPhone',
+      'u.imageUrl as landLordImageUrl',
+      'u.state as landLordState',
+      'u.city as landLordCity',
+      'u.address as landLordAddress',
+      'pt.type as propertyType',
+      'cancellationRequestedAt',
+      'cancellationStatus',
+      'u.createdAt as landLordCreatedAt',
+      'imageUrls',
+    )
+    .where('b.tenantId', id);
 };
 
 // create booking

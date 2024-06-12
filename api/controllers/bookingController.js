@@ -1,7 +1,6 @@
 const handleFactory = require('./handleFactory');
 const bookingModel = require('../models/bookingModel');
 const catchAsync = require('../utils/catchAsync');
-const app = require('../app');
 const appError = require('../utils/appError');
 const {
   sendExpoPushNotification,
@@ -11,7 +10,7 @@ const { getCurrentDate } = require('../utils/timeHelpers');
 const cron = require('node-cron');
 
 exports.bookingNow = catchAsync(async (req, res, next) => {
-  const tenantId = +req.user.id;
+  const tenantId = +req.user.id; 
 
   // const { pushToken } = req.query;
 

@@ -18,8 +18,13 @@ import activeIcon from '../../assets/icons/active.svg';
 import PropertyMap from './PropertyMap';
 import MenuHeader from '../Header/MenuHeader';
 import Loading from '../Custom/Loading';
-import { rentProperty } from '../../store/slices/boookSlice';
+import { rentProperty, selectBook } from '../../store/slices/boookSlice';
 import { toast } from 'react-toastify';
+import {
+  getReviewsByPropertyId,
+  selectReviews,
+} from '../../store/slices/reviewSlice';
+import ReviewItem from '../Reviews/ReviewItem';
 
 const PropertyDetails = () => {
   const params = useParams();
@@ -31,6 +36,13 @@ const PropertyDetails = () => {
   }, [dispatch, params.id]);
 
   const { property } = useSelector(selectProperties);
+  const { errorr } = useSelector(selectBook);
+
+  useEffect(() => {
+    dispatch(getReviewsByPropertyId(+params.id));
+  }, [dispatch, params.id]);
+
+  const reviewList = useSelector(selectReviews);
 
   if (!property || Object.keys(property).length === 0) {
     return (
@@ -92,14 +104,19 @@ const PropertyDetails = () => {
       })
     );
 
-    toast.success('property update successfully');
+    console.log('slice error ', errorr);
+    if (errorr) return toast.error(`${errorr}`);
+
+    if (!errorr) toast.success('House rented successfully');
   };
+
   return (
     <>
       <MenuHeader />
       <div className="propertydetails">
         <section className="propertydetails__header">
           <h1>
+            {property.id}
             {type} {property.landLordFirstName}
           </h1>
           <div>
@@ -169,7 +186,7 @@ const PropertyDetails = () => {
                 <b> {property.bedrooms}</b>
                 -bedroom, two-bathroom home nestled in a serene neighborhood. A
                 welcoming living space with a fireplace sets the tone for cozy
-                gatherings, while the chef's kitchen and dining area offer
+                gatherings, while the chef&apos;s kitchen and dining area offer
                 modern convenience and a lovely view of the lush backyard. The
                 master suite provides a private retreat, complemented by{' '}
                 <b>{property.bathrooms} </b> additional bedrooms for
@@ -179,14 +196,47 @@ const PropertyDetails = () => {
                 convenience for a delightful living experience.
               </p>
             </div>
-            <div className="propertydetails__info__details__landlord">
-              {/* <LandLordProperty data={selectedItem} /> */}
-            </div>
 
             <div className="propertydetails__info__details__map">
               <h1>Where you’ll be</h1>
               <PropertyMap item={property} />
             </div>
+
+            {reviewList && (
+              <>
+                <h1
+                  style={{
+                    marginTop: '3rem',
+                    fontSize: '3rem',
+                    fontWeight: 'bold',
+                    borderBottom: '1px solid rgba(0, 0, 0, 0.1)',
+                    paddingBottom: '1.5rem',
+                  }}
+                >
+                  {[...Array(1)].map((star, index) => {
+                    return (
+                      <span
+                        key={index}
+                        style={{
+                          cursor: 'pointer',
+                          fontSize: '4rem',
+                          color: 'rgb(180, 105, 14)',
+                        }}
+                      >
+                        &#9733;
+                      </span>
+                    );
+                  })}
+                  4.7 property rating * 383K ratings
+                </h1>
+                <div className="testimonial__container">
+                  {reviewList.length > 0 &&
+                    reviewList.map((item) => (
+                      <ReviewItem review={item} key={item.id} />
+                    ))}
+                </div>
+              </>
+            )}
           </div>
 
           <div className="propertydetails__info__book">

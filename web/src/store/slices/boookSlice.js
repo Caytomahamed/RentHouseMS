@@ -123,7 +123,58 @@ export const {
 
 export default slice.reducer;
 
-/// api calls
+
+// SELECTORS
+// Selector with filtering, sorting, and pagination
+export const selectFilteredAndSortedBooks = (state) => {
+  const {
+    list,
+    // searchQuery,
+    filter,
+    filterColumn,
+    sortKey,
+    currentPage,
+    itemsPerPage,
+    sortOrder,
+  } = state.entities.bookings;
+
+  // Filtering
+  let filteredList = list;
+  // let filteredList = list.filter(
+  //   (user) =>
+  //     user.firstname.toLowerCase().includes(searchQuery.toLowerCase()) ||
+  //     user.lastname.toLowerCase().includes(searchQuery.toLowerCase())
+  // );
+
+  // Applying filter
+  if (filter) {
+    filteredList = filteredList.filter((user) => user[filterColumn] === filter);
+  }
+
+  // Sorting
+  if (sortKey) {
+    const multiplier = sortOrder === 'asc' ? 1 : -1;
+    filteredList.sort(
+      (a, b) => multiplier * a[sortKey].localeCompare(b[sortKey])
+    );
+  }
+  // Pagination
+  const totalPages = Math.ceil(list.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+
+  let endIndex = startIndex + itemsPerPage;
+  if (endIndex >= list.length) endIndex = list.length;
+
+  const paginatedList = filteredList.slice(startIndex, endIndex);
+
+  return { paginatedList, totalPages, startIndex, endIndex };
+};
+
+export const selectBook = (state) => state.entities.bookings;
+
+
+
+/// ACTION CREATORS
 export const getBooking = () => {
   return apiCallBegin({
     url: '/booking',
@@ -195,51 +246,3 @@ export const requestCancellation = (id) => {
     onError: delteRequestFail.type,
   });
 };
-
-// Selector with filtering, sorting, and pagination
-export const selectFilteredAndSortedBooks = (state) => {
-  const {
-    list,
-    // searchQuery,
-    filter,
-    filterColumn,
-    sortKey,
-    currentPage,
-    itemsPerPage,
-    sortOrder,
-  } = state.entities.bookings;
-
-  // Filtering
-  let filteredList = list;
-  // let filteredList = list.filter(
-  //   (user) =>
-  //     user.firstname.toLowerCase().includes(searchQuery.toLowerCase()) ||
-  //     user.lastname.toLowerCase().includes(searchQuery.toLowerCase())
-  // );
-
-  // Applying filter
-  if (filter) {
-    filteredList = filteredList.filter((user) => user[filterColumn] === filter);
-  }
-
-  // Sorting
-  if (sortKey) {
-    const multiplier = sortOrder === 'asc' ? 1 : -1;
-    filteredList.sort(
-      (a, b) => multiplier * a[sortKey].localeCompare(b[sortKey])
-    );
-  }
-  // Pagination
-  const totalPages = Math.ceil(list.length / itemsPerPage);
-  const startIndex = (currentPage - 1) * itemsPerPage;
-
-  let endIndex = startIndex + itemsPerPage;
-  if (endIndex >= list.length) endIndex = list.length;
-
-  const paginatedList = filteredList.slice(startIndex, endIndex);
-
-  return { paginatedList, totalPages, startIndex, endIndex };
-};
-
-// Selectors
-export const selectBook = (state) => state.entities.bookings;

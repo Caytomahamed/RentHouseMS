@@ -109,11 +109,53 @@ exports.up = function (knex) {
       table.timestamps(true, true); // This will create 'created_at' and 'updated_at' columns
 
       table.index(['bookingId', 'status']); // Adding index for faster queries on booking_id and status
+    })
+    .createTable('maintenanceRequests', function (table) {
+      table.increments('id').primary();
+      table.integer('propertyId').notNullable();
+      table.string('type').notNullable();
+      table
+        .foreign('propertYId')
+        .references('id')
+        .on('properties')
+        .onDelete('CASCADE')
+        .onUpdate('CASCADE');
+      table.integer('tenantId');
+      table
+        .foreign('tenantId')
+        .references('id')
+        .on('users')
+        .onDelete('CASCADE')
+        .onUpdate('CASCADE');
+      table.dateTime('dateSubmitted').notNullable();
+      table.text('description').notNullable();
+      table.string('status', 50).notNullable().defaultTo('Open'); // Open, Pending, Resolved
+    })
+    .createTable('reviews', function (table) {
+      table.increments('id').primary();
+      table.integer('propertyId').unsigned().notNullable();
+      table.integer('tenantId').unsigned().notNullable();
+      table.integer('rating').unsigned().notNullable().checkBetween([1, 5]);
+      table.text('comment');
+      table.timestamps(true, true);
+
+      table
+        .foreign('propertyId')
+        .references('id')
+        .inTable('properties')
+        .onDelete('CASCADE');
+      table
+        .foreign('tenantId')
+        .references('id')
+        .inTable('users')
+        .onDelete('CASCADE');
     });
 };
 
 exports.down = function (knex) {
   return knex.schema
+    .dropTableIfExists('reviews')
+    .dropTableIfExists('maintenanceRequests')
     .dropTableIfExists('payments')
     .dropTableIfExists('booking')
     .dropTableIfExists('properties')

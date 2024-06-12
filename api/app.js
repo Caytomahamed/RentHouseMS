@@ -10,11 +10,12 @@ const { io } = require('./utils/socketIoSetup');
 const userRouter = require('./routes/userRoutes');
 const propertiesRouter = require('./routes/propertiesRoutes');
 const bookingRouter = require('./routes/bookingRoutes');
-// const studentRouter = require('./routes/studentRoutes');
 const driverRouter = require('./routes/driverRoutes');
 const carRouter = require('./routes/carRoutes');
 const routeRouter = require('./routes/routeRoutes');
 const reportRouter = require('./routes/reportRoutes');
+const maintanceRouter = require('./routes/maintenanceRoutes');
+const reviewRouter = require('./routes/reviewRoutes');
 
 const app = express();
 
@@ -32,6 +33,8 @@ app.use('/api/v1/drivers', driverRouter);
 app.use('/api/v1/cars', carRouter);
 app.use('/api/v1/routes', routeRouter);
 app.use('/api/v1/reports', reportRouter);
+app.use('/api/v1/maintenance', maintanceRouter);
+app.use('/api/v1/reviews', reviewRouter);
 
 // route is wrong
 app.all('*', (req, res, next) => {
