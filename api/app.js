@@ -21,10 +21,7 @@ const app = express();
 
 // Configure CORS options if needed
 const corsOptions = {
-  origin: [
-    'https://renthousems.onrender.com/api/v1',
-    'http://localhost:9000/api/v1',
-  ],
+  origin: ['https://kirodhow.onrender.com/', 'http://localhost:5173'],
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   allowedHeaders: ['Content-Type', 'Authorization'],
 };
