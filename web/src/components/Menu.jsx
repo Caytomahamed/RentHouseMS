@@ -50,12 +50,6 @@ function Menu({ menuType = 'admin' }) {
         path: '/landLordBook',
         icon: bookingIcon,
       },
-
-      // {
-      //   name: 'drivers',
-      //   path: '/drivers',
-      //   icon: driverIcon,
-      // },
     ];
   } else {
     menus = [

@@ -154,21 +154,17 @@
   "sortOptions": [
     [
       {
-        "column": "firstname",
-        "title": "First Name",
+        "column": "rentAmount",
+        "title": "rentAmount",
         "sortOrder": "asc",
-        "label": "Sort by Firstname",
+        "label": "Sort by rentAmount(ascending default)",
         "selected": true
       },
       {
-        "column": "firstname",
-        "sortOrder": "asc",
-        "label": "Sort by Firstname(ascending default)"
-      },
-      {
-        "column": "firstname",
+        "column": "rentAmount",
+        "title": "rentAmount",
         "sortOrder": "desc",
-        "label": "Sort by Firstname(descending)"
+        "label": "Sort by rentAmount(descending)"
       }
     ],
     [

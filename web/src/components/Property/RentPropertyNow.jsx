@@ -1,14 +1,23 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 // eslint-disable-next-line no-unused-vars
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import CustomButton from '../Custom/CustomButton';
 import { formatNumberWithCommas } from '../../utils/helperFunction';
 import CheckoutModal from '../modols/CheckoutModal';
 import { useOutsideClick } from '../../hooks/useOutsideClick';
 import ReviewModal from '../modols/ReviewModal';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  createReview,
+  isHasReview,
+  selectMyReview,
+} from '../../store/slices/reviewSlice';
+import { toast } from 'react-toastify';
+import { appSelectUsers } from '../../store/slices/auth';
 
 const RentPropertyNow = ({ item, onRent }) => {
+  const dispatch = useDispatch();
   const price = formatNumberWithCommas(item.rentAmount);
   const securityDeposit = formatNumberWithCommas(item.rentAmount * 0.5);
   const owerFee = formatNumberWithCommas(item.rentAmount * 0.1);
@@ -42,12 +51,24 @@ const RentPropertyNow = ({ item, onRent }) => {
     setIsReview(false);
   };
 
-  const onReview = () => {
-    console.log('Review');
+  const onReview = (review) => {
+    if (!review) return toast.error('Please fill in the review form');
+    dispatch(createReview(review));
     onCloseReviewModal();
+    toast.success('Review submitted successfully');
   };
 
   const onModalRefReview = useOutsideClick(() => onCloseReviewModal());
+
+  // state
+  const { currentUser } = useSelector(appSelectUsers);
+
+  useEffect(() => {
+    if (!currentUser) return;
+    dispatch(isHasReview(currentUser.id, +item.id));
+  }, [currentUser, dispatch, item.id]);
+
+  const myReviews = useSelector(selectMyReview);
 
   return (
     <div className="rentnow">
@@ -68,7 +89,14 @@ const RentPropertyNow = ({ item, onRent }) => {
           label={'Review'}
           style={{ padding: '1.5rem 2rem', marginTop: '2rem', width: '100%' }}
           onClick={onOpenReviewModal}
+          disabled={myReviews && myReviews.length !== 0}
         />
+      )}
+
+      {myReviews && myReviews.length !== 0 && item.available === 0 && (
+        <p style={{ marginTop: '1rem' }}>
+          You have already reviewed this house
+        </p>
       )}
 
       <CheckoutModal
@@ -80,18 +108,21 @@ const RentPropertyNow = ({ item, onRent }) => {
         item={item}
       />
 
-      <ReviewModal
-        isReview={isReview}
-        onClose={onCloseReviewModal}
-        onReview={onReview}
-        onModalRef={onModalRefReview}
-      />
+      {myReviews && myReviews.length === 0 && item.available === 0 && (
+        <ReviewModal
+          isReview={isReview}
+          onClose={onCloseReviewModal}
+          onReview={onReview}
+          onModalRef={onModalRefReview}
+          item={item}
+        />
+      )}
 
       {item.available !== 0 && (
         <div className="rentnow__info">
           <div>
             <p>Security Deposit </p>
-            <p className="info__rent_p">${price}</p>
+            <p className="info__rent_p">${securityDeposit}</p>
           </div>
           <div>
             <p>Kiro dhow service fee </p>

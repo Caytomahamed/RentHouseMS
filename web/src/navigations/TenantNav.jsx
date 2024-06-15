@@ -8,6 +8,7 @@ import PropertyList from '../components/Property/PropertyList';
 import PropertyDetails from '../components/Property/PropertyDetails';
 import Profile from '../pages/tenant/Profile';
 import YourHome from '../pages/tenant/YourHome';
+import YourInbox from '../pages/tenant/YourInbox';
 
 const TenantNav = () => {
   return (
@@ -18,6 +19,7 @@ const TenantNav = () => {
           <Route path="/propertyList" element={<PropertyList />} />
           <Route path="/propertyDetails/:id" element={<PropertyDetails />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/yourInbox" element={<YourInbox />} />
           <Route path="/yourHome" element={<YourHome />} />
           <Route path="*" element={<ErrorPage />} />
         </Routes>

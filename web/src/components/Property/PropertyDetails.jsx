@@ -22,6 +22,7 @@ import { rentProperty, selectBook } from '../../store/slices/boookSlice';
 import { toast } from 'react-toastify';
 import {
   getReviewsByPropertyId,
+  selectReviewCreateLoad,
   selectReviews,
 } from '../../store/slices/reviewSlice';
 import ReviewItem from '../Reviews/ReviewItem';
@@ -37,10 +38,15 @@ const PropertyDetails = () => {
 
   const { property } = useSelector(selectProperties);
   const { errorr } = useSelector(selectBook);
+  const createLoad = useSelector(selectReviewCreateLoad);
 
   useEffect(() => {
     dispatch(getReviewsByPropertyId(+params.id));
-  }, [dispatch, params.id]);
+  }, [dispatch, params.id, createLoad]);
+
+  useEffect(() => {
+    dispatch(getReviewsByPropertyId(+params.id));
+  }, [dispatch, params.id, createLoad]);
 
   const reviewList = useSelector(selectReviews);
 
@@ -116,7 +122,6 @@ const PropertyDetails = () => {
       <div className="propertydetails">
         <section className="propertydetails__header">
           <h1>
-            {property.id}
             {type} {property.landLordFirstName}
           </h1>
           <div>

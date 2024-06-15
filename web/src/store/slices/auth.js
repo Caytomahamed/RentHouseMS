@@ -4,7 +4,7 @@ import { apiCallBegin } from '../apiActionCreator';
 
 const TOKEN_KEY = 'authToken';
 const USER_TYPE = 'userType';
-const USER_ID = 'userType';
+// const USER_ID = 'userType';
 
 const initialState = {
   token: null,
@@ -31,6 +31,8 @@ const usersSlice = createSlice({
       state.userType = action.payload.userType;
       state.isLogin = true;
 
+      state.currentUser = action.payload;
+
       localStorage.setItem(TOKEN_KEY, action.payload.token);
       localStorage.setItem(USER_TYPE, action.payload.userType);
     },
@@ -52,7 +54,8 @@ const usersSlice = createSlice({
       state.isLoading = false;
       state.userType = action.payload.userType;
       state.isLogin = true;
-
+      state.currentUser = action.payload;
+      console.log('action', action);
       localStorage.setItem(TOKEN_KEY, action.payload.token);
       if (!localStorage.getItem(USER_TYPE))
         localStorage.setItem(USER_TYPE, action.payload.userType);

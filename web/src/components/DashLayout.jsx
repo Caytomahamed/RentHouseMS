@@ -11,13 +11,15 @@ import logoutIcon from '../assets/icons/logout.svg';
 import profileIcon from '../assets/icons/profile-icon.svg';
 import { useDispatch } from 'react-redux';
 import { userLogout } from '../store/slices/auth';
+import { useNavigate } from 'react-router-dom';
 
 // eslint-disable-next-line react/prop-types
 const DashLayout = ({ children, title, menuType }) => {
+  const navigateTo = useNavigate();
   const dispatch = useDispatch();
   const handleLogout = () => {
-    // logout logic
     dispatch(userLogout());
+    navigateTo('/');
   };
   // const getRandomColor = () => {
   //   var letters = [

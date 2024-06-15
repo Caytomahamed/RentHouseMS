@@ -18,6 +18,8 @@ const slice = createSlice({
     updateLoad: false,
     deleteLoad: false,
     createLoad: false,
+    isHasReview: false,
+    myReview: [],
   },
 
   reducers: {
@@ -81,6 +83,18 @@ const slice = createSlice({
       state.createLoad = false;
       state.error = action.payload;
     },
+    isReviewRequest: (state) => {
+      state.isHasReview = true;
+      state.myReview = [];
+    },
+    isReviewRecieve: (state, action) => {
+      state.isHasReview = false;
+      state.myReview = action.payload;
+    },
+    isReviewRequestFail: (state) => {
+      state.isHasReview = false;
+      state.myReview = [];
+    },
   },
 });
 
@@ -100,6 +114,9 @@ export const {
   createRequest,
   createRecieve,
   createRequestFail,
+  isReviewRequest,
+  isReviewRecieve,
+  isReviewRequestFail,
 } = slice.actions;
 
 export default slice.reducer;
@@ -116,6 +133,8 @@ export const selectReviewDeleteLoad = (state) =>
   state.entities.reviews.deleteLoad;
 export const selectReviewCreateLoad = (state) =>
   state.entities.reviews.createLoad;
+export const selectIsHasReview = (state) => state.entities.reviews.isHasReview;
+export const selectMyReview = (state) => state.entities.reviews.myReview;
 
 // ACTIONS CREATORS
 export const getReviewsByPropertyId = (id) => {
@@ -124,5 +143,26 @@ export const getReviewsByPropertyId = (id) => {
     onStart: reviewRequest.type,
     onSuccess: reviewRecieve.type,
     onError: reviewRequestFail.type,
+  });
+};
+
+export const createReview = (data) => {
+  return apiCallBegin({
+    url: '/reviews',
+    method: 'post',
+    data,
+    onStart: createRequest.type,
+    onSuccess: createRecieve.type,
+    onError: createRequestFail.type,
+  });
+};
+
+export const isHasReview = (tenantId, propertyId) => {
+  return apiCallBegin({
+    url: `/reviews/${tenantId}/tenant/${propertyId}/property`,
+    method: 'get',
+    onStart: isReviewRequest.type,
+    onSuccess: isReviewRecieve.type,
+    onError: isReviewRequestFail.type,
   });
 };

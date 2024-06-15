@@ -112,12 +112,12 @@ exports.up = function (knex) {
     })
     .createTable('maintenanceRequests', function (table) {
       table.increments('id').primary();
-      table.integer('propertyId').notNullable();
+      table.integer('bookingId').notNullable();
       table.string('type').notNullable();
       table
-        .foreign('propertYId')
+        .foreign('bookingId')
         .references('id')
-        .on('properties')
+        .on('booking')
         .onDelete('CASCADE')
         .onUpdate('CASCADE');
       table.integer('tenantId');
@@ -127,9 +127,9 @@ exports.up = function (knex) {
         .on('users')
         .onDelete('CASCADE')
         .onUpdate('CASCADE');
-      table.dateTime('dateSubmitted').notNullable();
       table.text('description').notNullable();
-      table.string('status', 50).notNullable().defaultTo('Open'); // Open, Pending, Resolved
+      table.string('status', 50).notNullable().defaultTo('Open');
+      table.timestamps(true, true);
     })
     .createTable('reviews', function (table) {
       table.increments('id').primary();
@@ -149,11 +149,35 @@ exports.up = function (knex) {
         .references('id')
         .inTable('users')
         .onDelete('CASCADE');
+    })
+    .createTable('inbox', table => {
+      table.increments('id').primary();
+      table
+        .integer('senderId')
+        .unsigned()
+        .notNullable()
+        .references('id')
+        .inTable('users')
+        .onDelete('CASCADE');
+      table
+        .integer('receiverId')
+        .unsigned()
+        .notNullable()
+        .references('id')
+        .inTable('users')
+        .onDelete('CASCADE');
+      table.string('FromOrTo').notNullable();
+      table.string('subject').notNullable();
+      table.text('message').notNullable();
+      table.boolean('is_read').defaultTo(false);
+      table.timestamp('created_at').defaultTo(knex.fn.now());
+      table.timestamp('updated_at').defaultTo(knex.fn.now());
     });
 };
 
 exports.down = function (knex) {
   return knex.schema
+    .dropTableIfExists('inbox')
     .dropTableIfExists('reviews')
     .dropTableIfExists('maintenanceRequests')
     .dropTableIfExists('payments')

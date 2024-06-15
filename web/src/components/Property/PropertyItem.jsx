@@ -7,8 +7,15 @@ import heartIcon from '../../assets/icons/heart.svg';
 import bedIcon from '../../assets/icons/bedcolor.svg';
 import bathIcon from '../../assets/icons/bathcolor.svg';
 import areaIcon from '../../assets/icons/areacolor.svg';
+import CustomButton from '../Custom/CustomButton';
 
-const PropertyItem = ({ item }) => {
+const PropertyItem = ({
+  item,
+  openEdit,
+  openDelete,
+  onOpenActions,
+  previllage = false,
+}) => {
   const bg = `url('http://localhost:9000/uploads/${
     JSON.parse(item.imageUrls)[0]
   }')`;
@@ -16,8 +23,16 @@ const PropertyItem = ({ item }) => {
   const price = formatNumberWithCommas(item.rentAmount);
   const type = capitalize(item.propertyType);
 
-  
   const address = `${item.address}, ${item.city}`;
+
+  const onEditOpen = () => {
+    openEdit();
+    onOpenActions(item);
+  };
+  const onDeleteOpen = () => {
+    openDelete();
+    onOpenActions(item);
+  };
   return (
     <div className="col-1-of-3" data-id="11" key={item.id}>
       <div className="card" data-id="11">
@@ -29,10 +44,10 @@ const PropertyItem = ({ item }) => {
             }}
           >
             &nbsp;
-            <div className="card__picture__status">
+            {/* <div className="card__picture__status">
               <h1 style={{ color: 'white', fontSize: '1.8rem' }}>🎉 Popular</h1>
-            </div>
-            <div className="right-triangle"></div>
+            </div> */}
+            {/* <div className="right-triangle"></div> */}
           </div>
           <div className="card__details">
             <div className="card__details__header">
@@ -68,28 +83,23 @@ const PropertyItem = ({ item }) => {
               </div>
             </div>
           </div>
+
+          {previllage && (
+            <div>
+              <CustomButton
+                label="Update"
+                style={{ width: '50%', padding: '1rem 0' }}
+                onClick={onEditOpen}
+              />
+              <CustomButton
+                label="Delete"
+                style={{ width: '50%', padding: '1rem 0' }}
+                color={'#FF7F7F'}
+                onClick={onDeleteOpen}
+              />
+            </div>
+          )}
         </div>
-        {/* <div
-          className="card__side card__side--back card__side--back-1"
-          style={{ backgroundImage: color }}
-        >
-          <div className="card__cta">
-            <div className="card__price-box">
-              <p className="card__price-only">Only</p>
-              <p className="card__price-value">
-                ${Math.floor(item.rentAmount)}
-              </p>
-            </div>
-            <div
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-              }}
-            >
-            </div>
-          </div>
-        </div> */}
       </div>
     </div>
   );

@@ -10,16 +10,8 @@ router.get(
   authController.proctect,
   propertiesController.searchProperties,
 );
-router.get(
-  '/recovery',
-  // authController.proctect,
-  propertiesController.getRecovery,
-);
-router.get(
-  '/address',
-  authController.proctect,
-  propertiesController.getSchedulesWithByAddress,
-);
+
+router.get('/:landlordId/properties', propertiesController.getByLandlordId);
 
 router
   .route('/')

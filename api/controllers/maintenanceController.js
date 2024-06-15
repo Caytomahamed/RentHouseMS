@@ -8,7 +8,7 @@ const bookingModel = require('../models/bookingModel');
 // creaate maintanace
 // 1. check if this booking exit.2. req maintance
 exports.createMaintenance = catchAsync(async (req, res, next) => {
-  const { bookingId, propertyId, tenantId, type, description } = req.body;
+  const { bookingId, tenantId, type, description } = req.body;
   const [booking] = await bookingModel.findById(bookingId);
 
   if (!booking) {
@@ -16,11 +16,10 @@ exports.createMaintenance = catchAsync(async (req, res, next) => {
   }
 
   const [maintanceCreated] = await maintanceModal.create({
-    propertyId,
+    bookingId,
     tenantId,
     type,
     description,
-    dateSubmitted: new Date(),
     status: 'open',
   });
 
@@ -33,6 +32,22 @@ exports.createMaintenance = catchAsync(async (req, res, next) => {
   res.status(200).json({
     status: 'success',
     data: maintanceCreated,
+  });
+});
+
+//get landlord id
+exports.getMaintenanceByLandlordId = catchAsync(async (req, res, next) => {
+  const { landlordId } = req.params;
+  const maintance = await maintanceModal.findByLandlordId(landlordId);
+
+  if (!maintance) {
+    return next(new appError('Maintenance not found', 404));
+  }
+
+  res.status(200).json({
+    status: 'success',
+    result: maintance.length,
+    data: maintance,
   });
 });
 

@@ -4,6 +4,11 @@ const maintanceController = require('../controllers/maintenanceController');
 
 const router = express.Router();
 
+router.get(
+  '/:landlordId/landlord',
+  maintanceController.getMaintenanceByLandlordId,
+);
+
 router
   .route('/')
   .get(maintanceController.getAllMaintenance)

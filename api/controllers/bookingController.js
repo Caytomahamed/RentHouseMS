@@ -10,7 +10,7 @@ const { getCurrentDate } = require('../utils/timeHelpers');
 const cron = require('node-cron');
 
 exports.bookingNow = catchAsync(async (req, res, next) => {
-  const tenantId = +req.user.id; 
+  const tenantId = +req.user.id;
 
   // const { pushToken } = req.query;
 
@@ -118,6 +118,21 @@ exports.cancellation = catchAsync(async (req, res, next) => {
   });
 });
 
+// get by landlord id
+exports.getBookingByLandlordId = catchAsync(async (req, res, next) => {
+  const { landlordId } = req.params;
+  const book = await bookingModel.findBookingsByLandlordId(landlordId);
+
+  if (book.length === 0) {
+    return next(new appError('OH! no one not booking your  houses'));
+  }
+
+  res.status(200).json({
+    status: 'success',
+    data: book,
+  });
+});
+
 // Schedule the task to run daily at midnight
 cron.schedule('0 0 * * *', async () => {
   console.log('Running scheduled task to delete old cancellations...');
@@ -139,6 +154,8 @@ cron.schedule('0 0 * * *', async () => {
     console.error('Error updating cancellation process:', error);
   }
 });
+
+
 
 
 exports.getAllBooking = handleFactory.getAll(bookingModel);

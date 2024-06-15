@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import {
   deleteBook,
-  getBooking,
   selectBook,
   selectFilteredAndSortedBooks,
   updateBook,
@@ -16,6 +15,7 @@ import {
   setSortOrder,
   setSortKey,
   setItemsPerPage,
+  getLandlordBooking,
 } from '../../store/slices/boookSlice';
 import TableWrapper from '../../components/Tables/TableWrapper';
 import useEditDeleteModal from '../../hooks/useEditDeleteModal';
@@ -23,10 +23,16 @@ import bookingsTableData from './../../../config/bookingTableData.json';
 import { groupBy } from '../../utils/groupBy';
 import { toast } from 'react-toastify';
 import { formatDate } from '../../utils/helperFunction';
+import { appSelectUsers, getCurrentUser } from '../../store/slices/auth';
 
 const LandLordBook = () => {
   // get user call
   const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getCurrentUser());
+  }, [dispatch]);
+
+  const { currentUser } = useSelector(appSelectUsers);
 
   const {
     deleteLoad,
@@ -66,8 +72,8 @@ const LandLordBook = () => {
   } = useEditDeleteModal();
 
   useEffect(() => {
-    dispatch(getBooking());
-  }, [deleteLoad, updateLoad, dispatch]);
+    dispatch(getLandlordBooking(currentUser.id));
+  }, [deleteLoad, updateLoad, dispatch, currentUser]);
 
   // State object to hold user information
   useEffect(() => {

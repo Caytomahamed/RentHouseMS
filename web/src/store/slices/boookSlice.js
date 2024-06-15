@@ -123,7 +123,6 @@ export const {
 
 export default slice.reducer;
 
-
 // SELECTORS
 // Selector with filtering, sorting, and pagination
 export const selectFilteredAndSortedBooks = (state) => {
@@ -172,12 +171,19 @@ export const selectFilteredAndSortedBooks = (state) => {
 
 export const selectBook = (state) => state.entities.bookings;
 
-
-
 /// ACTION CREATORS
 export const getBooking = () => {
   return apiCallBegin({
     url: '/booking',
+    method: 'get',
+    onSuccess: booksRecieve.type,
+    onStart: booksRequest.type,
+    onError: booksRequestFail.type,
+  });
+};
+export const getLandlordBooking = (id) => {
+  return apiCallBegin({
+    url: `/booking/${id}/landlord`,
     method: 'get',
     onSuccess: booksRecieve.type,
     onStart: booksRequest.type,

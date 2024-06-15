@@ -4,18 +4,18 @@ const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
 
 exports.summaryDash = catchAsync(async (req, res, next) => {
-  const drivers = await usersModel.findAllBy(2);
-  const student = await usersModel.findAllBy(3);
-  const schedules = await schedulesModel.find();
-  const bookings = await bookingsModel.find();
+  // const drivers = await userModel.findAllBy(2);
+  // const student = await userModel.findAllBy(3);
+  // const schedules = await schedulesModel.find();
+  // const bookings = await bookingsModel.find();
 
   res.status(200).json({
     status: 'success',
     data: {
-      student: student.length,
-      bookings: bookings.length,
-      schedules: schedules.length,
-      drivers: drivers.length,
+      // student: student.length,
+      // bookings: bookings.length,
+      // schedules: schedules.length,
+      // drivers: drivers.length,
     },
   });
 });

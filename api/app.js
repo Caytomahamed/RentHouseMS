@@ -6,7 +6,7 @@ const cors = require('cors');
 // socket
 const { io } = require('./utils/socketIoSetup');
 
-// routers
+// <routers></routers>
 const userRouter = require('./routes/userRoutes');
 const propertiesRouter = require('./routes/propertiesRoutes');
 const bookingRouter = require('./routes/bookingRoutes');
@@ -16,16 +16,11 @@ const routeRouter = require('./routes/routeRoutes');
 const reportRouter = require('./routes/reportRoutes');
 const maintanceRouter = require('./routes/maintenanceRoutes');
 const reviewRouter = require('./routes/reviewRoutes');
+const inboxRouter = require('./routes/inboxRoutes');
 
 const app = express();
 
-// Configure CORS options if needed
-const corsOptions = {
-  origin: ['https://kirodhow.onrender.com/', 'http://localhost:5173'],
-  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-  allowedHeaders: ['Content-Type', 'Authorization'],
-};
-app.use(cors(corsOptions));
+app.use(cors());
 app.use(express.json());
 
 app.use('/uploads', express.static('uploads'));
@@ -41,6 +36,7 @@ app.use('/api/v1/routes', routeRouter);
 app.use('/api/v1/reports', reportRouter);
 app.use('/api/v1/maintenance', maintanceRouter);
 app.use('/api/v1/reviews', reviewRouter);
+app.use('/api/v1/inbox', inboxRouter);
 
 // route is wrong
 app.all('*', (req, res, next) => {

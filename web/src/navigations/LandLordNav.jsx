@@ -2,9 +2,9 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import LandLordDash from '../pages/landLord/LandLordDash';
-import ErrorPage from '../pages/ErrorPage';
 import LandLordBook from '../pages/landLord/LandLordBook';
 import LandLordProperties from '../pages/landLord/LandLordProperties';
+import ErrorPage from '../pages/ErrorPage';
 
 const LandLordNav = () => {
   return (

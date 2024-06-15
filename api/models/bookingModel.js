@@ -120,7 +120,7 @@ exports.findBookingsByUserId = async id => {
     )
     .where('b.tenantId', id)
     .groupBy('b.id');
-    
+
   if (house && house.length > 0) return house;
 
   return db('booking as b')
@@ -275,4 +275,41 @@ exports.findByIdandDelete = async id => db('booking').where('id', id).del();
 // unBooking
 exports.unBooking = async id => {
   return db('booking').where('id', id).del();
+};
+
+// find by landlord id
+exports.findBookingsByLandlordId = async id => {
+  return db('booking as b')
+    .join('properties as p', 'b.propertyId', 'p.id')
+    .join('propertyTypes as pt', 'p.propertyTypeId', 'pt.id')
+    .join('users as u', 'b.tenantId', 'u.id')
+    .select(
+      'b.id as id',
+      'tenantId',
+      'propertyId',
+      'startDate',
+      'endDate',
+      'securityDeposit',
+      'p.address as address',
+      'p.city as city',
+      'p.state as state',
+      'maplink',
+      'squareFootage',
+      'bedrooms',
+      'bathrooms',
+      'rentAmount',
+      'available',
+      'description',
+      'u.firstname as tenantFirstName',
+      'u.lastname as tenantLastName',
+      'u.email as tenantEmail',
+      'u.phone as tenantPhone',
+      'u.imageUrl as tenantImageUrl',
+      'u.state as tenantState',
+      'u.city as tenantCity',
+      'u.address as tenantAddress',
+      'pt.type as propertyType',
+      'imageUrls',
+    )
+    .where('p.landLordId', id);
 };

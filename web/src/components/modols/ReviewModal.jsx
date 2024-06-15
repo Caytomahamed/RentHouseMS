@@ -3,9 +3,11 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import OverlayModal from '../OverlayModal';
 import CustomButton from '../Custom/CustomButton';
+import { useSelector } from 'react-redux';
+import { appSelectUsers } from '../../store/slices/auth';
 // import CustomButton from '../Custom/CustomButton';
 
-const ReviewModal = ({ isReview, onClose, onReview, onModalRef }) => {
+const ReviewModal = ({ isReview, onClose, onReview, onModalRef, item }) => {
   const [rating, setRating] = useState(0);
   const [hover, setHover] = useState(0);
   const [comment, setComment] = useState('');
@@ -27,8 +29,16 @@ const ReviewModal = ({ isReview, onClose, onReview, onModalRef }) => {
     setComment(event.target.value);
   };
 
+  const { currentUser } = useSelector(appSelectUsers);
+
   const handleSubmit = () => {
-    onReview({ rating, comment });
+    if (!currentUser) return;
+    onReview({
+      propertyId: item.id,
+      tenantId: currentUser.id,
+      rating,
+      comment,
+    });
     onClose();
   };
 
@@ -38,14 +48,12 @@ const ReviewModal = ({ isReview, onClose, onReview, onModalRef }) => {
     setHover(0);
     setRating(0);
   };
+
+
   return (
     <>
       {isReview && (
-        <OverlayModal
-          close={closeModal}
-          modalRef={onModalRef}
-          width={30}
-        >
+        <OverlayModal close={closeModal} modalRef={onModalRef} width={30}>
           <div className="review-modal">
             <div className="star-rating">
               {[...Array(5)].map((star, index) => {
@@ -118,6 +126,6 @@ ReviewModal.propTypes = {
   onClose: PropTypes.func.isRequired,
   onReview: PropTypes.func.isRequired,
   onModalRef: PropTypes.func.isRequired,
-  table: PropTypes.string.isRequired,
+  item: PropTypes.object.isRequired,
 };
 export default ReviewModal;

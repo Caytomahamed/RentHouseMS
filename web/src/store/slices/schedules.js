@@ -11,7 +11,7 @@ const initialState = {
   filterColumn: '',
   sortKey: '', // For sorting
   currentPage: 1, // For pagination
-  itemsPerPage: 10, // For pagination - set as needed
+  itemsPerPage: 12, // For pagination - set as needed
   sortOrder: 'asc',
   property: {},
 };
@@ -143,8 +143,17 @@ export const getProperty = (id) => {
     onError: propertyRequestFail.type,
   });
 };
+export const getPropertyByLandlord = (id) => {
+  return apiCallBegin({
+    url: `/properties/${id}/properties`,
+    method: 'get',
+    onSuccess: schedulesReceive.type,
+    onStart: schedulesRequest.type,
+    onError: schedulesRequestFail.type,
+  });
+};
 
-// /
+//
 export const searchProperties = ({ location, price, type } = {}) => {
   // Build the query string with optional parameters
   let queryString = 'properties/search?';

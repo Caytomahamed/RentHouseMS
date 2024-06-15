@@ -10,7 +10,6 @@ exports.findById = async id =>
 // add maintance
 exports.create = async maintance => {
   const [id] = await db('maintenanceRequests').insert(maintance);
-  console.log('id', id);
   return this.findById(id);
 };
 
@@ -25,3 +24,21 @@ exports.findByIdandDelete = async id => {
   await db('maintenanceRequests').where('id', id).del();
   return this.findById(id);
 };
+
+// find by landlord id
+exports.findByLandlordId = async landlordId =>
+  await db('maintenanceRequests as m')
+    .join('booking as b', 'm.bookingId', 'b.id')
+    .join('properties as p', 'b.propertyId', 'p.id')
+    .select(
+      'm.id as id ',
+      'b.id as bookingId',
+      'p.landLordId as landLordId',
+      'm.tenantId as tenantId',
+      'p.id as propertyId',
+      'm.description as description',
+      'm.type as type',
+      'm.status',
+      'm.created_at',
+    )
+    .where('p.landlordId', landlordId);

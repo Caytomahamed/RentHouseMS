@@ -159,54 +159,51 @@ const YourHome = () => {
                 marginBottom: '5rem',
               }}
             >
-              {yourProperty.map((property) => (
-                <>
-                  {console.log(property)}
-                  <Link
-                    to={`/propertyDetails/${property.propertyId}`}
-                    key={property.id}
-                    className="link"
-                  >
-                    <PropertyItem item={property} key={property.id} />
-                  </Link>
-
-                  <CheckoutModal
-                    isCheckout={isCheckout}
-                    onModalRef={onModalRef}
-                    onPay={onPaid}
-                    onCloseCheckModal={onCloseCheckModal}
-                    modalWidth="30rem"
-                    item={property}
-                    rentPaid={'true'}
-                  />
-                </>
-              ))}
-
-              <DeleteModal
-                isDelete={isCancle}
-                onClose={onCloseCancleModal}
-                onDelete={() => handleReqCanclellation(property.id)}
-                onModalRef={onRef}
-                table="Book Or [Cancle Rent] "
-              />
-
-              <ReqMaintanceModal
-                onCloseReqMaintanceModal={onCloseReqMainModal}
-                onModalRef={onReqMainRef}
-                isCheckout={isReqMain}
-                modalWidth="30rem"
-                item={property}
-              />
               <div
                 className="col-1-of-3"
                 data-id="11"
-                style={{ marginTop: '0rem', marginLeft: '5rem' }}
+                style={{ marginTop: '0rem', marginRight: '5rem' }}
               >
                 <div className="card" data-id="11">
                   <div
                     className="card__side card__side--front"
                     style={{ padding: '1.5rem' }}
                   >
+                    <div
+                      style={{
+                        margin: '2rem 0rem',
+                        paddingLeft: '2rem',
+                      }}
+                    >
+                      <h1
+                        style={{
+                          fontSize: '1.8rem',
+                          fontWeight: 'bold',
+                        }}
+                      >
+                        About the Owner
+                      </h1>
+                      <div style={{ display: 'flex', margin: '1rem 0' }}>
+                        <h1 style={{ marginRight: '1rem' }}>Owner IDNO:</h1>
+                        <p style={{ fontWeight: 'bold' }}>
+                          {property.landLordId}
+                        </p>
+                      </div>
+                      <div style={{ display: 'flex', margin: '1rem 0' }}>
+                        <h1 style={{ marginRight: '1rem' }}>Owner Name:</h1>
+                        <p style={{ fontWeight: 'bold' }}>
+                          {property.landLordFirstName}{' '}
+                          {property.landLordLastName}
+                        </p>
+                      </div>
+                      <div style={{ display: 'flex', margin: '1rem 0' }}>
+                        <h1 style={{ marginRight: '1rem' }}>Owner Contact:</h1>
+                        <p style={{ fontWeight: 'bold' }}>
+                          {property.landLordPhone}
+                        </p>
+                      </div>
+                    </div>
+
                     <h1
                       style={{
                         margin: '2rem 0rem',
@@ -325,6 +322,44 @@ const YourHome = () => {
                   </div>
                 </div>
               </div>
+              {yourProperty.map((property) => (
+                <>
+                  {console.log(property)}
+                  <Link
+                    to={`/propertyDetails/${property.propertyId}`}
+                    key={property.id}
+                    className="link"
+                  >
+                    <PropertyItem item={property} key={property.id} />
+                  </Link>
+
+                  <CheckoutModal
+                    isCheckout={isCheckout}
+                    onModalRef={onModalRef}
+                    onPay={onPaid}
+                    onCloseCheckModal={onCloseCheckModal}
+                    modalWidth="30rem"
+                    item={property}
+                    rentPaid={'true'}
+                  />
+                </>
+              ))}
+
+              <DeleteModal
+                isDelete={isCancle}
+                onClose={onCloseCancleModal}
+                onDelete={() => handleReqCanclellation(property.id)}
+                onModalRef={onRef}
+                table="Book Or [Cancle Rent] "
+              />
+
+              <ReqMaintanceModal
+                onCloseReqMaintanceModal={onCloseReqMainModal}
+                onModalRef={onReqMainRef}
+                isCheckout={isReqMain}
+                modalWidth="30rem"
+                item={property}
+              />
             </div>
           </>
         ) : (

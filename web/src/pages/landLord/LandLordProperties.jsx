@@ -5,7 +5,7 @@ import propertiesData from '../../../config/propertiesData.json';
 import {
   createProperties,
   deleteProperty,
-  getSchedules,
+  getPropertyByLandlord,
   selectFilteredAndSortedSchedule,
   selectProperties,
   setCurrentPage,
@@ -21,12 +21,14 @@ import PageWrapper from '../../components/Tables/PageWrapper';
 import useEditDeleteModal from '../../hooks/useEditDeleteModal';
 import { groupBy } from '../../utils/groupBy';
 import Loading from '../../components/Custom/Loading';
-import { getRandomcolor, isArrayOnlyStrings } from '../../utils/helperFunction';
+import { isArrayOnlyStrings } from '../../utils/helperFunction';
 import { toast } from 'react-toastify';
 import PropertyItem from '../../components/Property/PropertyItem';
+import { appSelectUsers, getCurrentUser } from '../../store/slices/auth';
 
 const LandLordProperties = () => {
   const dispatch = useDispatch();
+  const { currentUser } = useSelector(appSelectUsers);
 
   const {
     deleteLoad,
@@ -64,10 +66,16 @@ const LandLordProperties = () => {
     onCloseActions,
   } = useEditDeleteModal();
 
+
+
+  useEffect(() => {
+    dispatch(getCurrentUser());
+  }, [dispatch]);
+
   // get properties
   useEffect(() => {
-    dispatch(getSchedules());
-  }, [deleteLoad, createLoad, updateLoad, dispatch]);
+    dispatch(getPropertyByLandlord(currentUser.id));
+  }, [deleteLoad, createLoad, updateLoad, dispatch, currentUser]);
 
   const { paginatedList, startIndex, endIndex, totalPages } = useSelector(
     selectFilteredAndSortedSchedule
@@ -207,16 +215,17 @@ const LandLordProperties = () => {
   };
 
   // sort by group ddata
-  const groupByPrice = groupBy(paginatedList, 'price');
-  // const groupByYear = groupBy(paginatedList, 'city');
+  const groupByState = groupBy(paginatedList, 'state');
+  const groupByCity = groupBy(paginatedList, 'city');
+  const groupByAdress = groupBy(paginatedList, 'address');
 
   const filterData = {
-    data: [groupByPrice],
-    column: ['price'],
+    data: [groupByState, groupByCity, groupByAdress],
+    column: ['state', 'city', 'address'],
   };
   return (
     <PageWrapper
-      title="All properties"
+      title="Owner properties"
       editDeleteModal={editDeleteModal}
       store={store}
       configTableData={propertiesData}
@@ -226,32 +235,41 @@ const LandLordProperties = () => {
       tableType="properties"
       onCreate={handleCreate}
       menuType={'landlord'}
+
     >
       {isLoading ? (
         <div style={{ display: 'flex', justifyContent: 'center' }}>
           <Loading />
         </div>
       ) : (
-        <div
-          className="row--1"
-          style={{ display: 'flex', flexWrap: 'wrap', marginTop: '5rem' }}
-        >
-          {paginatedList && (
+        <>
+          {paginatedList?.length > 0 && (
             <div
               className="row--1"
-              style={{
-                display: 'flex',
-                flexWrap: 'wrap',
-                minHeight: '80vh',
-                marginBottom: '5rem',
-              }}
+              style={{ display: 'flex', flexWrap: 'wrap', marginTop: '5rem' }}
             >
-              {paginatedList.map((item) => (
-                <PropertyItem item={item} key={item.id} />
-              ))}
+              <div
+                className="row--1"
+                style={{
+                  display: 'flex',
+                  flexWrap: 'wrap',
+                  // minHeight: '80vh',
+                  marginBottom: '5rem',
+                }}
+              >
+                {paginatedList.map((item) => (
+                  <PropertyItem
+                    item={item}
+                    key={item.id}
+                    openDelete={onOpenDeleteModal}
+                    openEdit={onOpenEditModal}
+                    onOpenActions={onOpenActions}
+                  />
+                ))}
+              </div>
             </div>
           )}
-        </div>
+        </>
       )}
     </PageWrapper>
   );

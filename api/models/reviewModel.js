@@ -76,3 +76,46 @@ exports.findReviewsByPropertyId = async id =>
       'u.city',
       'u.address',
     );
+
+// find reviews by tenantId
+exports.findReviewsByTenantId = async id => {
+  return db('reviews as r')
+    .where('r.tenantId', id)
+    .join('users as u', 'r.tenantId', 'u.id')
+    .select(
+      'r.id',
+      'r.rating',
+      'r.comment',
+      'r.created_at',
+      'u.firstName',
+      'u.lastName',
+      'u.email',
+      'u.phone',
+      'u.imageUrl',
+      'u.state',
+      'u.city',
+      'u.address',
+    );
+};
+
+// find reviews by tenantId in a property
+exports.findReviewsByTenantIdInProperty = async (tenantId, propertyId) => {
+  return db('reviews as r')
+    .where('r.tenantId', tenantId)
+    .where('r.propertyId', propertyId)
+    .join('users as u', 'r.tenantId', 'u.id')
+    .select(
+      'r.id',
+      'r.rating',
+      'r.comment',
+      'r.created_at',
+      'u.firstName',
+      'u.lastName',
+      'u.email',
+      'u.phone',
+      'u.imageUrl',
+      'u.state',
+      'u.city',
+      'u.address',
+    );
+};

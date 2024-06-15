@@ -22,6 +22,7 @@ import {
   selectUsers,
   updateUser,
 } from '../../store/slices/userSlice';
+import { getUnReadInbox, selectInboxes } from '../../store/slices/inboxSlice';
 
 const Profile = (props) => {
   const dispatch = useDispatch();
@@ -132,6 +133,13 @@ const Profile = (props) => {
     toast.success('User deleted successfully');
   };
 
+  // unRead inbox
+  useEffect(() => {
+    dispatch(getUnReadInbox(currentUser?.id));
+  }, [dispatch, currentUser]);
+
+  const { unRead } = useSelector(selectInboxes);
+
   return (
     <>
       <MenuHeader />
@@ -162,16 +170,16 @@ const Profile = (props) => {
               />
             </Link>
 
-            <CustomButton
-              label="YourInbox"
-              color={'#E47675'}
-              style={{
-                padding: '1.5rem 2rem',
-                marginTop: '1rem',
-                marginBottom: '5rem',
-                width: '80%',
-              }}
-            />
+            <Link to="/yourInbox" className="link">
+              <div className="inbox-container ">
+                <button className="inbox-button ">
+                  Inbox
+                  <span className="badge" id="unreadCount">
+                    {unRead}
+                  </span>
+                </button>
+              </div>
+            </Link>
 
             <button
               style={{
@@ -275,6 +283,11 @@ const Profile = (props) => {
                     width: '80%',
                   }}
                   onClick={handleChagePass}
+                  disabled={
+                    !passwordChange.currentpassword ||
+                    !passwordChange.password ||
+                    !passwordChange.passwordConfirm
+                  }
                 />
               </div>
             </div>

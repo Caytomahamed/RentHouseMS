@@ -15,6 +15,13 @@ router.get(
   bookingController.getBookingByUserId,
 );
 
+// get landlord's property booked
+router.get(
+  '/:landlordId/landlord',
+  // authController.proctect,
+  bookingController.getBookingByLandlordId,
+);
+
 // unbooking
 router.delete(
   '/:bookingId/unBooking',

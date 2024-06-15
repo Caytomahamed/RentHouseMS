@@ -7,6 +7,13 @@ const router = express.Router();
 // review by propertyId
 router.get('/:propertyId/property', reviewController.getReviewsByProperty);
 
+router.get('/:tenantId/tenant', reviewController.getReviewsByTenantId);
+
+router.get(
+  '/:tenantId/tenant/:propertyId/property',
+  reviewController.getReviewsByTenantIdInProperty,
+);
+
 router
   .route('/')
   .get(reviewController.getAllReviews)

@@ -30,7 +30,6 @@ const ReqMaintanceModal = ({
       dispatch(
         createMaintanace({
           bookingId: item.id,
-          propertyId: item.propertyId,
           tenantId: item.tenantId,
           type: selectedOption.value,
           description: text,
@@ -113,9 +112,11 @@ const ReqMaintanceModal = ({
                       border: '1px solid black',
                       height: '18rem',
                       marginTop: '2rem',
+                      fontSize: '1.6rem',
                     }}
                     value={text}
                     onChange={handleChange}
+                    placeholder='Enter the issue..'
                   ></textarea>
                   <span
                     style={{
