@@ -10,6 +10,7 @@ import auth from './slices/auth';
 import maintanceSlice from './slices/maintanceSlice';
 import reviewSlice from './slices/reviewSlice';
 import inboxSlice from './slices/inboxSlice';
+import paymentSlice from './slices/paymentSlice';
 
 export default combineReducers({
   users: userSlice,
@@ -23,4 +24,5 @@ export default combineReducers({
   maintenance: maintanceSlice,
   reviews: reviewSlice,
   inboxes: inboxSlice,
+  payment: paymentSlice,
 });

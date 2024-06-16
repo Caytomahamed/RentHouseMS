@@ -15,6 +15,8 @@ exports.create = async maintance => {
 
 // update maintance
 exports.findByIdandUpdate = async (id, changes) => {
+  const updated_at = new Date().toISOString();
+  changes = { ...changes, updated_at };
   await db('maintenanceRequests').where('id', id).update(changes);
   return this.findById(id);
 };

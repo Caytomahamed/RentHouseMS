@@ -78,6 +78,28 @@ const slice = createSlice({
     setDescription: (maintanace, action) => {
       maintanace.description = action.payload;
     },
+    // New actions for searching, sorting, filtering, pagination
+    setSearchQuery: (users, action) => {
+      users.searchQuery = action.payload;
+    },
+    setFilter: (users, action) => {
+      users.filter = action.payload;
+    },
+    setFilterColumn: (users, action) => {
+      users.filterColumn = action.payload;
+    },
+    setSortKey: (users, action) => {
+      users.sortKey = action.payload;
+    },
+    setCurrentPage: (users, action) => {
+      users.currentPage = action.payload;
+    },
+    setItemsPerPage: (users, action) => {
+      users.itemsPerPage = action.payload;
+    },
+    setSortOrder: (users, action) => {
+      users.sortOrder = action.payload;
+    },
   },
 });
 
@@ -96,18 +118,26 @@ export const {
   createRequestFail,
   setType,
   setDescription,
+  setSearchQuery,
+  setFilter,
+  setFilterColumn,
+  setSortKey,
+  setCurrentPage,
+  setItemsPerPage,
+  setSortOrder,
 } = slice.actions;
 
 export default slice.reducer;
 
 // selector
-export const getMaintanace = (state) => state.entities.maintenance;
-export const getMaintanaceList = (state) => getMaintanace(state).list;
-export const getMaintanaceLoading = (state) => getMaintanace(state).isLoading;
+export const selectMaintanace = (state) => state.entities.maintenance;
+export const getMaintanaceList = (state) => selectMaintanace(state).list;
+export const getMaintanaceLoading = (state) =>
+  selectMaintanace(state).isLoading;
 
 // action creator
-export const loadMaintanace = () => {
-  apiCallBegin({
+export const getMaintanaces = () => {
+  return apiCallBegin({
     url: '/maintenance',
     method: 'get',
     onStart: maintanaceRequest.type,
@@ -116,10 +146,21 @@ export const loadMaintanace = () => {
   });
 };
 
+export const getMaintanaceByLandLordId = (id) => {
+  return apiCallBegin({
+    url: `/maintenance/${id}/landlord`,
+    method: 'get',
+    onStart: maintanaceRequest.type,
+    onSuccess: maintanaceRecieve.type,
+    onError: maintanaceRequestFail.type,
+  });
+};
+
 export const updateMaintanace = (data) => {
+  console.log('👆👆👆', data);
   return apiCallBegin({
     url: `/maintenance/${data.id}`,
-    method: 'put',
+    method: 'patch',
     data,
     onStart: updateRequest.type,
     onSuccess: updateRecieve.type,
@@ -146,4 +187,48 @@ export const createMaintanace = (data) => {
     onSuccess: createRecieve.type,
     onError: createRequestFail.type,
   });
+};
+
+// Selector with filtering, sorting, and pagination
+export const selectFilteredAndSortedMaintenance = (state) => {
+  const {
+    list,
+    searchQuery,
+    filter,
+    filterColumn,
+    sortKey,
+    currentPage,
+    itemsPerPage,
+    sortOrder,
+  } = state.entities.maintenance;
+
+  // Filtering
+  let filteredList = list.filter(
+    (user) => user.type.toLowerCase().includes(searchQuery.toLowerCase())
+    //||
+    //user.finish.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  // Applying filter
+  if (filter) {
+    filteredList = filteredList.filter((user) => user[filterColumn] === filter);
+  }
+
+  // Sorting
+  if (sortKey) {
+    const multiplier = sortOrder === 'asc' ? 1 : -1;
+    filteredList.sort(
+      (a, b) => multiplier * a[sortKey].localeCompare(b[sortKey])
+    );
+  }
+  // Pagination
+  const totalPages = Math.ceil(list.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+
+  let endIndex = startIndex + itemsPerPage;
+  if (endIndex >= list.length) endIndex = list.length;
+
+  const paginatedList = filteredList.slice(startIndex, endIndex);
+
+  return { paginatedList, totalPages, startIndex, endIndex };
 };

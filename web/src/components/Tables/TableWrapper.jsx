@@ -169,7 +169,7 @@ const TableWrapper = ({
               sortKey={store.sortKey}
             />
           </button>
-          {tableType !== 'students' && tableType !== 'bookings' && (
+          {!['students', 'bookings', 'maintenance'].includes(tableType) && (
             <div style={{ position: 'absolute', right: 0, top: '-5px' }}>
               <CustomButton label="create new" onClick={onOpenCreateModal} />
             </div>

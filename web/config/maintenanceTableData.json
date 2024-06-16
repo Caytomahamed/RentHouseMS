@@ -1,0 +1,78 @@
+{
+  "fields": [
+    {
+      "label": "Type",
+      "name": "type",
+      "type": "text",
+      "placeholder": "Enter your type",
+      "validationRules": {
+        "required": true,
+        "minLength": 3
+      }
+    },
+    {
+      "label": "Status",
+      "name": "status",
+      "type": "text",
+      "placeholder": "Enter your finish",
+      "validationRules": {
+        "required": true,
+        "minLength": 2
+      }
+    },
+    {
+      "label": "description",
+      "name": "description",
+      "type": "text",
+      "placeholder": "Enter your description",
+      "validationRules": {
+        "required": true,
+        "minLength": 10
+      }
+    }
+  ],
+  "headers": [
+    {
+      "title": "ID NO#",
+      "key": "id",
+      "className": "id"
+    },
+    {
+      "title": "Description"
+    },
+    {
+      "title": "type"
+    },
+    {
+      "title": "status"
+    },
+    {
+      "title": "Sumit Date"
+    },
+    {
+      "title": "Action",
+      "className": "action-header"
+    }
+  ],
+  "sortOptions": [
+    [
+      {
+        "column": "price",
+        "title": "price",
+        "sortOrder": "asc",
+        "label": "Sort by price",
+        "selected": true
+      },
+      {
+        "column": "firstname",
+        "sortOrder": "asc",
+        "label": "Sort by price(ascending)"
+      },
+      {
+        "column": "price",
+        "sortOrder": "desc",
+        "label": "Sort by price(descending)"
+      }
+    ]
+  ]
+}

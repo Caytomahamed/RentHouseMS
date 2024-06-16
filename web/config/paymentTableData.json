@@ -1,0 +1,122 @@
+{
+  "fields": [
+    {
+      "label": "Amout",
+      "name": "amout",
+      "type": "number",
+      "placeholder": "Enter your tenantId",
+      "validationRules": {
+        "required": true,
+        "minLength": 1
+      }
+    },
+    {
+      "label": "paymentMethod",
+      "name": "paymentMethod",
+      "type": "text",
+      "placeholder": "Enter your propertyId",
+      "validationRules": {
+        "required": true,
+        "minLength": 1
+      }
+    },
+    {
+      "label": "paidAt",
+      "name": "paidAt",
+      "type": "date",
+      "placeholder": "Enter your endDate",
+      "validationRules": {
+        "required": true,
+        "minLength": 1
+      }
+    }
+  ],
+  "headers": [
+    {
+      "title": "ID NO#",
+      "key": "id",
+      "className": "id"
+    },
+    {
+      "title": "booking Id",
+      "key": "id"
+    },
+    {
+      "className": "id",
+      "title": "property id"
+    },
+
+    {
+      "title": "Amout"
+    },
+
+    {
+      "title": "paymentMethod"
+    },
+    {
+      "title": "transactionId"
+    },
+    {
+      "title": "paidAt"
+    },
+
+    {
+      "title": "Action",
+      "className": "action-header"
+    }
+  ],
+  "sortOptions": [
+    [
+      {
+        "column": "firstname",
+        "title": "First Name",
+        "sortOrder": "asc",
+        "label": "Sort by Firstname",
+        "selected": true
+      },
+      {
+        "column": "firstname",
+        "sortOrder": "asc",
+        "label": "Sort by Firstname(ascending default)"
+      },
+      {
+        "column": "firstname",
+        "sortOrder": "desc",
+        "label": "Sort by Firstname(descending)"
+      }
+    ],
+    [
+      {
+        "column": "lastname",
+        "title": "Last Name",
+        "sortOrder": "asc",
+        "label": "Sort by Last Name",
+        "selected": true
+      },
+      {
+        "column": "lastname",
+        "sortOrder": "asc",
+        "label": "Sort by Lastname(ascending default)"
+      },
+      {
+        "column": "lastname",
+        "sortOrder": "desc",
+        "label": "Sort by Lastname(descending)"
+      }
+    ],
+    [
+      {
+        "column": "address",
+        "title": "Address",
+        "sortOrder": "asc",
+        "label": "Sort by Address",
+        "selected": true
+      },
+      {
+        "column": "address",
+        "sortOrder": "asc",
+        "label": "Sort by Address(ascending default)"
+      }
+    ]
+  ]
+}

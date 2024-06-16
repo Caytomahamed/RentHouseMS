@@ -50,6 +50,16 @@ function Menu({ menuType = 'admin' }) {
         path: '/landLordBook',
         icon: bookingIcon,
       },
+      {
+        name: 'Maintenance',
+        path: '/landLordMaintenance',
+        icon: bookingIcon,
+      },
+      {
+        name: 'Payments',
+        path: '/landLordPayment',
+        icon: bookingIcon,
+      },
     ];
   } else {
     menus = [

@@ -10,6 +10,8 @@ import DriverTable from './DriverTable';
 import CarTable from './CarTable';
 import BookingTable from './BookingTable';
 import RoutesTable from './RoutesTable';
+import MaintenanceTable from './MaintenanceTable.jsx';
+import PaymentsTable from './PaymentsTable.jsx';
 
 // NOTE: id is click action btn row
 function DataTable({
@@ -23,6 +25,7 @@ function DataTable({
   id,
   tableType = 'students', // Prop to identify table type
 }) {
+  console.log('table', tableType, data);
   return (
     <table id="Table">
       <thead>
@@ -43,6 +46,8 @@ function DataTable({
               {tableType === 'cars' && <CarTable item={item} />}
               {tableType === 'bookings' && <BookingTable item={item} />}
               {tableType === 'routes' && <RoutesTable item={item} />}
+              {tableType === 'maintenance' && <MaintenanceTable item={item} />}
+              {tableType === 'payment' && <PaymentsTable item={item} />}
               <td>
                 <div id="actions" onClick={() => onOpenActions(item)}>
                   <img src={actionIcon} alt="action" />

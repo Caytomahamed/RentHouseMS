@@ -44,31 +44,195 @@ exports.find = async () => {
   return { summaryReports, totalSchedules };
 };
 
-// const now = new Date();
+exports.findReports = async reportType => {
+  switch (reportType) {
+    case 'UserDemographics':
+      return await db('users')
+        .join('roles', 'users.roleId', 'roles.id')
+        .select(
+          'users.firstname',
+          'users.lastname',
+          'users.city',
+          'users.state',
+          'roles.name as role',
+        );
 
-// const schedules = await db('schedules as s');
-// // ... (rest of your query logic)
+    case 'ActiveUsers':
+      return await db('users')
+        .where('isActive', true)
+        .select('firstname', 'lastname', 'email', 'city', 'state');
 
-// // Update the schedules table with the last run time
-// await db('schedules').update({ lastRunTime: now });
+    case 'InactiveUsers':
+      return await db('users')
+        .where('isActive', false)
+        .select('firstname', 'lastname', 'email', 'city', 'state');
 
-// const now = new Date();
-// const twoDaysInMs = 1000 * 60 * 60 * 24 * 2; // Milliseconds in 2 days
+    case 'PropertyAvailability':
+      return await db('properties')
+        .where('available', true)
+        .select(
+          'address',
+          'city',
+          'state',
+          'rentAmount',
+          'bedrooms',
+          'bathrooms',
+        );
 
-// let lastRunTime;
-// try {
-//   // Try to retrieve the last run time from the database
-//   lastRunTime = await db('schedules').select('lastRunTime').first();
-//   lastRunTime = lastRunTime?.lastRunTime; // Handle potential null value
-// } catch (error) {
-//   console.error('Error fetching last run time:', error);
-//   // Handle error gracefully (e.g., continue fetching data)
-// }
+    case 'PropertyOccupancy':
+      return await db('properties')
+        .join('booking', 'properties.id', 'booking.propertyId')
+        .select(
+          'properties.address',
+          'booking.tenantId',
+          'booking.startDate',
+          'booking.endDate',
+        );
 
-// if (lastRunTime && now - lastRunTime < twoDaysInMs) {
-//   console.log('Using previously generated report (within 2 days)');
-//   return { summaryReports }; // Return the existing report
-// } else {
-//   // Fetch data and generate a new report as usual
-//   // ... (rest of your existing code)
-// }
+    case 'PropertyTypeDistribution':
+      return await db('properties')
+        .join('propertyTypes', 'properties.propertyTypeId', 'propertyTypes.id')
+        .select('propertyTypes.type')
+        .count('properties.id as count')
+        .groupBy('propertyTypes.type');
+
+    case 'CurrentBookings': // ❌
+      const today = new Date();
+      return await db('booking')
+        .where('startDate', '<=', today)
+        .andWhere('endDate', '>=', today)
+        .join('properties', 'booking.propertyId', 'properties.id')
+        .join('users', 'booking.tenantId', 'users.id')
+        .select(
+          'properties.address',
+          'users.firstname',
+          'users.lastname',
+          'booking.startDate',
+          'booking.endDate',
+        );
+
+    case 'BookingHistory':
+      return await db('booking')
+        .join('properties', 'booking.propertyId', 'properties.id')
+        .join('users', 'booking.tenantId', 'users.id')
+        .select(
+          'properties.address',
+          'users.firstname',
+          'users.lastname',
+          'booking.startDate',
+          'booking.endDate',
+        );
+
+    case 'CancelledBookings':
+      return await db('booking')
+        .whereNotNull('cancellationRequestedAt')
+        .join('properties', 'booking.propertyId', 'properties.id')
+        .join('users', 'booking.tenantId', 'users.id')
+        .select(
+          'properties.address',
+          'users.firstname',
+          'users.lastname',
+          'booking.cancellationRequestedAt',
+        );
+
+    case 'PaymentStatus':
+      return await db('payments').select(
+        'bookingId',
+        'amount',
+        'status',
+        'paymentMethod',
+        'transactionId',
+        'paidAt',
+      );
+
+    case 'MonthlyPayments':// ❌ MONTH(paidAt) as month
+      return await db('payments')
+        .select(
+          db.raw('MONTH(paidAt) as month'),
+          db.raw('SUM(amount) as total'),
+        )
+        .whereNotNull('paidAt')
+        .groupBy(db.raw('MONTH(paidAt)'));
+
+    case 'OutstandingPayments':
+      return await db('payments')
+        .where('status', 'pending')
+        .join('booking', 'payments.bookingId', 'booking.id')
+        .select('booking.propertyId', 'payments.amount', 'payments.status');
+
+    case 'OpenMaintenanceRequests':
+      return await db('maintenanceRequests')
+        .where('status', 'Open')
+        .select('bookingId', 'tenantId', 'type', 'description');
+
+    case 'ClosedMaintenanceRequests':
+      return await db('maintenanceRequests')
+        .where('status', 'Closed')
+        .select(
+          'bookingId',
+          'tenantId',
+          'type',
+          'description',
+          'updated_at as resolutionDate',
+        );
+
+    case 'MaintenanceRequestsByType':
+      return await db('maintenanceRequests')
+        .select('type')
+        .count('id as count')
+        .groupBy('type');
+
+    case 'PropertyReviews':
+      return await db('reviews')
+        .join('properties', 'reviews.propertyId', 'properties.id')
+        .join('users', 'reviews.tenantId', 'users.id')
+        .select(
+          'properties.address',
+          'users.firstname',
+          'users.lastname',
+          'reviews.rating',
+          'reviews.comment',
+        );
+
+    case 'AveragePropertyRatings':
+      return await db('reviews')
+        .join('properties', 'reviews.propertyId', 'properties.id')
+        .select('properties.address')
+        .avg('reviews.rating as averageRating')
+        .groupBy('properties.address');
+
+    case 'NegativeReviews':
+      return await db('reviews')
+        .where('rating', '<', 3)
+        .join('properties', 'reviews.propertyId', 'properties.id')
+        .join('users', 'reviews.tenantId', 'users.id')
+        .select(
+          'properties.address',
+          'users.firstname',
+          'users.lastname',
+          'reviews.rating',
+          'reviews.comment',
+        );
+
+    case 'UnreadMessages':
+      return await db('inbox')
+        .where('is_read', false)
+        .select('senderId', 'receiverId', 'subject', 'message', 'created_at');
+
+    case 'MessagesByUser':
+      return await db('inbox')
+        .select('senderId', 'receiverId')
+        .count('id as count')
+        .groupBy('senderId', 'receiverId');
+
+    case 'MessageSubjects':
+      return await db('inbox')
+        .select('subject')
+        .count('id as count')
+        .groupBy('subject');
+
+    default:
+      return null;
+    // throw new Error('Invalid report type');
+  }
+};

@@ -17,6 +17,7 @@ const reportRouter = require('./routes/reportRoutes');
 const maintanceRouter = require('./routes/maintenanceRoutes');
 const reviewRouter = require('./routes/reviewRoutes');
 const inboxRouter = require('./routes/inboxRoutes');
+const paymentRouter = require('./routes/paymentRoutes');
 
 const app = express();
 
@@ -37,6 +38,7 @@ app.use('/api/v1/reports', reportRouter);
 app.use('/api/v1/maintenance', maintanceRouter);
 app.use('/api/v1/reviews', reviewRouter);
 app.use('/api/v1/inbox', inboxRouter);
+app.use('/api/v1/payments', paymentRouter);
 
 // route is wrong
 app.all('*', (req, res, next) => {

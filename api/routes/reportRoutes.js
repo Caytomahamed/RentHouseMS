@@ -4,6 +4,8 @@ const reportController = require('../controllers/reportController');
 
 const router = express.Router();
 
+router.route('/:reportType').get(reportController.getAllReports);
+
 router.route('/').get(reportController.getAllTransportationReport);
 
 module.exports = router;
