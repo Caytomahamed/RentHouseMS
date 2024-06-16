@@ -495,7 +495,6 @@ input[type='file']::file-selector-button {
   padding: 0rem 10rem 5rem 6rem;
   flex-wrap: wrap;
   justify-content: space-between;
-
 }
 .col-1-of-3 {
   width: 36rem;
@@ -1127,8 +1126,6 @@ tr:nth-child(odd) {
   transform: scale(1.09);
 }
 
-
-/// studetn
 .user-tr td {
   vertical-align: middle;
 }
