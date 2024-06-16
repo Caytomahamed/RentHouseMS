@@ -18,6 +18,7 @@ const apiMiddleware =
       const response = axios.request({
         // baseURL: 'http://localhost:9000/api/v1',
         baseURL: 'https://renthousems.onrender.com/api/v1',
+        // baseURL: 'https://renthousems.onrender.com/api/v1',
         url,
         data,
         method,

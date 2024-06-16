@@ -1,7 +1,7 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useEffect, useState } from 'react';
 import MenuHeader from '../../components/Header/MenuHeader';
-import InboxItem from '../../components/Inbox/inboxItem';
+import InboxItem from '../../components/Inbox/InboxItem';
 import CustomButton from '../../components/Custom/CustomButton';
 import { useOutsideClick } from '../../hooks/useOutsideClick';
 import SentInboxModal from '../../components/modols/SentInboxModal';
