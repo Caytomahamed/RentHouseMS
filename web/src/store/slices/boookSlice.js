@@ -16,6 +16,9 @@ const init = {
   updateLoad: false,
   deleteLoad: false,
   yourProperty: [],
+  confirmLoad: false,
+  alreadyLoading: false,
+  booked: [],
 };
 
 const slice = createSlice({
@@ -96,6 +99,30 @@ const slice = createSlice({
     setSortOrder: (users, action) => {
       users.sortOrder = action.payload;
     },
+    confirmRequest: (users) => {
+      users.confirmLoad = true;
+      users.error = null;
+    },
+    confirmRecieve: (users) => {
+      users.confirmLoad = false;
+      users.successMsg = 'user successFully confirm';
+    },
+    confirmRequestFail: (users, action) => {
+      users.confirmLoad = false;
+      users.error = action.payload;
+    },
+    alreadyBookedRequest: (users) => {
+      users.alreadyLoading = true;
+      users.error = null;
+    },
+    alreadyBookedRecieve: (users, action) => {
+      users.alreadyLoading = false;
+      users.booked = action.payload;
+    },  
+    alreadyBookedRequestFail: (users, action) => {
+      users.alreadyLoading = false;
+      users.error = action.payload;
+    },
   },
 });
 
@@ -119,6 +146,12 @@ export const {
   propertyRequest,
   propertyRequestFail,
   propertyReceive,
+  confirmRequest,
+  confirmRecieve,
+  confirmRequestFail,
+  alreadyBookedRequest,
+  alreadyBookedRecieve,
+  alreadyBookedRequestFail,
 } = slice.actions;
 
 export default slice.reducer;
@@ -191,6 +224,16 @@ export const getLandlordBooking = (id) => {
   });
 };
 
+export const getAlreadyBooked = (id) => {
+  return apiCallBegin({
+    url: `/booking/${id}/tenant`,
+    method: 'get',
+    onSuccess: alreadyBookedRecieve.type,
+    onStart: alreadyBookedRequest.type,
+    onError: alreadyBookedRequestFail.type,
+  });
+};
+
 export const rentProperty = (data) => {
   return apiCallBegin({
     url: `/booking/now`,
@@ -199,6 +242,25 @@ export const rentProperty = (data) => {
     onSuccess: booksRecieve.type,
     onStart: booksRecieve.type,
     onError: booksRequestFail.type,
+  });
+};
+
+export const confirmRentProperty = (id) => {
+  return apiCallBegin({
+    url: `/booking/${id}/confirm`,
+    method: 'patch',
+    onSuccess: confirmRequest.type,
+    onStart: confirmRecieve.type,
+    onError: confirmRequestFail.type,
+  });
+};
+export const rejectRentProperty = (id) => {
+  return apiCallBegin({
+    url: `/booking/${id}/reject`,
+    method: 'patch',
+    onSuccess: confirmRequest.type,
+    onStart: confirmRecieve.type,
+    onError: confirmRequestFail.type,
   });
 };
 

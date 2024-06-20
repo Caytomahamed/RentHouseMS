@@ -47,38 +47,43 @@ exports.up = function (knex) {
       table.decimal('rentAmount').notNullable();
       table.boolean('available').notNullable().defaultTo(true); // true if the property is available for rent
       table.text('description');
-      table.integer('landLordId').notNullable();
+      table.integer('landLordId').notNullable().unsigned();
       table
         .foreign('landLordId')
         .references('id')
         .inTable('users')
         .onDelete('CASCADE')
         .onUpdate('CASCADE');
-      table.integer('propertyTypeId').notNullable();
+      table.integer('propertyTypeId').notNullable().unsigned();
       table
         .foreign('propertyTypeId')
         .references('id')
         .inTable('propertyTypes')
         .onDelete('CASCADE')
         .onUpdate('CASCADE');
-      table.specificType('imageUrls', 'text[]'); // Array of image URLs
+      table.specificType('imageUrls', 'text[]'); // Array of image URLs [SQLITE]
+      // table.json('imageUrls');
     })
     .createTable('booking', function (table) {
       table.increments('id').primary();
-      table.integer('propertyId').notNullable();
+      table.integer('propertyId').notNullable().unsigned();
       table
         .foreign('propertyId')
         .references('id')
         .on('properties')
         .onDelete('CASCADE')
         .onUpdate('CASCADE');
-      table.integer('tenantId').notNullable();
+      table.integer('tenantId').notNullable().unsigned();
       table
         .foreign('tenantId')
         .references('id')
         .on('users')
         .onDelete('CASCADE')
         .onUpdate('CASCADE');
+      table.boolean('isMoveIn').defaultTo(false);
+      table.boolean('isConfirm').defaultTo(false);
+      table.boolean('isReject').defaultTo(false);
+      table.boolean('isCanclellation').defaultTo(false);
       table.date('startDate').notNullable();
       table.date('endDate').notNullable();
       table.string('cancellationStatus');
@@ -89,6 +94,7 @@ exports.up = function (knex) {
         .defaultTo(
           'https://docs.google.com/document/d/1d9RoFWCsiNR9XTmht3za25zCzEix4fC3vyRP1fHleOg/edit?usp=sharing',
         );
+      table.timestamps(true, true); // This will create 'created_at' and 'updated_at' columns
     })
     .createTable('payments', function (table) {
       table.increments('id').primary();
@@ -112,7 +118,7 @@ exports.up = function (knex) {
     })
     .createTable('maintenanceRequests', function (table) {
       table.increments('id').primary();
-      table.integer('bookingId').notNullable();
+      table.integer('bookingId').notNullable().unsigned();
       table.string('type').notNullable();
       table
         .foreign('bookingId')
@@ -120,15 +126,18 @@ exports.up = function (knex) {
         .on('booking')
         .onDelete('CASCADE')
         .onUpdate('CASCADE');
-      table.integer('tenantId');
+      table.integer('tenantId').unsigned().notNullable();
       table
         .foreign('tenantId')
         .references('id')
         .on('users')
         .onDelete('CASCADE')
         .onUpdate('CASCADE');
+      table.boolean('isIssue').defaultTo(false);
       table.text('description').notNullable();
-      table.string('status', 50).notNullable().defaultTo('Open');
+      // table.enu('status', ['pending', 'completed', 'rejected']).notNullable();
+      table.string('expectedDate', 50).notNullable();
+      table.string('status', 50).notNullable().defaultTo('pending');
       table.timestamps(true, true);
     })
     .createTable('reviews', function (table) {
@@ -187,17 +196,3 @@ exports.down = function (knex) {
     .dropTableIfExists('users')
     .dropTableIfExists('roles');
 };
-
-// properties ku dar
-// maplink, lat, long,
-// propertyType
-// propertyReviews
-// propertyRatings
-// propertyNearbyPlaces
-// propertyFacilities
-// propertyRules
-// propertyAmenities [pool]
-// propertyServices
-// propertyUtilities
-// propertyLeaseTerms
-// propertyTermsAndConditions

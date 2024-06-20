@@ -1,0 +1,131 @@
+[
+  {
+    "step": "Pre-Move-In Preparation",
+    "subHeadings": [
+      {
+        "subHeading": "Finalize Lease Agreement",
+        "points": [
+          "Ensure all lease terms are agreed upon.",
+          "Both landlord and tenant sign the lease agreement."
+        ]
+      },
+      {
+        "subHeading": "Collect Necessary Documentation",
+        "points": [
+          "Collect proof of identity, employment, and references.",
+          "Verify rental insurance if required."
+        ]
+      },
+      {
+        "subHeading": "Security Deposit and First Month’s Rent",
+        "points": [
+          "Collect security deposit.",
+          "Collect the first month’s rent."
+        ]
+      }
+    ]
+  },
+  {
+    "step": "Property Inspection",
+    "subHeadings": [
+      {
+        "subHeading": "Initial Walk-Through",
+        "points": [
+          "Conduct a detailed walk-through with the tenant.",
+          "Document the condition of the property using a checklist.",
+          "Take photos or videos for records."
+        ]
+      },
+      {
+        "subHeading": "Address Maintenance Requests",
+        "points": [
+          "Complete any necessary repairs or maintenance.",
+          "Ensure all appliances are in working order."
+        ]
+      }
+    ]
+  },
+  {
+    "step": "Moving Day",
+    "subHeadings": [
+      {
+        "subHeading": "Key Handover",
+        "points": [
+          "Hand over all necessary keys (front door, mailbox, storage, etc.).",
+          "Provide garage door openers or gate access codes if applicable."
+        ]
+      },
+      {
+        "subHeading": "Moving In",
+        "points": [
+          "Allow the tenant access to the property for moving their belongings.",
+          "Ensure utilities (water, electricity, gas) are transferred to the tenant’s name."
+        ]
+      }
+    ]
+  },
+  {
+    "step": "Tenant Orientation",
+    "subHeadings": [
+      {
+        "subHeading": "Property Information",
+        "points": [
+          "Provide information on how to operate appliances and systems (HVAC, alarm, etc.).",
+          "Provide emergency contact numbers and procedures."
+        ]
+      },
+      {
+        "subHeading": "Neighborhood Information",
+        "points": [
+          "Share details about local amenities, transportation, and community rules.",
+          "Provide garbage collection schedules and recycling procedures."
+        ]
+      }
+    ]
+  },
+  {
+    "step": "Post Move-In",
+    "subHeadings": [
+      {
+        "subHeading": "Follow-Up Inspection",
+        "points": [
+          "Conduct a follow-up inspection after a week to address any immediate issues.",
+          "Make any necessary adjustments based on the tenant’s feedback."
+        ]
+      },
+      {
+        "subHeading": "Regular Maintenance Schedule",
+        "points": [
+          "Set a schedule for regular maintenance checks (filters, smoke detectors, etc.).",
+          "Ensure the tenant knows how to report maintenance issues."
+        ]
+      }
+    ]
+  },
+  {
+    "step": "Move-In Checklist for Tenants",
+    "subHeadings": [
+      {
+        "subHeading": "Unpacking and Setup",
+        "points": [
+          "Unpack essentials first and set up bedrooms and kitchen.",
+          "Arrange furniture and set up utilities like internet and cable."
+        ]
+      },
+      {
+        "subHeading": "Update Address",
+        "points": [
+          "Update your address with the post office, bank, employer, and other important services.",
+          "Notify friends and family of your new address."
+        ]
+      },
+      {
+        "subHeading": "Safety Measures",
+        "points": [
+          "Test smoke and carbon monoxide detectors.",
+          "Review fire escape routes and emergency procedures."
+        ]
+      }
+    ]
+  }
+]

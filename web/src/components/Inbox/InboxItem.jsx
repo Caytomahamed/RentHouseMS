@@ -37,14 +37,23 @@ const InboxItem = ({ inbox }) => {
             <strong
               className="testimonial__name"
               style={{
-                color: inbox.firstname || inbox.lastname ? 'inherit' : 'gray',
+                color:
+                  inbox.senderFirstName || inbox.senderLastName
+                    ? 'inherit'
+                    : 'gray',
+                fontWeight: 'bold',
               }}
             >
-              {inbox.firstname ? inbox.firstname : 'FirstName'}{' '}
-              {inbox.lastname ? inbox.lastname : 'LastName'}
+              {inbox.senderFirstName
+                ? capitalize(inbox.senderFirstName)
+                : 'FirstName'}{' '}
+              {inbox.senderLastName
+                ? capitalize(inbox.senderLastName)
+                : 'LastName'}
             </strong>
             <span className="testimonial__username">
-              From: [ {inbox.FromOrTo && capitalize(inbox.FromOrTo)}]
+              SenderId: [{inbox.senderId}] From: [{' '}
+              {inbox.FromOrTo && capitalize(inbox.FromOrTo)}]
             </span>
           </div>
         </div>
@@ -64,11 +73,14 @@ const InboxItem = ({ inbox }) => {
           {inbox.subject ? inbox.subject : 'Empty title'}
         </h1>
         <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit.
+          {inbox?.message?.length < 100 || !inbox?.message?.length
+            ? `Lorem ipsum dolor sit amet consectetur adipisicing elit.
           Exercitationem, quaerat quis? Provident temporibus architecto
           asperiores nobis maiores nisi a. Quae doloribus ipsum aliquam tenetur
-          voluptates incidunt blanditiis sed atque cumque.
+          voluptates incidunt blanditiis sed atque cumque.`
+            : inbox?.message}
         </p>
+
         <img
           src={inbox.is_read ? readIcon : noReadIcon}
           alt="no read"

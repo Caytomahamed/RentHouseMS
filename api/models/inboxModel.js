@@ -16,18 +16,20 @@ exports.findInboxByUserId = async userId => {
     await db('inbox').whereIn('id', messageIds).update({ is_read: true });
   }
 
-  // Get the updated inbox
+  // Get the updated inbox with sender and receiver details
   return await db('inbox as i')
-    .join('users as u', 'i.receiverId', 'u.id')
+    .join('users as sender', 'i.senderId', 'sender.id')
+    .join('users as receiver', 'i.receiverId', 'receiver.id')
     .select(
       'i.id',
-      'u.firstName',
-      'u.lastName',
-      'u.imageUrl',
+      'sender.firstName as senderFirstName',
+      'sender.lastName as senderLastName',
+      'sender.id as senderId',
+      'receiver.firstName as receiverFirstName',
+      'receiver.lastName as receiverLastName',
+      'receiver.id as receiverId',
       'i.subject',
       'i.message',
-      'i.receiverId',
-      'i.senderId',
       'i.FromOrTo',
       'i.is_read',
       'i.created_at',

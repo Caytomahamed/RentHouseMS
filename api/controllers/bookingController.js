@@ -12,13 +12,9 @@ const cron = require('node-cron');
 exports.bookingNow = catchAsync(async (req, res, next) => {
   const tenantId = +req.user.id;
 
-  // const { pushToken } = req.query;
+  const book = await bookingModel.findByUserId(tenantId);
 
-  // console.log('pushToke', pushToken);
-
-  const [user] = await bookingModel.findByUserId(tenantId);
-
-  if (user) {
+  if (book) {
     return next(new appError('OOW! you are already booking one'));
   }
 
@@ -32,17 +28,12 @@ exports.bookingNow = catchAsync(async (req, res, next) => {
     status: 'completed',
     paymentMethod: req.body.paymentMethod,
     transactionId: req.body.transactionId,
-    paidAt: new Date(),
+    paidAt: getCurrentDate(),
   });
 
   if (!booking) {
     return next(new appError('OH! booking not found.Please try again'));
   }
-
-  const title = 'New Booking';
-  const body = 'You have a new booking and ready to ride!😇';
-
-  // sendExpoPushNotification(pushToken, title, body);
 
   res.status(200).json({
     status: 'success',
@@ -133,6 +124,36 @@ exports.getBookingByLandlordId = catchAsync(async (req, res, next) => {
   });
 });
 
+exports.confirm = catchAsync(async (req, res, next) => {
+  const { bookingId } = req.params;
+
+  const [booking] = await bookingModel.confirmBooking(bookingId);
+
+  if (!booking) {
+    return next(new appError('Booking not found', 404));
+  }
+
+  res.status(200).json({
+    status: 'success',
+    data: booking,
+  });
+});
+
+exports.reject = catchAsync(async (req, res, next) => {
+  const { bookingId } = req.params;
+
+  const [booking] = await bookingModel.rejectBooking(bookingId);
+
+  if (!booking) {
+    return next(new appError('Booking not found', 404));
+  }
+
+  res.status(200).json({
+    status: 'success',
+    data: booking,
+  });
+});
+
 // Schedule the task to run daily at midnight
 cron.schedule('0 0 * * *', async () => {
   console.log('Running scheduled task to delete old cancellations...');
@@ -155,8 +176,23 @@ cron.schedule('0 0 * * *', async () => {
   }
 });
 
+// find by userId
+exports.getBookingByTenantId = catchAsync(async (req, res, next) => {
+  const { tenantId } = req.params;
 
+  const booking = await bookingModel.findByUserId(tenantId);
 
+  console.log('book', booking);
+
+  if (!booking) {
+    return next(new appError('No booking found', 404));
+  }
+
+  res.status(200).json({
+    status: 'success',
+    data: booking,
+  });
+});
 
 exports.getAllBooking = handleFactory.getAll(bookingModel);
 exports.getBooking = handleFactory.getOne(bookingModel);

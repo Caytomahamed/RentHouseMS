@@ -16,6 +16,7 @@ const CheckoutModal = ({
   isCheckout,
   item,
   rentPaid,
+  apply = false,
 }) => {
   const [isChecked, setIsChecked] = useState(false);
   const [selectedOption, setSelectedOption] = useState(null);
@@ -28,20 +29,30 @@ const CheckoutModal = ({
     setSelectedOption(option);
   };
 
+  const inintState = () => {
+    setIsChecked(false);
+    setSelectedOption(null);
+    onCloseCheckModal();
+  };
+
   const check = () => {
     // console.log('selectedOption:', selectedOption);
     // console.log('isCheck:', isChecked);
 
-    if (selectedOption) {
+    if (selectedOption && rentPaid && isChecked) {
       onPay(selectedOption.value);
-      onCloseCheckModal();
+      inintState();
+      return;
+    }
 
-      console.log('check');
+    if (!rentPaid && isChecked) {
+      onPay();
+      inintState();
       return;
     }
 
     toast.error('Please select a payment method and agree to the terms');
-    onCloseCheckModal();
+    inintState();
   };
 
   const rentPrice = rentPaid
@@ -62,13 +73,13 @@ const CheckoutModal = ({
     <>
       {isCheckout && (
         <OverlayModal
-          close={onCloseCheckModal}
+          close={inintState}
           modalRef={onModalRef}
           width={modalWidth}
         >
           <div className="checkout__modal">
             <div className="checkout">
-              <span className="checkout__close" onClick={onCloseCheckModal}>
+              <span className="checkout__close" onClick={inintState}>
                 &times;
               </span>
               <div
@@ -92,21 +103,26 @@ const CheckoutModal = ({
                       readOnly
                     />
                   </label>
-                  <div
-                    style={{
-                      width: '22rem',
-                      padding: '.5rem 1.3rem',
-                      border: '1px solid black',
-                    }}
-                  >
-                    <CustomDropdown
-                      options={options}
-                      onSelect={handleSelect}
-                      width={'18rem'}
-                    />
-                  </div>
+                  {rentPaid && (
+                    <div
+                      style={{
+                        width: '22rem',
+                        padding: '.5rem 1.3rem',
+                        border: '1px solid black',
+                      }}
+                    >
+                      <CustomDropdown
+                        options={options}
+                        onSelect={handleSelect}
+                        width={'18rem'}
+                      />
+                    </div>
+                  )}
 
-                  <div className="checkbox-container">
+                  <div
+                    className="checkbox-container"
+                    style={{ transform: !rentPaid && `translateY(-1.7rem)` }}
+                  >
                     <input
                       type="checkbox"
                       id="legalDocs"
@@ -134,7 +150,14 @@ const CheckoutModal = ({
                       width: '100%',
                     }}
                     onClick={check}
+                    disabled={apply}
                   />
+                  {apply && (
+                    <p>
+                      Your already booked a house please check your inbox or
+                      cantact us admin[id=1]
+                    </p>
+                  )}
                 </div>
               </div>
             </div>
@@ -154,6 +177,7 @@ CheckoutModal.propTypes = {
   isCheckout: PropTypes.bool.isRequired,
   item: PropTypes.object.isRequired,
   rentPaid: PropTypes.bool,
+  apply: PropTypes.bool,
 };
 
 export default CheckoutModal;

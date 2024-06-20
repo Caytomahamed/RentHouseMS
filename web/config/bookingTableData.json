@@ -51,15 +51,15 @@
       "title": "tenant info"
     },
     {
-      "title": "property id"
+      "title": "propertyId"
     },
 
     {
-      "title": "rentAmout"
+      "title": "Amout"
     },
 
     {
-      "title": "securityDeposit"
+      "title": "Deposit"
     },
     {
       "title": "start Date"
@@ -67,7 +67,7 @@
     {
       "title": "finish date"
     },
-
+    { "title": "confirm" },
     {
       "title": "Action",
       "className": "action-header"

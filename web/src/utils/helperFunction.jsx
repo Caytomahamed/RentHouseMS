@@ -221,3 +221,22 @@ export function isEventInThreeDaysOrPassed(eventDate) {
   // Return true if the difference is exactly 3 days or less
   return daysDiff <= 3;
 }
+
+export function daysPassed(date) {
+  // Check if the input is a valid date object
+  if (!(date instanceof Date)) {
+    throw new TypeError('Input must be a Date object');
+  }
+
+  // Get today's date
+  const today = new Date();
+
+  // Calculate the difference in milliseconds
+  const differenceInMs = today.getTime() - date.getTime();
+
+  // Convert milliseconds to days and round down to nearest whole number
+  const days = Math.abs(Math.floor(differenceInMs / (1000 * 60 * 60 * 24)));
+
+  // Return null if more than 6 days have passed, otherwise return the number of days
+  return days;
+}

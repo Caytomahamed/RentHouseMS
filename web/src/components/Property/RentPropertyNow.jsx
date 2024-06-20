@@ -16,7 +16,8 @@ import {
 import { toast } from 'react-toastify';
 import { appSelectUsers } from '../../store/slices/auth';
 
-const RentPropertyNow = ({ item, onRent }) => {
+const RentPropertyNow = ({ item, onRent, apply = false }) => {
+  console.log('applay', apply);
   const dispatch = useDispatch();
   const price = formatNumberWithCommas(item.rentAmount);
   const securityDeposit = formatNumberWithCommas(item.rentAmount * 0.5);
@@ -106,6 +107,7 @@ const RentPropertyNow = ({ item, onRent }) => {
         onCloseCheckModal={onCloseCheckModal}
         modalWidth="30rem"
         item={item}
+        apply={apply}
       />
 
       {myReviews && myReviews.length === 0 && item.available === 0 && (

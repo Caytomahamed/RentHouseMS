@@ -4,6 +4,7 @@ const appError = require('../utils/appError');
 
 const maintanceModal = require('../models/maintenanceModal');
 const bookingModel = require('../models/bookingModel');
+const { addDaysToDate, formatDate } = require('../utils/timeHelpers');
 
 // creaate maintanace
 // 1. check if this booking exit.2. req maintance
@@ -15,15 +16,16 @@ exports.createMaintenance = catchAsync(async (req, res, next) => {
     return next(new appError('Booking not found', 404));
   }
 
+  const expectedDate = formatDate(new Date(addDaysToDate(new Date(), 3)));
+
   const [maintanceCreated] = await maintanceModal.create({
     bookingId,
     tenantId,
     type,
     description,
-    status: 'open',
+    status: 'requested',
+    expectedDate,
   });
-
-  console.log(maintanceCreated);
 
   if (!maintanceCreated) {
     return next(new appError('Maintenance not created', 404));

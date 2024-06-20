@@ -34,10 +34,10 @@ module.exports = {
     },
     pool: { min: 0, max: 20 },
     migrations: {
-      directory: './database/migrations',
+      directory: './data/migrations',
     },
     seeds: {
-      directory: './database/seeds',
+      directory: './data/seeds',
     },
   },
 };

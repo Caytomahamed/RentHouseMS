@@ -45,6 +45,7 @@ const LandLordBook = () => {
     searchQuery,
     sortKey,
     currentPage,
+    confirmLoad,
   } = useSelector(selectBook);
 
   const { paginatedList, startIndex, endIndex, totalPages } = useSelector(
@@ -73,7 +74,7 @@ const LandLordBook = () => {
 
   useEffect(() => {
     dispatch(getLandlordBooking(currentUser.id));
-  }, [deleteLoad, updateLoad, dispatch, currentUser]);
+  }, [deleteLoad, updateLoad, dispatch, currentUser, confirmLoad]);
 
   // State object to hold user information
   useEffect(() => {

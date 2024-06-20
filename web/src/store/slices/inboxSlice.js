@@ -21,21 +21,10 @@ const slice = createSlice({
     isHasReview: false,
     myInbox: [],
     unRead: 0,
+    myInboxLoading: false,
   },
 
   reducers: {
-    myInboxRequest: (inbox) => {
-      inbox.isLoading = true;
-      inbox.error = null;
-    },
-    myInboxRecieve: (inbox, action) => {
-      inbox.isLoading = false;
-      inbox.myInbox = action.payload;
-    },
-    myInboxRequestFail: (inbox, action) => {
-      inbox.isLoading = false;
-      inbox.error = action.payload;
-    },
     createInboxRequest: (inbox) => {
       inbox.createLoad = true;
       inbox.error = null;
@@ -58,6 +47,19 @@ const slice = createSlice({
     },
     unReadRequestFail: (inbox, action) => {
       inbox.isLoading = false;
+      inbox.error = action.payload;
+      inbox.error = action.payload;
+    },
+    myInboxRequest: (inbox) => {
+      inbox.myInboxLoading = true;
+      inbox.error = null;
+    },
+    myInboxRecieve: (inbox, action) => {
+      inbox.myInboxLoading = false;
+      inbox.myInbox = action.payload;
+    },
+    myInboxRequestFail: (inbox, action) => {
+      inbox.myInboxLoading = false;
       inbox.error = action.payload;
     },
   },

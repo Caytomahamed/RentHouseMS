@@ -51,6 +51,7 @@ const ReqMaintanceModal = ({
     { label: 'Electrical', value: 'Electrical' },
     { label: 'Roof', value: 'Roof' },
     { label: 'Structural', value: 'Structural' },
+    { label: 'Appliances', value: 'Appliances' },
     {
       label: 'Safety and Security',
       value: 'Safety and Security',
@@ -116,7 +117,7 @@ const ReqMaintanceModal = ({
                     }}
                     value={text}
                     onChange={handleChange}
-                    placeholder='Enter the issue..'
+                    placeholder="Enter the issue.."
                   ></textarea>
                   <span
                     style={{

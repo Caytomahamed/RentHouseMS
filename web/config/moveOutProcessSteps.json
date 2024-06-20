@@ -1,0 +1,106 @@
+[
+  {
+    "step": "Pre-Move-Out Preparation",
+    "subHeadings": [
+      {
+        "subHeading": "Provide Notice to Vacate",
+        "points": [
+          "Notify the landlord in writing of your intention to move out.",
+          "Ensure the notice period complies with the lease agreement."
+        ]
+      },
+      {
+        "subHeading": "Schedule Move-Out Inspection",
+        "points": [
+          "Coordinate with the landlord to schedule a move-out inspection.",
+          "Prepare the property for the inspection."
+        ]
+      },
+      {
+        "subHeading": "Start Packing",
+        "points": [
+          "Begin packing non-essential items early.",
+          "Label boxes clearly to identify contents."
+        ]
+      }
+    ]
+  },
+  {
+    "step": "Cleaning and Repairs",
+    "subHeadings": [
+      {
+        "subHeading": "Deep Cleaning",
+        "points": [
+          "Clean the entire property thoroughly, including carpets, windows, and appliances.",
+          "Remove any stains and repair minor damages."
+        ]
+      },
+      {
+        "subHeading": "Repair Damages",
+        "points": [
+          "Fix any damages caused during the tenancy.",
+          "Patch holes in walls and touch up paint where needed."
+        ]
+      },
+      {
+        "subHeading": "Dispose of Unwanted Items",
+        "points": [
+          "Dispose of or donate items you no longer need.",
+          "Arrange for the removal of large items if necessary."
+        ]
+      }
+    ]
+  },
+  {
+    "step": "Move-Out Day",
+    "subHeadings": [
+      {
+        "subHeading": "Moving Belongings",
+        "points": [
+          "Move all your belongings out of the property.",
+          "Ensure nothing is left behind."
+        ]
+      },
+      {
+        "subHeading": "Final Walk-Through",
+        "points": [
+          "Conduct a final walk-through with the landlord.",
+          "Discuss any last-minute issues or concerns."
+        ]
+      },
+      {
+        "subHeading": "Return Keys",
+        "points": [
+          "Return all keys to the landlord, including mailbox and garage keys.",
+          "Hand over any access cards or remote controls."
+        ]
+      }
+    ]
+  },
+  {
+    "step": "Post Move-Out",
+    "subHeadings": [
+      {
+        "subHeading": "Utility Transfers",
+        "points": [
+          "Transfer utilities (water, electricity, gas) to your new address.",
+          "Cancel any services that are no longer needed."
+        ]
+      },
+      {
+        "subHeading": "Address Change",
+        "points": [
+          "Update your address with the post office, bank, employer, and other important services.",
+          "Notify friends and family of your new address."
+        ]
+      },
+      {
+        "subHeading": "Security Deposit Refund",
+        "points": [
+          "Follow up with the landlord regarding the refund of your security deposit.",
+          "Ensure any deductions are itemized and justified."
+        ]
+      }
+    ]
+  }
+]

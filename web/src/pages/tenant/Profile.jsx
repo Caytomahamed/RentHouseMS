@@ -134,9 +134,12 @@ const Profile = (props) => {
   };
 
   // unRead inbox
+  const { myInboxLoading } = useSelector(selectInboxes);
+  console.log('myInboxLoading', myInboxLoading);
+
   useEffect(() => {
     dispatch(getUnReadInbox(currentUser?.id));
-  }, [dispatch, currentUser]);
+  }, [dispatch, currentUser, myInboxLoading]);
 
   const { unRead } = useSelector(selectInboxes);
 

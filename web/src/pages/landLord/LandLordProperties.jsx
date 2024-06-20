@@ -66,8 +66,6 @@ const LandLordProperties = () => {
     onCloseActions,
   } = useEditDeleteModal();
 
-
-
   useEffect(() => {
     dispatch(getCurrentUser());
   }, [dispatch]);
@@ -235,7 +233,6 @@ const LandLordProperties = () => {
       tableType="properties"
       onCreate={handleCreate}
       menuType={'landlord'}
-
     >
       {isLoading ? (
         <div style={{ display: 'flex', justifyContent: 'center' }}>
@@ -264,6 +261,7 @@ const LandLordProperties = () => {
                     openDelete={onOpenDeleteModal}
                     openEdit={onOpenEditModal}
                     onOpenActions={onOpenActions}
+                    previllage={true}
                   />
                 ))}
               </div>

@@ -8,6 +8,19 @@ router.post('/now', authController.proctect, bookingController.bookingNow);
 
 router.post('/paid', authController.proctect, bookingController.paidNow);
 
+// reject and confirm booking
+router.patch(
+  '/:bookingId/reject',
+  authController.proctect,
+  bookingController.reject,
+);
+
+router.patch(
+  '/:bookingId/confirm',
+  authController.proctect,
+  bookingController.confirm,
+);
+
 // get current users booked schedule
 router.get(
   '/booked',
@@ -20,6 +33,13 @@ router.get(
   '/:landlordId/landlord',
   // authController.proctect,
   bookingController.getBookingByLandlordId,
+);
+
+// get by tenant id
+router.get(
+  '/:tenantId/tenant',
+  authController.proctect,
+  bookingController.getBookingByTenantId,
 );
 
 // unbooking

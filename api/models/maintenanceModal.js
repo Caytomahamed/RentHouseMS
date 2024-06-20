@@ -7,17 +7,19 @@ exports.find = async () => await db('maintenanceRequests as m').select('*');
 exports.findById = async id =>
   await db('maintenanceRequests as m').where('m.id', id).select('*');
 
-// add maintance
-exports.create = async maintance => {
-  const [id] = await db('maintenanceRequests').insert(maintance);
-  return this.findById(id);
-};
-
 // update maintance
 exports.findByIdandUpdate = async (id, changes) => {
   const updated_at = new Date().toISOString();
   changes = { ...changes, updated_at };
   await db('maintenanceRequests').where('id', id).update(changes);
+  return this.findById(id);
+};
+
+// add maintance
+exports.create = async maintance => {
+  const [id] = await db('maintenanceRequests').insert(maintance);
+
+  await db('maintenanceRequests').where('id', id).update({ isIssue: true });
   return this.findById(id);
 };
 

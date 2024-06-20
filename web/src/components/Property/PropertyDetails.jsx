@@ -7,7 +7,6 @@ import LandLordProperty from './LandLordProperty';
 import {
   calculateDateAfter35Days,
   capitalize,
-  createTransactionId,
 } from '../../utils/helperFunction';
 import RentPropertyNow from './RentPropertyNow';
 import bedIcon from '../../assets/icons/bed.svg';
@@ -18,7 +17,11 @@ import activeIcon from '../../assets/icons/active.svg';
 import PropertyMap from './PropertyMap';
 import MenuHeader from '../Header/MenuHeader';
 import Loading from '../Custom/Loading';
-import { rentProperty, selectBook } from '../../store/slices/boookSlice';
+import {
+  getAlreadyBooked,
+  rentProperty,
+  selectBook,
+} from '../../store/slices/boookSlice';
 import { toast } from 'react-toastify';
 import {
   getReviewsByPropertyId,
@@ -26,6 +29,7 @@ import {
   selectReviews,
 } from '../../store/slices/reviewSlice';
 import ReviewItem from '../Reviews/ReviewItem';
+import { appSelectUsers, getCurrentUser } from '../../store/slices/auth';
 
 const PropertyDetails = () => {
   const params = useParams();
@@ -49,6 +53,19 @@ const PropertyDetails = () => {
   }, [dispatch, params.id, createLoad]);
 
   const reviewList = useSelector(selectReviews);
+
+  // alreadybooked
+  useEffect(() => {
+    dispatch(getCurrentUser());
+  }, [dispatch]);
+
+  const { currentUser } = useSelector(appSelectUsers);
+
+  const { booked } = useSelector(selectBook);
+
+  useEffect(() => {
+    if (currentUser) dispatch(getAlreadyBooked(currentUser.id));
+  }, [dispatch, currentUser]);
 
   if (!property || Object.keys(property).length === 0) {
     return (
@@ -92,9 +109,9 @@ const PropertyDetails = () => {
 
   const type = capitalize(property.propertyType);
 
-  const handleRentNow = (method) => {
+  const handleRentNow = () => {
     const endRent = calculateDateAfter35Days();
-    const transactionID = createTransactionId(method);
+    // const transactionID = createTransactionId(method);
     dispatch(
       rentProperty({
         propertyId: property.id,
@@ -104,13 +121,10 @@ const PropertyDetails = () => {
           property.rentAmount +
           property.rentAmount * 0.5 +
           property.rentAmount * 0.1,
-        status: 'completed',
-        paymentMethod: method,
-        transactionId: transactionID,
+        status: 'pending',
       })
     );
 
-    console.log('slice error ', errorr);
     if (errorr) return toast.error(`${errorr}`);
 
     if (!errorr) toast.success('House rented successfully');
@@ -245,7 +259,11 @@ const PropertyDetails = () => {
           </div>
 
           <div className="propertydetails__info__book">
-            <RentPropertyNow item={property} onRent={handleRentNow} />
+            <RentPropertyNow
+              item={property}
+              onRent={handleRentNow}
+              apply={booked && booked.id ? true : false}
+            />
             <LandLordProperty data={property} />
           </div>
         </section>

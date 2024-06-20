@@ -85,7 +85,6 @@ const YourInbox = () => {
 
   const onModalRef = useOutsideClick(() => onCloseInbox());
 
-  myInbox && console.log('myInbox', myInbox);
 
   return (
     <div>
