@@ -23,21 +23,21 @@ module.exports = {
       directory: './data/seeds',
     },
   },
-  production: {
-    client: 'mysql',
-    connection: {
-      host: process.env.DB_HOST,
-      port: process.env.DB_PORT,
-      user: process.env.DB_USER,
-      password: process.env.DB_PASSWORD,
-      database: process.env.DB_NAME,
-    },
-    pool: { min: 0, max: 20 },
-    migrations: {
-      directory: './data/migrations',
-    },
-    seeds: {
-      directory: './data/seeds',
-    },
-  },
+  // production: {
+  //   client: 'mysql',
+  //   connection: {
+  //     host: process.env.DB_HOST,
+  //     port: process.env.DB_PORT,
+  //     user: process.env.DB_USER,
+  //     password: process.env.DB_PASSWORD,
+  //     database: process.env.DB_NAME,
+  //   },
+  //   pool: { min: 0, max: 20 },
+  //   migrations: {
+  //     directory: './data/migrations',
+  //   },
+  //   seeds: {
+  //     directory: './data/seeds',
+  //   },
+  // },
 };
