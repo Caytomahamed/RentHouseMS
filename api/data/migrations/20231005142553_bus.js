@@ -87,7 +87,6 @@ exports.up = function (knex) {
       table.date('startDate').notNullable();
       table.date('endDate').notNullable();
       table.string('cancellationStatus');
-      table.decimal('securityDeposit').notNullable();
       table.date('cancellationRequestedAt');
       table
         .string('leaseAgreement')
@@ -112,7 +111,8 @@ exports.up = function (knex) {
       table.string('paymentMethod').notNullable();
       table.string('transactionId').unique().notNullable();
       table.timestamp('paidAt').nullable();
-      table.timestamps(true, true); // This will create 'created_at' and 'updated_at' columns
+      table.timestamps(true, true); 
+      table.decimal('securityDeposit').notNullable();
 
       table.index(['bookingId', 'status']); // Adding index for faster queries on booking_id and status
     })

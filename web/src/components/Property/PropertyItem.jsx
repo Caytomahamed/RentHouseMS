@@ -64,7 +64,7 @@ const PropertyItem = ({
             </div>
             <div className="card__details__body">
               <h1>
-                {type} {item.landLordFirstName}
+                {item.landLordId} {type} {item.landLordFirstName}
               </h1>
               <h4>{address}</h4>
             </div>

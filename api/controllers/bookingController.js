@@ -23,12 +23,6 @@ exports.bookingNow = catchAsync(async (req, res, next) => {
     startDate: getCurrentDate(),
     propertyId: req.body.propertyId,
     endDate: req.body.endDate,
-    securityDeposit: req.body.securityDeposit,
-    amount: req.body.amount,
-    status: 'completed',
-    paymentMethod: req.body.paymentMethod,
-    transactionId: req.body.transactionId,
-    paidAt: getCurrentDate(),
   });
 
   if (!booking) {
@@ -50,6 +44,7 @@ exports.paidNow = catchAsync(async (req, res, next) => {
     status: 'completed',
     paymentMethod: req.body.paymentMethod,
     transactionId: req.body.transactionId,
+    securityDeposit: req.body.securityDeposit,
     paidAt: new Date(),
   });
 
@@ -65,7 +60,9 @@ exports.paidNow = catchAsync(async (req, res, next) => {
 
 exports.getBookingByUserId = catchAsync(async (req, res, next) => {
   const userId = req.user.id;
+  console.log('id', userId);
   const book = await bookingModel.findBookingsByUserId(userId);
+  console.log(book);
 
   if (book.length === 0) {
     return next(new appError('OH! you are not booking a house'));
@@ -114,9 +111,9 @@ exports.getBookingByLandlordId = catchAsync(async (req, res, next) => {
   const { landlordId } = req.params;
   const book = await bookingModel.findBookingsByLandlordId(landlordId);
 
-  if (book.length === 0) {
-    return next(new appError('OH! no one not booking your  houses'));
-  }
+  // if (book.length === 0) {
+  //   return next(new appError('OH! no one not booking your  houses'));
+  // }
 
   res.status(200).json({
     status: 'success',

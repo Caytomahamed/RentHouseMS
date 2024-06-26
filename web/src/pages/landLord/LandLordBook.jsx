@@ -24,6 +24,7 @@ import { groupBy } from '../../utils/groupBy';
 import { toast } from 'react-toastify';
 import { formatDate } from '../../utils/helperFunction';
 import { appSelectUsers, getCurrentUser } from '../../store/slices/auth';
+import { useOutsideClick } from '../../hooks/useOutsideClick';
 
 const LandLordBook = () => {
   // get user call
@@ -165,6 +166,13 @@ const LandLordBook = () => {
     onCloseDeleteModal,
   };
 
+  /// open and close view book modal
+  const [isView, setIsView] = useState(false);
+
+  const onOpenView = () => setIsView(true);
+  const onCloseView = () => setIsView(false);
+  const onRefView = useOutsideClick(() => onCloseView());
+
   return (
     <TableWrapper
       title="All Booking"
@@ -176,6 +184,7 @@ const LandLordBook = () => {
       onUpdate={handleUpdate}
       tableType="bookings"
       menuType={'landlord'}
+      view={{ isView, onRefView, onCloseView, onOpenView }}
     />
   );
 };

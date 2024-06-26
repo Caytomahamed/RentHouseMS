@@ -240,3 +240,13 @@ export function daysPassed(date) {
   // Return null if more than 6 days have passed, otherwise return the number of days
   return days;
 }
+
+export function formatRentalStatus(rentalDetails) {
+  const amountPaid = rentalDetails.rentAmount;
+  const dueDate = new Date(rentalDetails.endDate).toLocaleDateString();
+  const daysLeft = Math.ceil(
+    (new Date(rentalDetails.endDate) - new Date()) / (1000 * 60 * 60 * 24)
+  );
+
+  return { amountPaid, dueDate, daysLeft };
+}

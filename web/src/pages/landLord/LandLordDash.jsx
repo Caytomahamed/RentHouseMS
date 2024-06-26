@@ -35,6 +35,7 @@ import {
 import TransportationReport from '../../components/reports/TransportationReport.jsx';
 import BarChart from '../../components/graphs/BarChart.jsx';
 import { groupBy } from '../../utils/groupBy.jsx';
+import { formatDate } from '../../utils/helperFunction.jsx';
 
 const LandLordDash = () => {
   const dispatch = useDispatch();
@@ -220,7 +221,7 @@ const LandLordDash = () => {
                             fontWeight: 'bold',
                           }}
                         >
-                          <p>{item.startDate}</p>
+                          <p>{formatDate(item.startDate)}</p>
                         </div>
                       </td>
                       <td>
@@ -233,7 +234,7 @@ const LandLordDash = () => {
                             borderStyle: 'solid',
                           }}
                         >
-                          <p>{item.endDate}</p>
+                          <p>{formatDate(item.endDate)}</p>
                         </div>
                       </td>
                       <td>

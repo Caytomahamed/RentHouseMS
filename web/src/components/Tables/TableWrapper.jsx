@@ -21,6 +21,7 @@ import DataTable from './DataTable';
 import Loading from '../Custom/Loading.jsx';
 import CreateModal from '../modols/CreateModal';
 import CustomButton from '../Custom/CustomButton.jsx';
+import ViewBookModel from '../modols/ViewBookModel.jsx';
 
 const TableWrapper = ({
   title,
@@ -33,6 +34,7 @@ const TableWrapper = ({
   tableType,
   onCreate,
   menuType,
+  view,
 }) => {
   // Custom hook to manage filter and sort modals
   const {
@@ -128,6 +130,14 @@ const TableWrapper = ({
     onCloseCreateModal,
   } = editDeleteModal;
 
+  let isView, onRefView, onCloseView, onOpenView;
+
+  if (view && Object.keys(view).length > 0) {
+    isView = view.isView;
+    onRefView = view.onRefView;
+    onCloseView = view.onCloseView;
+    onOpenView = view.onOpenView
+  }
   return (
     <DashLayout title={title} menuType={menuType}>
       <div className="table__box">
@@ -191,6 +201,7 @@ const TableWrapper = ({
             onOpenEditModal={onOpenEditModal}
             onOpenDeleteModal={onOpenDeleteModal}
             tableType={tableType}
+            onOpenView={onOpenView}
           />
         )}
         {/* Edit and delete modals */}
@@ -213,6 +224,12 @@ const TableWrapper = ({
           onModalRef={onModalRef}
           onDelete={onDelete}
           table={tableType}
+        />
+
+        <ViewBookModel
+          isView={isView}
+          onClose={onCloseView}
+          onRef={onRefView}
         />
         <CreateModal
           isCreate={isCreate}
@@ -279,6 +296,7 @@ TableWrapper.propTypes = {
   onDelete: PropTypes.func.isRequired,
   tableType: PropTypes.string.isRequired,
   onCreate: PropTypes.func.isRequired,
+  view: PropTypes.object,
 };
 
 export default TableWrapper;

@@ -33,7 +33,6 @@ import { appSelectUsers, getCurrentUser } from '../../store/slices/auth';
 
 const PropertyDetails = () => {
   const params = useParams();
-
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -44,9 +43,9 @@ const PropertyDetails = () => {
   const { errorr } = useSelector(selectBook);
   const createLoad = useSelector(selectReviewCreateLoad);
 
-  useEffect(() => {
-    dispatch(getReviewsByPropertyId(+params.id));
-  }, [dispatch, params.id, createLoad]);
+  // useEffect(() => {
+  //   dispatch(getReviewsByPropertyId(+params.id));
+  // }, [dispatch, params.id, createLoad]);
 
   useEffect(() => {
     dispatch(getReviewsByPropertyId(+params.id));
@@ -116,7 +115,6 @@ const PropertyDetails = () => {
       rentProperty({
         propertyId: property.id,
         endDate: endRent,
-        securityDeposit: property.rentAmount * 0.5,
         amount:
           property.rentAmount +
           property.rentAmount * 0.5 +

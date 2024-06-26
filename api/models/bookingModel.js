@@ -7,6 +7,7 @@ exports.find = async () =>
   await db('booking as b')
     .join('users as u', 'p.landLordId', 'u.id')
     .join('properties as p', 'b.propertyId', 'p.id')
+    .join('payments as pmt', 'b.id', 'pmt.bookingId')
     .join('propertyTypes as pt', 'p.propertyTypeId', 'pt.id')
     .select(
       'b.id as id',
@@ -43,6 +44,7 @@ exports.findById = async id =>
   await db('booking as b')
     .join('users as u', 'p.landLordId', 'u.id')
     .join('properties as p', 'b.propertyId', 'p.id')
+    .join('payments as pmt', 'b.id', 'pmt.bookingId')
     .join('propertyTypes as pt', 'p.propertyTypeId', 'pt.id')
     .select(
       'b.id as id',
@@ -104,7 +106,6 @@ exports.findBookingsByUserId = async id => {
       'b.isReject as isReject',
       'startDate',
       'endDate',
-      'securityDeposit',
       'p.address as address',
       'p.city as city',
       'p.state as state',
@@ -131,9 +132,9 @@ exports.findBookingsByUserId = async id => {
       'imageUrls',
     )
     .where('b.tenantId', id)
-    // and where reject is false
-    .where('b.isReject', false)
     .groupBy('b.id');
+
+  console.log('model', house);
 
   house = house.map(booking => {
     const maintenanceTypes = booking.maintenanceTypes
@@ -168,7 +169,6 @@ exports.create = async data => {
     propertyId: data.propertyId,
     startDate: data.startDate,
     endDate: data.endDate,
-    securityDeposit: data.securityDeposit,
     // isMoveIn: true, confirm with landlord
   };
 
@@ -205,14 +205,13 @@ exports.create = async data => {
 };
 
 exports.payRent = async data => {
-  const propertyId = data.propertyId;
   const bookingId = data.bookingId;
 
   const changes = {
     endDate: data.endDate,
   };
 
-  await db('booking').update(changes).where('id', propertyId);
+  await db('booking').update(changes).where('id', bookingId);
 
   await db('payments').insert({
     bookingId: bookingId,
@@ -221,9 +220,9 @@ exports.payRent = async data => {
     transactionId: data.transactionId,
     amount: data.amount,
     paidAt: data.paidAt,
+    securityDeposit: data.securityDeposit,
   });
 
-  console.log('bkd', bookingId);
   return this.findById(bookingId);
 };
 
@@ -361,8 +360,6 @@ exports.rejectBooking = async id => {
     .update({ available: true })
     .where('id', booking.propertyId);
 
-  await db('booking').update({ isReject: true }).where('id', id);
-
   const [property] = await db('properties').where('id', booking.propertyId);
 
   const subject = 'Rental Application Rejected';
@@ -377,6 +374,8 @@ exports.rejectBooking = async id => {
     subject,
     message,
   });
+
+  await db('booking').del().where('id', id);
 
   return [booking];
 };
@@ -395,7 +394,6 @@ exports.findBookingsByLandlordId = async id => {
       'endDate',
       'b.isConfirm as isConfirm',
       'b.isReject as isReject',
-      'securityDeposit',
       'p.address as address',
       'p.city as city',
       'p.state as state',

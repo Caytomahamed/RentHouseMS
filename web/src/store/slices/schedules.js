@@ -14,6 +14,7 @@ const initialState = {
   itemsPerPage: 12, // For pagination - set as needed
   sortOrder: 'asc',
   property: {},
+  selectItem: {},
 };
 
 const usersSlice = createSlice({
@@ -98,6 +99,9 @@ const usersSlice = createSlice({
     setSortOrder: (users, action) => {
       users.sortOrder = action.payload;
     },
+    setSelectItem: (users, action) => {
+      users.selectItem = action.payload;
+    },
   },
 });
 
@@ -121,6 +125,7 @@ export const {
   propertyRequest,
   propertyRequestFail,
   propertyReceive,
+  setSelectItem,
 } = usersSlice.actions;
 
 export default usersSlice.reducer;
@@ -135,6 +140,15 @@ export const getSchedules = () => {
   });
 };
 export const getProperty = (id) => {
+  return apiCallBegin({
+    url: `/properties/${id}`,
+    method: 'get',
+    onSuccess: propertyReceive.type,
+    onStart: propertyRequest.type,
+    onError: propertyRequestFail.type,
+  });
+};
+export const getPropertyRow = (id) => {
   return apiCallBegin({
     url: `/properties/${id}`,
     method: 'get',

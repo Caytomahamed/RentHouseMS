@@ -9,6 +9,7 @@ import {
   rejectRentProperty,
 } from '../../store/slices/boookSlice';
 import { toast } from 'react-toastify';
+
 // eslint-disable-next-line react/prop-types
 const BookingTable = ({ item }) => {
   const dispatch = useDispatch();
@@ -21,6 +22,9 @@ const BookingTable = ({ item }) => {
     dispatch(rejectRentProperty(item.id));
     toast.error('Booking Rejected');
   };
+
+  
+
   return (
     <>
       <td className="id">#{item.id}</td>
@@ -62,15 +66,6 @@ const BookingTable = ({ item }) => {
         }}
       >
         ${item.rentAmount}
-      </td>
-      <td
-        style={{
-          paddingLeft: '.8rem',
-          fontWeight: 'bold',
-          textTransform: 'capitalize',
-        }}
-      >
-        ${item.securityDeposit}
       </td>
       <td>
         <div

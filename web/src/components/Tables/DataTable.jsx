@@ -12,6 +12,8 @@ import BookingTable from './BookingTable';
 import RoutesTable from './RoutesTable';
 import MaintenanceTable from './MaintenanceTable.jsx';
 import PaymentsTable from './PaymentsTable.jsx';
+import { useDispatch } from 'react-redux';
+import { setSelectItem } from '../../store/slices/schedules.js';
 
 // NOTE: id is click action btn row
 function DataTable({
@@ -24,8 +26,15 @@ function DataTable({
   onModalRef,
   id,
   tableType = 'students', // Prop to identify table type
+  onOpenView,
 }) {
-  console.log('table', tableType, data);
+  const dispatch = useDispatch();
+  // console.log('table', tableType, data);
+
+  const handleClickRow = (item) => {
+    dispatch(setSelectItem(item));
+    onOpenActions(item);
+  };
   return (
     <table id="Table">
       <thead>
@@ -49,7 +58,7 @@ function DataTable({
               {tableType === 'maintenance' && <MaintenanceTable item={item} />}
               {tableType === 'payment' && <PaymentsTable item={item} />}
               <td>
-                <div id="actions" onClick={() => onOpenActions(item)}>
+                <div id="actions" onClick={() => handleClickRow(item)}>
                   <img src={actionIcon} alt="action" />
                 </div>
                 {isActionOpen && id === item.id && (
@@ -57,6 +66,8 @@ function DataTable({
                     openEditModal={onOpenEditModal}
                     openDeleteModal={onOpenDeleteModal}
                     modalRef={onModalRef}
+                    onOpenView={onOpenView}
+                    table={tableType}
                   />
                 )}
               </td>
@@ -83,6 +94,7 @@ DataTable.propTypes = {
   onModalRef: PropTypes.object.isRequired,
   id: PropTypes.number,
   tableType: PropTypes.string,
+  onOpenView: PropTypes.func,
 };
 
 export default DataTable;
