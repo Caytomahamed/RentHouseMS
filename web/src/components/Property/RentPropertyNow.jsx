@@ -20,11 +20,11 @@ const RentPropertyNow = ({ item, onRent, apply = false }) => {
   console.log('applay', apply);
   const dispatch = useDispatch();
   const price = formatNumberWithCommas(item.rentAmount);
-  const securityDeposit = formatNumberWithCommas(item.rentAmount * 0.5);
-  const owerFee = formatNumberWithCommas(item.rentAmount * 0.1);
+  const securityDeposit = formatNumberWithCommas(item.rentAmount * 0.35);
+  const owerFee = formatNumberWithCommas(item.rentAmount * 0.05);
   const total = item.available
     ? formatNumberWithCommas(
-        item.rentAmount + item.rentAmount * 0.5 + item.rentAmount * 0.1
+        item.rentAmount + item.rentAmount * 0.35 + item.rentAmount * 0.1
       )
     : price;
 
@@ -122,6 +122,10 @@ const RentPropertyNow = ({ item, onRent, apply = false }) => {
 
       {item.available !== 0 && (
         <div className="rentnow__info">
+          <div>
+            <p>Rent fee </p>
+            <p className="info__rent_p">${price}</p>
+          </div>
           <div>
             <p>Security Deposit </p>
             <p className="info__rent_p">${securityDeposit}</p>

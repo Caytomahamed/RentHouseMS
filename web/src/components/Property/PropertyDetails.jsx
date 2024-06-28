@@ -117,8 +117,8 @@ const PropertyDetails = () => {
         endDate: endRent,
         amount:
           property.rentAmount +
-          property.rentAmount * 0.5 +
-          property.rentAmount * 0.1,
+          property.rentAmount * 0.35 +
+          property.rentAmount * 0.05,
         status: 'pending',
       })
     );

@@ -25,7 +25,9 @@
   transition: all 0.5s ease 0s;
   box-shadow: 0 1rem 2rem rgba(225, 225, 225, 1);
   position: relative;
-  height: auto;
+  max-height: 88vh;
+  overflow-x: hidden; /* Hide horizontal scrollbar */
+  overflow-y: scroll; /* Add vertical scrollbar */
 }
 
 /* The Close Button */

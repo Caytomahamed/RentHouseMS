@@ -251,12 +251,28 @@ exports.requestCancellation = async id => {
   // give a cencellation house rent request message
   const message = `I hope this message finds you well. I am writing to
   inform you that I need to cancel my rental booking for the property located at
-  [${property.address}]. Due to unforeseen circumstances, I am unable to proceed
+  ${property.address}. Due to unforeseen circumstances, I am unable to proceed
   with the rental agreement. The details of the booking are as follows:
-  Booking ID: [${booking.id}]
-  Property Address: [${property.address}]
-  Start Date:[${booking.startDate}]
-  End Date: [${booking.endDate}]`;
+  Booking ID: ${booking.id}
+  Property Address: ${property.address}
+  Start Date:${booking.startDate}
+  End Date: ${booking.endDate}`;
+
+  // Prepare the message content
+  const subject2 = 'Cancellation Request for Rent House';
+  let message2 = `Dear client,\n\n`;
+  message += `This is to inform you that a cancellation request for the rental house at ${property.address}, ${property.city}, ${property.state} has been initiated. The cancellation process will begin tomorrow and is expected to take 4 days to complete.\n\n`;
+  message += `Thank you for your understanding.\n\n`;
+  message += `Best regards,\nThe Management`;
+
+  // Send message to tenant's inbox
+  await db('inbox').insert({
+    senderId: booking.landLordId,
+    receiverId: booking.tenantId,
+    FromOrTo: 'owner',
+    subject2,
+    message2,
+  });
 
   if (!property) return null;
 
@@ -393,6 +409,8 @@ exports.findBookingsByLandlordId = async id => {
       'startDate',
       'endDate',
       'b.isConfirm as isConfirm',
+      'b.isCanclellation as isCanclellation',
+      'b.cancellationRequestedAt as cancellationRequestedAt',
       'b.isReject as isReject',
       'p.address as address',
       'p.city as city',
@@ -418,87 +436,18 @@ exports.findBookingsByLandlordId = async id => {
     .where('p.landLordId', id);
 };
 
-// exports.findBookingsByUserId = async id => {
-//   let house = await db('booking as b')
-//     .join('properties as p', 'b.propertyId', 'p.id')
-//     .join('propertyTypes as pt', 'p.propertyTypeId', 'pt.id')
-//     .join('users as u', 'p.landLordId', 'u.id')
-//     .join('maintenanceRequests as m', 'b.tenantId', 'm.tenantId')
-//     .select(
-//       'b.id as id',
-//       'b.tenantId as tenantId',
-//       'b.propertyId as propertyId',
-//       db.raw('group_concat(m.type)  as maintenanceTypes'),
-//       'm.id as maintenanceId',
-//       'm.isIssue as isIssue',
-//       'startDate',
-//       'endDate',
-//       'securityDeposit',
-//       'p.address as address',
-//       'p.city as city',
-//       'p.state as state',
-//       'maplink',
-//       'squareFootage',
-//       'bedrooms',
-//       'bathrooms',
-//       'rentAmount',
-//       'available',
-//       'p.description as description',
-//       'u.firstname as landLordFirstName',
-//       'u.id as landLordId',
-//       'u.lastname as landLordLastName',
-//       'u.email as landLordEmail',
-//       'u.phone as landLordPhone',
-//       'u.imageUrl as landLordImageUrl',
-//       'u.state as landLordState',
-//       'u.city as landLordCity',
-//       'u.address as landLordAddress',
-//       'pt.type as propertyType',
-//       'cancellationRequestedAt',
-//       'cancellationStatus',
-//       'u.createdAt as landLordCreatedAt',
-//       'imageUrls',
-//     )
-//     .where('b.tenantId', id)
-//     .groupBy('b.id');
+// // Prepare the message content
+//       const subject = 'Cancellation Request for Rent House';
+//       let message = `Dear ${booking.tenantFirstName} ${booking.tenantLastName},\n\n`;
+//       message += `This is to inform you that a cancellation request for the rental house at ${booking.address}, ${booking.city}, ${booking.state} has been initiated. The cancellation process will begin tomorrow and is expected to take 4 days to complete.\n\n`;
+//       message += `Thank you for your understanding.\n\n`;
+//       message += `Best regards,\nThe Management`;
 
-//   if (house && house.length > 0) return house;
-
-//   return db('booking as b')
-//     .join('users as u', 'p.landLordId', 'u.id')
-//     .join('propertyTypes as pt', 'p.propertyTypeId', 'pt.id')
-//     .join('properties as p', 'b.propertyId', 'p.id')
-//     .select(
-//       'b.id as id',
-//       'b.tenantId as tenantId',
-//       'b.propertyId as propertyId',
-//       'startDate',
-//       'endDate',
-//       'securityDeposit',
-//       'p.address as address',
-//       'p.city as city',
-//       'p.state as state',
-//       'maplink',
-//       'squareFootage',
-//       'bedrooms',
-//       'bathrooms',
-//       'rentAmount',
-//       'available',
-//       'p.description as description',
-//       'u.firstname as landLordFirstName',
-//       'u.id as landLordId',
-//       'u.lastname as landLordLastName',
-//       'u.email as landLordEmail',
-//       'u.phone as landLordPhone',
-//       'u.imageUrl as landLordImageUrl',
-//       'u.state as landLordState',
-//       'u.city as landLordCity',
-//       'u.address as landLordAddress',
-//       'pt.type as propertyType',
-//       'cancellationRequestedAt',
-//       'cancellationStatus',
-//       'u.createdAt as landLordCreatedAt',
-//       'imageUrls',
-//     )
-//     .where('b.tenantId', id);
-// };
+//       // Send message to tenant's inbox
+//       await db('inbox').insert({
+//         senderId: booking.landLordId,
+//         receiverId: booking.tenantId,
+//         FromOrTo: 'owner',
+//         subject,
+//         message,
+//       });

@@ -18,6 +18,21 @@ exports.getPaymentByLandlordId = catchAsync(async (req, res, next) => {
   });
 });
 
+exports.getByTanantId = catchAsync(async (req, res, next) => {
+  const { tenantId } = req.params;
+  const payment = await paymentModel.findByTenantId(tenantId);
+
+  if (!payment) {
+    return next(new appError('Payment not found', 404));
+  }
+
+  res.status(200).json({
+    status: 'success',
+    result: payment.length,
+    data: payment,
+  });
+});
+
 exports.getAllPayments = handleFactory.getAll(paymentModel);
 exports.getOnePayment = handleFactory.getOne(paymentModel);
 exports.updatePayment = handleFactory.updateOne(paymentModel);

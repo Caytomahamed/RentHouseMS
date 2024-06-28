@@ -45,3 +45,20 @@ exports.findByLandlordId = async landlordId =>
       'p.created_at',
     )
     .where('pr.landlordId', landlordId);
+
+// find by tenant id
+exports.findByTenantId = async tenantId => {
+  return db('payments as p')
+    .join('booking as b', 'p.bookingId', 'b.id')
+    .select(
+      'p.id',
+      'b.id as bookingId',
+      'b.tenantId as tenantId',
+      'p.amount as amount',
+      'p.status',
+      'p.paymentMethod',
+      'p.transactionId',
+      'p.paidAt',
+    )
+    .where('b.tenantId', tenantId);
+};

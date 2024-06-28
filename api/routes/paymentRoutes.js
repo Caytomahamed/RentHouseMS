@@ -4,6 +4,7 @@ const paymentController = require('../controllers/paymentController');
 const router = express.Router();
 
 router.get('/:landlordId/landlord', paymentController.getPaymentByLandlordId);
+router.get('/:tenantId/tenant', paymentController.getByTanantId);
 
 router.route('/').get(paymentController.getAllPayments);
 //   .post(paymentController.createPayment);

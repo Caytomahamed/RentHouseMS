@@ -23,11 +23,14 @@ const BookingTable = ({ item }) => {
     toast.error('Booking Rejected');
   };
 
-  
-
   return (
     <>
-      <td className="id">#{item.id}</td>
+      <td
+        className="id"
+        style={{ background: item.isCanclellation && '#E47675', color: item.isCanclellation && "#fff"  }}
+      >
+        #{item.id}
+      </td>
       <td className="table-user-profile">
         <div>
           <div className="table-user-profile-box">

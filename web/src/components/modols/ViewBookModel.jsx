@@ -22,6 +22,9 @@ import { paidRentProperty } from '../../store/slices/boookSlice';
 import { toast } from 'react-toastify';
 import CheckoutModal from './CheckoutModal';
 import { capitalize } from '@mui/material';
+import defaultImgIcon from '../../assets/images/defaultImg.png';
+import { appSelectUsers, getCurrentUser } from '../../store/slices/auth';
+import { selectUsers } from '../../store/slices/userSlice';
 
 // eslint-disable-next-line react/prop-types
 const ViewBookModel = ({ isView, onClose, onRef }) => {
@@ -29,15 +32,21 @@ const ViewBookModel = ({ isView, onClose, onRef }) => {
   const { selectItem } = useSelector(selectProperties);
   const [isMove, setIsMove] = useState(false);
 
-  console.log('Move', selectItem);
-  const img_url =
-    Object.keys(selectItem).length > 0 &&
-    `http://localhost:9000/uploads/${JSON.parse(selectItem?.imageUrls)[0]}`;
+  // get current user[landlord]
+  const { updateLoad } = useSelector(selectUsers);
+  const { currentUser } = useSelector(appSelectUsers);
+
+  useEffect(() => {
+    dispatch(getCurrentUser());
+  }, [dispatch, updateLoad]);
 
   // landlord and tenant profile
-  const ImageUrl =
-    Object.keys(selectItem).length > 0 &&
-    `http://localhost:9000/uploads/${JSON.parse(selectItem?.tenantImageUrl)}`;
+  const tenantImgUrl = selectItem?.tenantImageUrl
+    ? `http://localhost:9000/uploads/${selectItem?.tenantImageUrl}`
+    : defaultImgIcon;
+  const landLordImgUrl = currentUser?.imageUrl
+    ? `http://localhost:9000/uploads/${currentUser?.imageUrl}`
+    : defaultImgIcon;
 
   /// open modal;
   const onCloseMoveModal = () => setIsMove(false);
@@ -56,8 +65,10 @@ const ViewBookModel = ({ isView, onClose, onRef }) => {
     selectItem?.startDate &&
     daysPassed(new Date(selectItem?.cancellationRequestedAt));
 
-  const moveIn = dayMoveInStep > 0 && dayMoveInStep < 8 ? true : false;
-  const moveOut = dayMoveOutStep > 0 && dayMoveOutStep < 5 ? true : false;
+  const moveIn = dayMoveInStep >= 0 && dayMoveInStep < 7 ? true : false;
+  const moveOut = dayMoveOutStep >= 0 && dayMoveOutStep < 5 ? true : false;
+
+  console.log('Move', selectItem);
 
   const moveinStartedDate = formatDateWithLong(
     addDaysToDate(new Date(selectItem?.startDate), 1)
@@ -88,7 +99,7 @@ const ViewBookModel = ({ isView, onClose, onRef }) => {
         endDate: endRent,
         paymentMethod: method,
         transactionId: transactionID,
-        amount: property.rentAmount,
+        amount: property.rentAmount + property.rentAmount * 0.05,
         securityDeposit: property.rentAmount * 0.35,
       })
     );
@@ -101,6 +112,28 @@ const ViewBookModel = ({ isView, onClose, onRef }) => {
     <>
       {isView && (
         <OverlayModal close={onClose} modalRef={onRef} width={60}>
+          {dayMoveOutStep === 0 && (
+            <p
+              style={{
+                marginTop: '1rem',
+                lineHeight: '1.5',
+                fontSize: '2rem',
+                marginBlock: '2rem',
+                color: '#FF4500',
+              }}
+            >
+              The move out process will starte tomorrow
+              <span style={{ fontWeight: 'bold' }}>
+                {' '}
+                [{' '}
+                {formatDateWithLong(
+                  new Date(selectItem.cancellationRequestedAt)
+                )}
+                ]
+              </span>
+              be ready
+            </p>
+          )}
           <div className="viewBookModel">
             <div className="left">
               <h1
@@ -113,13 +146,16 @@ const ViewBookModel = ({ isView, onClose, onRef }) => {
                 Rent Date {formatDate(selectItem?.startDate)}
               </h1>
               <h1 className="title">About Landlord </h1>
-              <img src={img_url} alt="img url" />
-              <h1>First and Last name</h1>
-              <p>example@gmail.com</p>
-              <p>Phone: 44444444</p>
+              <img src={landLordImgUrl} alt="img url" />
+              <h1>
+                {capitalize(currentUser?.firstname)}{' '}
+                {capitalize(currentUser?.lastname)}
+              </h1>
+              <p>{currentUser?.email}</p>
+              <p>Phone: {currentUser.phone}</p>
               <div className="divider"></div>
               <h1 className="title">About Tenant</h1>
-              <img src={img_url} alt="img url" />
+              <img src={tenantImgUrl} alt="img url" />
               <h1>
                 {capitalize(selectItem?.tenantFirstName)}{' '}
                 {capitalize(selectItem?.tenantLastName)}
@@ -146,14 +182,16 @@ const ViewBookModel = ({ isView, onClose, onRef }) => {
                     )}
 
                     {moveSteps && (
-                      <CustomButton
-                        label={`Process ${
-                          moveIn ? 'in' : moveOut ? 'out' : null
-                        }  details`}
-                        style={{ marginTop: '1rem' }}
-                        onClick={onOpenMoveModal}
-                        color={'#FF4500'}
-                      />
+                      <div style={{ display: 'flex' }}>
+                        <CustomButton
+                          label={`Process ${
+                            moveIn ? 'in' : moveOut ? 'out' : null
+                          }  details`}
+                          style={{ marginTop: '1rem' }}
+                          onClick={onOpenMoveModal}
+                          color={'#FF4500'}
+                        />
+                      </div>
                     )}
                   </div>
                 </div>
@@ -193,25 +231,34 @@ const ViewBookModel = ({ isView, onClose, onRef }) => {
                     </>
                   )}
 
-                  {!moveIn ||
-                    (!moveOut && (
-                      <div className="process">
-                        <h1 className="title">About Status</h1>
-                        <p>
-                          {`Here is the current status for your rental property at
-
-                          Property Address: ${selectItem?.address}
-                          Paid Rent: ${paymentStatus?.amountPaid}
-                          Due Date:${paymentStatus?.dueDate}
-                          Days Left: ${paymentStatus?.daysLeft}
-
-                          Please ensure all
-                          necessary actions are taken before the due date. If
-                          you have any questions or need assistance, feel free
-                          to contact our support team.`}
-                        </p>
-                      </div>
-                    ))}
+                  {(!moveIn || !moveOut) && dayMoveInStep > 6 && (
+                    <>
+                      <h1 className="title">About Status</h1>
+                      <p style={{ lineHeight: 1.2 }}>
+                        Here is the current status for your rental property at
+                        <br />
+                        <br />
+                        <span style={{ fontWeight: 'bold' }}>
+                          Property Address: {selectItem?.address} <br />
+                          Paid Rent: {paymentStatus?.amountPaid} <br />
+                          Due Date: {paymentStatus?.dueDate} <br />
+                          {paymentStatus?.daysLeft <= 0 ? (
+                            <span>
+                              Days Left: {Math.abs(paymentStatus?.daysLeft)}
+                            </span>
+                          ) : (
+                            <span style={{ color: 'Red' }}>
+                              Days Pass: {Math.abs(paymentStatus?.daysLeft)}
+                            </span>
+                          )}{' '}
+                          <br />
+                        </span>
+                        <br />
+                        Please ensure all necessary actions are taken before the
+                        due date.
+                      </p>
+                    </>
+                  )}
                 </div>
               )}
             </div>
@@ -224,6 +271,7 @@ const ViewBookModel = ({ isView, onClose, onRef }) => {
             onCloseCheckModal={onCloseCheckModal}
             modalWidth="30rem"
             item={selectItem}
+            landLordPaid1month={true}
             rentPaid={true}
           />
           <MoveInProcessModal

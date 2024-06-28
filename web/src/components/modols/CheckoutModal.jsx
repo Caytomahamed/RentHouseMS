@@ -15,8 +15,9 @@ const CheckoutModal = ({
   onPay,
   isCheckout,
   item,
-  rentPaid,
+  rentPaid = false,
   apply = false,
+  landLordPaid1month,
 }) => {
   const [isChecked, setIsChecked] = useState(false);
   const [selectedOption, setSelectedOption] = useState(null);
@@ -55,11 +56,16 @@ const CheckoutModal = ({
     inintState();
   };
 
-  const rentPrice = rentPaid
+  const rentPrice = landLordPaid1month
+    ? '$' +
+      formatNumberWithCommas(
+        item.rentAmount + item.rentAmount * 0.35 + item.rentAmount * 0.05
+      )
+    : rentPaid
     ? '$' + formatNumberWithCommas(item.rentAmount)
     : '$' +
       formatNumberWithCommas(
-        item.rentAmount + item.rentAmount * 0.5 + item.rentAmount * 0.1
+        item.rentAmount + item.rentAmount * 0.35 + item.rentAmount * 0.05
       );
 
   const options = [
@@ -103,10 +109,9 @@ const CheckoutModal = ({
                       readOnly
                     />
                   </label>
-                  {rentPaid && (
+                  {(rentPaid || landLordPaid1month) && (
                     <div
                       style={{
-                        width: '22rem',
                         padding: '.5rem 1.3rem',
                         border: '1px solid black',
                       }}
@@ -114,14 +119,15 @@ const CheckoutModal = ({
                       <CustomDropdown
                         options={options}
                         onSelect={handleSelect}
-                        width={'18rem'}
                       />
                     </div>
                   )}
 
                   <div
                     className="checkbox-container"
-                    style={{ transform: !rentPaid && `translateY(-1.7rem)` }}
+                    style={{
+                      transform: !rentPaid && `translateY(-1.7rem)`,
+                    }}
                   >
                     <input
                       type="checkbox"
@@ -178,6 +184,7 @@ CheckoutModal.propTypes = {
   item: PropTypes.object.isRequired,
   rentPaid: PropTypes.bool,
   apply: PropTypes.bool,
+  landLordPaid1month: PropTypes.bool,
 };
 
 export default CheckoutModal;

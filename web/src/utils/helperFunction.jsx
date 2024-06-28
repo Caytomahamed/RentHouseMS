@@ -219,7 +219,7 @@ export function isEventInThreeDaysOrPassed(eventDate) {
   const daysDiff = timeDiff / (1000 * 60 * 60 * 24);
 
   // Return true if the difference is exactly 3 days or less
-  return daysDiff <= 3;
+  return daysDiff;
 }
 
 export function daysPassed(date) {

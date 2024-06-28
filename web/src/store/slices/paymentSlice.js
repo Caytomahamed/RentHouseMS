@@ -20,6 +20,8 @@ const slice = createSlice({
     createLoad: false,
     type: '',
     description: '',
+    myPaymentLoad: false,
+    myPayments: [],
   },
 
   reducers: {
@@ -35,10 +37,24 @@ const slice = createSlice({
       payment.isLoading = false;
       payment.error = action.payload;
     },
+    myPaymentRequest: (payment) => {
+      payment.myPaymentLoad = true;
+      payment.error = null;
+    },
+    myPaymentRecieve: (payment, action) => {
+      payment.myPaymentLoad = false;
+      payment.myPayments = action.payload;
+    },
+    myPaymentRequestFail: (payment, action) => {
+      payment.myPaymentLoad = false;
+      payment.error = action.payload;
+      payment.myPayments = [];
+    },
     updateRequest: (payment) => {
       payment.updateLoad = true;
       payment.error = null;
     },
+
     updateRecieve: (payment) => {
       payment.updateLoad = false;
       payment.successMsg = 'user successFully updated';
@@ -101,6 +117,9 @@ export const {
   setCurrentPage,
   setItemsPerPage,
   setSortOrder,
+  myPaymentRequest,
+  myPaymentRecieve,
+  myPaymentRequestFail,
 } = slice.actions;
 
 export default slice.reducer;
@@ -173,6 +192,15 @@ export const getPaymentsByLandlordId = (id) => {
   });
 };
 
+export const getPaymentsByTenant = (id) => {
+  return apiCallBegin({
+    url: `/payments/${id}/tenant`,
+    method: 'get',
+    onStart: myPaymentRequest.type,
+    onSuccess: myPaymentRecieve.type,
+    onError: myPaymentRequestFail.type,
+  });
+};
 export const updatePayment = (data) => {
   return apiCallBegin({
     url: `/payments/${data.id}`,

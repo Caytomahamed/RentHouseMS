@@ -4,18 +4,22 @@ import PropTypes from 'prop-types';
 import OverlayModal from '../OverlayModal';
 import CustomButton from '../Custom/CustomButton.jsx';
 
-const DeleteModal = ({ isDelete, onClose, onDelete, onModalRef, table }) => {
+const DeleteModal = ({
+  isDelete,
+  onClose,
+  onDelete,
+  onModalRef,
+  table,
+  type = 'delete',
+  pragraphe = 'Are you sure you want to delete this cabins permanently? This action cannot be undone.',
+  title = `Delete a ${table}`.slice(0, -1),
+}) => {
   return (
     <>
       {isDelete && (
         <OverlayModal close={onClose} modalRef={onModalRef} width={35}>
-          <h1 className="overlaymodal-delete">
-            Delete a {`${table}`.slice(0, -1)}
-          </h1>
-          <p className="overlaymodal-delete-p">
-            Are you sure you want to delete this cabins permanently? This action
-            cannot be undone.
-          </p>
+          <h1 className="overlaymodal-delete">{title}</h1>
+          <p className="overlaymodal-delete-p">{pragraphe}</p>
 
           <div className="custom-input-container">
             <label className="custom-label"></label>
@@ -24,7 +28,7 @@ const DeleteModal = ({ isDelete, onClose, onDelete, onModalRef, table }) => {
             <div className="input-error-box">
               <CustomButton label="Cancle" color="white" onClick={onClose} />
               <span style={{ padding: '.7rem' }}></span>
-              <CustomButton label="delete" color="red" onClick={onDelete} />
+              <CustomButton label={type} color="red" onClick={onDelete} />
             </div>
           </div>
         </OverlayModal>
@@ -39,6 +43,9 @@ DeleteModal.propTypes = {
   onDelete: PropTypes.func.isRequired,
   onModalRef: PropTypes.func.isRequired,
   table: PropTypes.string.isRequired,
+  type: PropTypes.string,
+  pragraphe: PropTypes.string,
+  title: PropTypes.string,
 };
 
 export default DeleteModal;

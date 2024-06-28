@@ -15,6 +15,7 @@ const init = {
   successMsg: '',
   updateLoad: false,
   deleteLoad: false,
+  paidLoad: false,
   yourProperty: [],
   confirmLoad: false,
   alreadyLoading: false,
@@ -36,6 +37,17 @@ const slice = createSlice({
     },
     booksRequestFail: (users, action) => {
       users.isLoading = false;
+      users.error = action.payload;
+    },
+    paidRequest: (users) => {
+      users.paidLoad = true;
+      users.error = null;
+    },
+    paidRecieve: (users) => {
+      users.paidLoad = false;
+    },
+    paidRequestFail: (users, action) => {
+      users.paidLoad = false;
       users.error = action.payload;
     },
     updateRequest: (users) => {
@@ -118,7 +130,7 @@ const slice = createSlice({
     alreadyBookedRecieve: (users, action) => {
       users.alreadyLoading = false;
       users.booked = action.payload;
-    },  
+    },
     alreadyBookedRequestFail: (users, action) => {
       users.alreadyLoading = false;
       users.error = action.payload;
@@ -152,6 +164,9 @@ export const {
   alreadyBookedRequest,
   alreadyBookedRecieve,
   alreadyBookedRequestFail,
+  paidRequest,
+  paidRequestFail,
+  paidRecieve,
 } = slice.actions;
 
 export default slice.reducer;
@@ -194,10 +209,13 @@ export const selectFilteredAndSortedBooks = (state) => {
   const totalPages = Math.ceil(list.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
 
-  let endIndex = startIndex + itemsPerPage;
-  if (endIndex >= list.length) endIndex = list.length;
+  console.log('filteredList', list);
 
-  const paginatedList = filteredList.slice(startIndex, endIndex);
+  let endIndex = startIndex + itemsPerPage;
+  if (list && endIndex >= list?.length) endIndex = list?.length;
+
+  const paginatedList =
+    filteredList && filteredList?.slice(startIndex, endIndex);
 
   return { paginatedList, totalPages, startIndex, endIndex };
 };
@@ -240,7 +258,7 @@ export const rentProperty = (data) => {
     method: 'post',
     data,
     onSuccess: booksRecieve.type,
-    onStart: booksRecieve.type,
+    onStart: booksRequest.type,
     onError: booksRequestFail.type,
   });
 };
@@ -249,8 +267,8 @@ export const confirmRentProperty = (id) => {
   return apiCallBegin({
     url: `/booking/${id}/confirm`,
     method: 'patch',
-    onSuccess: confirmRequest.type,
-    onStart: confirmRecieve.type,
+    onSuccess: confirmRecieve.type,
+    onStart: confirmRequest.type,
     onError: confirmRequestFail.type,
   });
 };
@@ -259,7 +277,7 @@ export const rejectRentProperty = (id) => {
     url: `/booking/${id}/reject`,
     method: 'patch',
     onSuccess: confirmRequest.type,
-    onStart: confirmRecieve.type,
+    onStart: confirmRequest.type,
     onError: confirmRequestFail.type,
   });
 };
@@ -269,9 +287,9 @@ export const paidRentProperty = (data) => {
     url: `/booking/paid`,
     method: 'post',
     data,
-    onSuccess: booksRecieve.type,
-    onStart: booksRecieve.type,
-    onError: booksRequestFail.type,
+    onSuccess: paidRecieve.type,
+    onStart: paidRequest.type,
+    onError: paidRequestFail.type,
   });
 };
 
@@ -290,8 +308,8 @@ export const updateBook = (data) => {
     url: `/booking/${data.id}`,
     method: 'patch',
     data,
-    onSuccess: updateRequest.type,
-    onStart: updateRecieve.type,
+    onSuccess: updateRecieve.type,
+    onStart: updateRequest.type,
     onError: updateRequestFail.type,
   });
 };

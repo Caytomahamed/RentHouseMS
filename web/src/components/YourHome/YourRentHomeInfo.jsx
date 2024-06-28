@@ -29,12 +29,14 @@ const YourRentHomeInfo = ({
     property.startDate && daysPassed(new Date(property.startDate));
 
   // no canclellation time if stared day minus the current day is less then 15
-  const noCanclellationTime = dayMoveInStep < 15;
+  const noCanclellationTime =
+    dayMoveInStep < 15 && property.status === 'booked';
 
-  const left3DaysOrPassDueDate = isEventInThreeDaysOrPassed(
+  const leftDaysDueDate = isEventInThreeDaysOrPassed(
     new Date(property.endDate)
   );
 
+  console.log('left days ', leftDaysDueDate);
   return (
     <>
       {isMoveDay && (
@@ -135,14 +137,17 @@ const YourRentHomeInfo = ({
                     label="Paid Rent"
                     style={{ marginRight: '2rem', width: '46%' }}
                     onClick={onOpenCheck}
-                    disabled={!left3DaysOrPassDueDate}
+                    disabled={!(leftDaysDueDate <= 0)}
                   />
                   <CustomButton
                     label="Cancle"
                     color={'#E47675'}
                     onClick={onOpenCancle}
                     style={{ width: '46%' }}
-                    disabled={noCanclellationTime}
+                    disabled={
+                      noCanclellationTime ||
+                      property.cancellationStatus === 'requested'
+                    }
                   />
                 </div>
               </div>

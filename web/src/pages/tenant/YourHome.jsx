@@ -32,6 +32,10 @@ import YourRentHomeInfo from '../../components/YourHome/YourRentHomeInfo';
 import In_Out_ReqMain_Process from '../../components/YourHome/In_Out_ReqMain_Process';
 import CustomEmptyHouse from '../../components/Custom/CustomEmptyHouse';
 import YourRentTransactions from '../../components/YourHome/YourRentTransactions';
+import {
+  getPaymentsByTenant,
+  selectPayment,
+} from '../../store/slices/paymentSlice';
 
 const YourHome = () => {
   const dispatch = useDispatch();
@@ -93,11 +97,11 @@ const YourHome = () => {
   const onMoveOutRef = useOutsideClick(() => onCloseMoveOutProcessModal());
 
   const { createLoad } = useSelector(selectMaintanace);
-  const { yourProperty, deleteLoad } = useSelector(selectBook);
+  const { yourProperty, deleteLoad, paidLoad } = useSelector(selectBook);
 
   useEffect(() => {
     dispatch(getYourRentProperty());
-  }, [dispatch, createLoad, deleteLoad]);
+  }, [dispatch, createLoad, deleteLoad, paidLoad]);
 
   const onPaid = (method) => {
     const today = new Date();
@@ -112,16 +116,27 @@ const YourHome = () => {
         paymentMethod: method,
         transactionId: transactionID,
         amount: property.rentAmount,
+        securityDeposit: 0.0,
       })
     );
     toast.success('Paid rent successfully');
   };
+
+  const [property] = yourProperty;
+
+  console.log('property home', yourProperty);
 
   const handleReqCanclellation = (id) => {
     dispatch(requestCancellation(id));
     onCloseCancleModal();
     toast.success('Request sent successfully');
   };
+
+  useEffect(() => {
+    if (property) dispatch(getPaymentsByTenant(property.tenantId));
+  }, [dispatch, property]);
+
+  const { myPayments } = useSelector(selectPayment);
 
   if (!yourProperty || Object.keys(yourProperty).length === 0) {
     return (
@@ -148,8 +163,6 @@ const YourHome = () => {
       </div>
     );
   }
-
-  const [property] = yourProperty;
 
   const { startDate } = property;
 
@@ -245,7 +258,9 @@ const YourHome = () => {
                 onClose={onCloseCancleModal}
                 onDelete={() => handleReqCanclellation(property.id)}
                 onModalRef={onRef}
-                table="Book Or [Cancle Rent]"
+                pragraphe="Are you sure you want to cancel this house? This action cannot be undone."
+                title="Cancel House"
+                type="UnRent"
               />
 
               <ReqMaintanceModal
@@ -277,7 +292,11 @@ const YourHome = () => {
           <CustomEmptyHouse />
         )}
 
-        <YourRentTransactions isMoveDay={isMoveDay} property={property} />
+        <YourRentTransactions
+          isMoveDay={isMoveDay}
+          property={property}
+          payments={myPayments}
+        />
       </div>
     </div>
   );
