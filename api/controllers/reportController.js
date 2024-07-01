@@ -19,4 +19,20 @@ exports.getAllReports = catchAsync(async (req, res, next) => {
   });
 });
 
+exports.getByLandlord = catchAsync(async (req, res, next) => {
+  const { landlordId } = req.params;
+  const reports = await reportModel.findReportsByLandlord(landlordId);
+
+  if (!reports) {
+    return next(new appError('No reports found.Invalid landlord id', 404));
+  }
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      reports,
+    },
+  });
+});
+
 exports.getAllTransportationReport = handleFactory.getAll(reportModel);

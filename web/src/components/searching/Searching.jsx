@@ -60,7 +60,7 @@ const Searching = () => {
     setSelectedDate(e.target.value);
   };
 
-  // console.log({
+  // ({
   //   selectedPrice,
   //   selectedType,
   //   selectedInput,

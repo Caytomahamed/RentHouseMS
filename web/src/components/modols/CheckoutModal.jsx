@@ -37,8 +37,8 @@ const CheckoutModal = ({
   };
 
   const check = () => {
-    // console.log('selectedOption:', selectedOption);
-    // console.log('isCheck:', isChecked);
+    // ('selectedOption:', selectedOption);
+    // ('isCheck:', isChecked);
 
     if (selectedOption && rentPaid && isChecked) {
       onPay(selectedOption.value);

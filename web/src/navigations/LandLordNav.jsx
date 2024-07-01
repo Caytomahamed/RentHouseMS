@@ -7,6 +7,8 @@ import LandLordProperties from '../pages/landLord/LandLordProperties';
 import ErrorPage from '../pages/ErrorPage';
 import LandLordMaintenance from '../pages/landLord/LandLordMaintenance';
 import { LandLordPayment } from '../pages/landLord/LandLordPayment';
+import Profile from '../pages/Profile';
+import YourInbox from '../pages/YourInbox';
 
 const LandLordNav = () => {
   return (
@@ -16,6 +18,8 @@ const LandLordNav = () => {
         <Route path="/landLordBook" element={<LandLordBook />} />
         <Route path="/landLordProperties" element={<LandLordProperties />} />
         <Route path="/landLordMaintenance" element={<LandLordMaintenance />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/yourInbox" element={<YourInbox />} />
         <Route path="/landLordPayment" element={<LandLordPayment />} />
         <Route path="*" element={<ErrorPage />} />
       </Routes>

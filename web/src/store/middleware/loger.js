@@ -1,6 +1,6 @@
 const logger = (state) => (next) => (action) => {
-  console.log('State', state.getState());
-  console.log('actions', action);
+  'State', state.getState();
+  'actions', action;
   next(action);
 };
 

@@ -10,9 +10,10 @@ const { addDaysToDate, formatDate } = require('../utils/timeHelpers');
 // 1. check if this booking exit.2. req maintance
 exports.createMaintenance = catchAsync(async (req, res, next) => {
   const { bookingId, tenantId, type, description } = req.body;
-  const [booking] = await bookingModel.findById(bookingId);
+  console.log(bookingId);
+  const booking = await bookingModel.findById(bookingId);
 
-  if (!booking) {
+  if (!booking.length) {
     return next(new appError('Booking not found', 404));
   }
 
@@ -49,6 +50,21 @@ exports.getMaintenanceByLandlordId = catchAsync(async (req, res, next) => {
   res.status(200).json({
     status: 'success',
     result: maintance.length,
+    data: maintance,
+  });
+});
+
+// mark as completed
+exports.markAsCompleted = catchAsync(async (req, res, next) => {
+  const { id } = req.params;
+  const maintance = await maintanceModal.markAsCompleted(id);
+
+  if (!maintance) {
+    return next(new appError('Maintenance not found', 404));
+  }
+
+  res.status(200).json({
+    status: 'success',
     data: maintance,
   });
 });

@@ -7,12 +7,12 @@ const storage = multer.diskStorage({
   },
   filename: function (req, file, cb) {
     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
-    console.log('ddddddddddd', file);
+    'ddddddddddd', file;
     const filename =
       file.fieldname + '-' + uniqueSuffix + path.extname(file.originalname);
     cb(null, filename);
     req.filename = filename;
-    console.log('upload', file);
+    'upload', file;
   },
 });
 

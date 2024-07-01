@@ -34,7 +34,7 @@ const SentInboxModal = ({
     setOwnerId(null);
     onCloseSentModal();
   };
-  //   console.log(item);
+  //   (item);
   const check = () => {
     if (text.length > 0 && selectedOption.value && subject) {
       onSent({

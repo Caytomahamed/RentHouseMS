@@ -37,7 +37,7 @@ exports.updateProperty = catchAsync(async (req, res, next) => {
   const body = JSON.parse(req.body.body);
   const { id, ...changes } = body;
 
-  console.log(files);
+  files;
 
   let properties;
 
@@ -71,7 +71,7 @@ exports.updateProperty = catchAsync(async (req, res, next) => {
 
 // get by landlorid id
 exports.getByLandlordId = catchAsync(async (req, res, next) => {
-  console.log('landlord properties', req.params);
+  'landlord properties', req.params;
   const properties = await propertiesModel.findByLandlordId(
     req.params.landlordId,
   );

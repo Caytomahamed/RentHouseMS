@@ -17,6 +17,14 @@ const init = {
   deleteLoad: false,
   dash: [],
   dashLoading: false,
+  reports: [],
+  reportLoad: false,
+  totals: {},
+  last30Days: {},
+  books: [],
+  bookingsPerMonth: [],
+  payments: [],
+  rentORAvailable: [],
 };
 
 const slice = createSlice({
@@ -94,6 +102,25 @@ const slice = createSlice({
     setSortOrder: (users, action) => {
       users.sortOrder = action.payload;
     },
+    reportRequest: (users) => {
+      users.reportLoad = true;
+      users.reports = [];
+    },
+    reportRecieve: (users, action) => {
+      users.reportLoad = false;
+      users.reports = action.payload;
+      users.totals = action.payload.reports[0];
+      users.last30Days = action.payload.reports[1];
+      users.books = action.payload.reports[3];
+      users.bookingsPerMonth = action.payload.reports[4];
+      users.payments = action.payload.reports[5];
+      users.rentORAvailable = action.payload.reports[2];
+    },
+    reportRequestFail: (users, action) => {
+      users.reportLoad = false;
+      users.reports = [];
+      users.error = action.payload;
+    },
   },
 });
 
@@ -117,6 +144,9 @@ export const {
   dashRecieve,
   dashRequest,
   dashRequestFail,
+  reportRequest,
+  reportRecieve,
+  reportRequestFail,
 } = slice.actions;
 
 export default slice.reducer;
@@ -152,7 +182,6 @@ export const getDashSummary = () => {
 };
 
 export const updateUser = (data, file) => {
-  console.log('slice',  data, file);
   const formData = new FormData();
   formData.append('body', JSON.stringify(data));
   formData.append('file', file);
@@ -172,6 +201,16 @@ export const deleteUser = (id) => {
     onSuccess: deleteRecieve.type,
     onStart: deleteRequest.type,
     onError: delteRequestFail.type,
+  });
+};
+
+export const getReports = (id) => {
+  return apiCallBegin({
+    url: `/reports/${id}/landlord`,
+    method: 'get',
+    onSuccess: reportRecieve.type,
+    onStart: reportRequest.type,
+    onError: reportRequestFail.type,
   });
 };
 

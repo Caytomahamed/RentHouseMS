@@ -34,12 +34,12 @@ exports.checkIsEmailValid = catchAsync(async (req, res, next) => {
 });
 
 exports.checkIsIfEmailExist = catchAsync(async (req, res, next) => {
-  console.log(req.body.email);
+  req.body.email;
   const ifEmailExisting = await usersModel.findOne({
     condition: 'u.email',
     field: req.body.email,
   });
-  console.log(ifEmailExisting);
+  ifEmailExisting;
   if (!ifEmailExisting) {
     return next(
       new AppError("Your email isn't exists. Pleasu Try again!", 400),

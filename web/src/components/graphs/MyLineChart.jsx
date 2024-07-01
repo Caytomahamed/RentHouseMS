@@ -1,75 +1,93 @@
-import React, { useEffect, useState } from 'react';
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/prop-types */
+import React from 'react';
 import { Line } from 'react-chartjs-2';
-import Chart from 'chart.js/auto';
-import { useDispatch, useSelector } from 'react-redux';
-import {
-  getBooking,
-  selectFilteredAndSortedBooks,
-} from '../../store/slices/boookSlice.js';
 
-const data = {
-  labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-  datasets: [
-    {
-      label: 'Booking',
-      fill: false,
-      lineTension: 0.1,
-      backgroundColor: 'rgba(75, 192, 192, 0.4)',
-      borderColor: 'rgba(75, 192, 192, 1)',
-      pointBorderColor: 'rgba(75, 192, 192, 1)',
-      pointBackgroundColor: 'rgba(75, 92, 192, 1)',
-      pointBorderWidth: 1,
-      pointHoverRadius: 5,
-      pointHoverBackgroundColor: 'rgba(255, 99, 132, 1)',
-      pointHoverBorderColor: 'rgba(255, 99, 132, 1)',
-      data: [65, 59, 80, 81, 56, 55, 40],
-    },
-  ],
+const monthArray = [
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December',
+];
+
+const getMonthNamesAndCounts = (data, monthArray) => {
+  const months = [];
+  const counts = {};
+  const currentDate = new Date();
+  const currentYear = currentDate.getFullYear();
+  const currentMonth = currentDate.getMonth(); // 0-based index for current month
+
+  // Initialize counts for each month up to the current month
+  monthArray.forEach((month, index) => {
+    if (index <= currentMonth) {
+      counts[month] = 0;
+    }
+  });
+
+  // Populate the counts from the data
+  data.forEach((item) => {
+    const [year, month] = item.month.split('-').map(Number);
+    if (year === currentYear) {
+      const monthName = monthArray[month - 1]; // Get the month name from the array
+      if (month - 1 <= currentMonth) {
+        counts[monthName] = item.count;
+      }
+    }
+  });
+
+  // Extract the months and counts into arrays
+  Object.keys(counts).forEach((month) => {
+    months.push(month);
+  });
+
+  return { months, counts: Object.values(counts) };
 };
 
-const options = {
-  scales: {
-    yAxes: [
+const MyLineChart = ({ bookingsPerMonth }) => {
+  const { months, counts } = getMonthNamesAndCounts(
+    bookingsPerMonth,
+    monthArray
+  );
+
+  const data = {
+    labels: months,
+    datasets: [
       {
-        ticks: {
-          beginAtZero: true,
-        },
+        label: 'Booking',
+        fill: false,
+        lineTension: 0.1,
+        backgroundColor: 'rgba(75, 192, 192, 0.4)',
+        borderColor: 'rgba(75, 192, 192, 1)',
+        pointBorderColor: 'rgba(75, 192, 192, 1)',
+        pointBackgroundColor: 'rgba(75, 92, 192, 1)',
+        pointBorderWidth: 1,
+        pointHoverRadius: 5,
+        pointHoverBackgroundColor: 'rgba(255, 99, 132, 1)',
+        pointHoverBorderColor: 'rgba(255, 99, 132, 1)',
+        data: counts,
       },
     ],
-  },
-};
+  };
 
-const MyLineChart = () => {
-  //  const [chartData, setChartData] = useState({});
-  //  const dispatch = useDispatch();
-
-  //  useEffect(() => {
-  //    dispatch(getBooking());
-  //  }, [dispatch]);
-
-  //  const { paginatedList } = useSelector(selectFilteredAndSortedBooks);
-
-
-  //  useEffect(() => {
-  //    const carTypesData = paginatedList.reduce((acc, car) => {
-  //      acc[car.carType] = (acc[car.carType] || 0) + 1;
-  //      return acc;
-  //    }, {});
-
-  //    const labels = Object.keys(carTypesData);
-  //    const data = Object.values(carTypesData);
-
-  //    setChartData({
-  //      labels,
-  //      datasets: [
-  //        {
-  //          label: 'Poll',
-  //          data,
-  //          backgroundColor: ['#3f51b5', '#ff6384', '#ffce56'],
-  //        },
-  //      ],
-  //    });
-  //  }, [paginatedList]);
+  const options = {
+    scales: {
+      yAxes: [
+        {
+          ticks: {
+            beginAtZero: true,
+          },
+        },
+      ],
+    },
+  };
 
   return (
     <Line

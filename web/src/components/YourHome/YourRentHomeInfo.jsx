@@ -36,7 +36,7 @@ const YourRentHomeInfo = ({
     new Date(property.endDate)
   );
 
-  console.log('left days ', leftDaysDueDate);
+  'left days ', leftDaysDueDate;
   return (
     <>
       {isMoveDay && (

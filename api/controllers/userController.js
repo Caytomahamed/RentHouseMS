@@ -90,7 +90,7 @@ exports.getLandLord = catchAsync(async (req, res, next) => {
 exports.updateUser = catchAsync(async (req, res, next) => {
   const data = JSON.parse(req.body.body);
 
-  console.log('file name', req.filename);
+  'file name', req.filename;
 
   const user = await userModal.findByIdandUpdate(req.params.id, {
     ...data,

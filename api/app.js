@@ -53,11 +53,11 @@ app.use(globalErorrHandle);
 
 // Socket.io connection handling
 io.on('connection', socket => {
-  console.log('A user connected');
+  ('A user connected');
 
   // Handle disconnection if needed
   socket.on('disconnect', () => {
-    console.log('User disconnected');
+    ('User disconnected');
   });
 });
 module.exports = app;

@@ -5,24 +5,20 @@ import React, { useEffect, useState } from 'react';
 // import { useDispatch, useSelector } from 'react-redux';
 import { Avatar } from '@mui/material';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
-import MenuHeader from '../../components/Header/MenuHeader';
-import CustomButton from '../../components/Custom/CustomButton';
+import MenuHeader from '../components/Header/MenuHeader';
+import CustomButton from '../components/Custom/CustomButton';
 import {
   appSelectUsers,
   changePassword,
   getCurrentUser,
   userLogout,
-} from '../../store/slices/auth';
+} from '../store/slices/auth';
 import { useDispatch, useSelector } from 'react-redux';
-import defaultImgIcon from '../../assets/images/defaultImg.png';
+import defaultImgIcon from '../assets/images/defaultImg.png';
 import { toast } from 'react-toastify';
 
-import {
-  deleteUser,
-  selectUsers,
-  updateUser,
-} from '../../store/slices/userSlice';
-import { getUnReadInbox, selectInboxes } from '../../store/slices/inboxSlice';
+import { deleteUser, selectUsers, updateUser } from '../store/slices/userSlice';
+import { getUnReadInbox, selectInboxes } from '../store/slices/inboxSlice';
 
 const Profile = (props) => {
   const dispatch = useDispatch();
@@ -56,6 +52,8 @@ const Profile = (props) => {
     dispatch(userLogout());
     navigateTo('/');
   };
+
+  'hasldfhk', currentUser.userType;
 
   const img = currentUser?.imageUrl
     ? `http://localhost:9000/uploads/${currentUser.imageUrl}`
@@ -135,7 +133,7 @@ const Profile = (props) => {
 
   // unRead inbox
   const { myInboxLoading } = useSelector(selectInboxes);
-  console.log('myInboxLoading', myInboxLoading);
+  'myInboxLoading', myInboxLoading;
 
   useEffect(() => {
     dispatch(getUnReadInbox(currentUser?.id));
@@ -161,17 +159,22 @@ const Profile = (props) => {
                 marginTop: '3rem',
               }}
             />
-            <Link to="/yourHome">
-              <CustomButton
-                label="YourHome"
-                color={'#E47675'}
-                style={{
-                  padding: '1.5rem 2rem',
-                  marginTop: '3rem',
-                  width: '24rem',
-                }}
-              />
-            </Link>
+            {currentUser?.userType !== 'tenant' && (
+              <div style={{ height: '5rem' }}></div>
+            )}
+            {currentUser?.userType === 'tenant' && (
+              <Link to="/yourHome">
+                <CustomButton
+                  label="YourHome"
+                  color={'#E47675'}
+                  style={{
+                    padding: '1.5rem 2rem',
+                    marginTop: '3rem',
+                    width: '24rem',
+                  }}
+                />
+              </Link>
+            )}
 
             <Link to="/yourInbox" className="link">
               <div className="inbox-container ">
@@ -295,11 +298,6 @@ const Profile = (props) => {
               </div>
             </div>
 
-            {/* <ProfileEdit
-            open={handleClickOpen}
-            close={handleClose}
-            state={open}
-          /> */}
             <div className="border-bottom border-top py-4  px-4 mt-5 profile_detial_login">
               <CustomButton
                 label="Logout"

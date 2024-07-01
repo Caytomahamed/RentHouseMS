@@ -40,7 +40,7 @@ const usersSlice = createSlice({
       state.list = [];
     },
     schedulesSearchReceive: (state, action) => {
-      console.log('action payload', action.payload);
+      'action payload', action.payload;
       state.list = action.payload;
       state.error = null;
       state.isLoading = false;

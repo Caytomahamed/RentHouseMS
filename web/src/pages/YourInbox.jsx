@@ -1,19 +1,19 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useEffect, useState } from 'react';
-import MenuHeader from '../../components/Header/MenuHeader';
-import InboxItem from '../../components/Inbox/InboxItem';
-import CustomButton from '../../components/Custom/CustomButton';
-import { useOutsideClick } from '../../hooks/useOutsideClick';
-import SentInboxModal from '../../components/modols/SentInboxModal';
+import MenuHeader from '../components/Header/MenuHeader';
+import InboxItem from '../components/Inbox/InboxItem';
+import CustomButton from '../components/Custom/CustomButton';
+import { useOutsideClick } from '../hooks/useOutsideClick';
+import SentInboxModal from '../components/modols/SentInboxModal';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   createInbox,
   getMyInbox,
   selectInboxes,
-} from '../../store/slices/inboxSlice';
+} from '../store/slices/inboxSlice';
 import { toast } from 'react-toastify';
-import { appSelectUsers } from '../../store/slices/auth';
-import Loading from '../../components/Custom/Loading';
+import { appSelectUsers } from '../store/slices/auth';
+import Loading from '../components/Custom/Loading';
 
 const YourInbox = () => {
   const [isSent, setIsSent] = useState(false);
@@ -40,7 +40,7 @@ const YourInbox = () => {
       })
     );
     toast.success('Inbox sent successfully');
-    console.log('inbox', inbox, currentUser);
+    'inbox', inbox, currentUser;
   };
 
   const { myInbox, isLoading } = useSelector(selectInboxes);
@@ -84,7 +84,6 @@ const YourInbox = () => {
   };
 
   const onModalRef = useOutsideClick(() => onCloseInbox());
-
 
   return (
     <div>

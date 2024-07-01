@@ -46,3 +46,23 @@ exports.findByLandlordId = async landlordId =>
       'm.created_at',
     )
     .where('p.landlordId', landlordId);
+
+// mark as completed
+exports.markAsCompleted = async id => {
+  const date = new Date().toISOString();
+
+  await db('maintenanceRequests')
+    .where('id', id)
+    .update({ status: 'completed', updated_at: date });
+  return this.findById(id);
+};
+
+// delete automatically after 1 days of completion
+exports.deleteAfterOneDay = async () => {
+  const date = new Date().toISOString();
+
+  return await db('maintenanceRequests')
+    .where('status', 'completed')
+    .where('updated_at', '<', date)
+    .del();
+};

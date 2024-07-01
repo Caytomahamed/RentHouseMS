@@ -44,7 +44,6 @@ exports.findById = async id =>
   await db('booking as b')
     .join('users as u', 'p.landLordId', 'u.id')
     .join('properties as p', 'b.propertyId', 'p.id')
-    .join('payments as pmt', 'b.id', 'pmt.bookingId')
     .join('propertyTypes as pt', 'p.propertyTypeId', 'pt.id')
     .select(
       'b.id as id',
@@ -52,7 +51,6 @@ exports.findById = async id =>
       'propertyId',
       'startDate',
       'endDate',
-      'securityDeposit',
       'p.address as address',
       'p.city as city',
       'p.state as state',
@@ -134,8 +132,6 @@ exports.findBookingsByUserId = async id => {
     .where('b.tenantId', id)
     .groupBy('b.id');
 
-  console.log('model', house);
-
   house = house.map(booking => {
     const maintenanceTypes = booking.maintenanceTypes
       ? booking.maintenanceTypes.split(',')
@@ -181,7 +177,7 @@ exports.create = async data => {
 
   // find users by tenantId
   const [tenant] = await db('users').where('id', data.tenantId);
-  console.log('tenant', tenant);
+  'tenant', tenant;
 
   // find properties by propertyId
   const [property] = await db('properties').where('id', data.propertyId);
@@ -245,7 +241,7 @@ exports.requestCancellation = async id => {
   if (!booking) return null;
 
   const [property] = await db('properties').where('id', booking.propertyId);
-  console.log(property);
+  property;
 
   const subject = 'Cancellation Requested';
   // give a cencellation house rent request message
@@ -348,7 +344,7 @@ exports.confirmBooking = async id => {
     .where('id', id);
 
   const [property] = await db('properties').where('id', booking.propertyId);
-  console.log(property);
+  property;
 
   const subject = 'Rental Application Approved';
   const message = `Congratulations, your house application located  ${property.address} has been approved. We will be in touch shortly to finalize the details.`;
@@ -433,7 +429,8 @@ exports.findBookingsByLandlordId = async id => {
       'pt.type as propertyType',
       'imageUrls',
     )
-    .where('p.landLordId', id);
+    .where('p.landLordId', id)
+    .orderBy('startDate', 'desc');
 };
 
 // // Prepare the message content

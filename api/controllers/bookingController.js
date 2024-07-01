@@ -60,9 +60,9 @@ exports.paidNow = catchAsync(async (req, res, next) => {
 
 exports.getBookingByUserId = catchAsync(async (req, res, next) => {
   const userId = req.user.id;
-  console.log('id', userId);
+  'id', userId;
   const book = await bookingModel.findBookingsByUserId(userId);
-  console.log(book);
+  book;
 
   if (book.length === 0) {
     return next(new appError('OH! you are not booking a house'));
@@ -92,7 +92,7 @@ exports.unBooking = catchAsync(async (req, res, next) => {
 exports.cancellation = catchAsync(async (req, res, next) => {
   const { bookingId } = req.params;
 
-  console.log(bookingId);
+  bookingId;
 
   const book = await bookingModel.requestCancellation(bookingId);
 
@@ -153,10 +153,10 @@ exports.reject = catchAsync(async (req, res, next) => {
 
 // Schedule the task to run daily at midnight
 cron.schedule('0 0 * * *', async () => {
-  console.log('Running scheduled task to delete old cancellations...');
+  ('Running scheduled task to delete old cancellations...');
   try {
     await bookingModel.deleteOldCancellations();
-    console.log('Old cancellations deleted successfully.');
+    ('Old cancellations deleted successfully.');
   } catch (error) {
     console.error('Error deleting old cancellations:', error);
   }
@@ -164,10 +164,10 @@ cron.schedule('0 0 * * *', async () => {
 
 // Scheudle the task to run daily at midnight
 cron.schedule('0 0 * * *', async () => {
-  console.log('Running scheduled task to update cancellation process...');
+  ('Running scheduled task to update cancellation process...');
   try {
     await bookingModel.updateCancellationProcess();
-    console.log('Cancellation process updated successfully.');
+    ('Cancellation process updated successfully.');
   } catch (error) {
     console.error('Error updating cancellation process:', error);
   }
@@ -179,7 +179,7 @@ exports.getBookingByTenantId = catchAsync(async (req, res, next) => {
 
   const booking = await bookingModel.findByUserId(tenantId);
 
-  console.log('book', booking);
+  'book', booking;
 
   if (!booking) {
     return next(new appError('No booking found', 404));

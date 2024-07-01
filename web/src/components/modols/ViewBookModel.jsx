@@ -68,7 +68,7 @@ const ViewBookModel = ({ isView, onClose, onRef }) => {
   const moveIn = dayMoveInStep >= 0 && dayMoveInStep < 7 ? true : false;
   const moveOut = dayMoveOutStep >= 0 && dayMoveOutStep < 5 ? true : false;
 
-  console.log('Move', selectItem);
+  'Move', selectItem;
 
   const moveinStartedDate = formatDateWithLong(
     addDaysToDate(new Date(selectItem?.startDate), 1)
@@ -84,7 +84,7 @@ const ViewBookModel = ({ isView, onClose, onRef }) => {
     ? moveOutProcessSteps
     : false;
 
-  // console.log('Move', selectItem);
+  // ('Move', selectItem);
   const paymentStatus = formatRentalStatus(selectItem);
 
   const onPaid = (method) => {
@@ -106,7 +106,7 @@ const ViewBookModel = ({ isView, onClose, onRef }) => {
     toast.success('Paid rent successfully');
   };
 
-  console.log('sss', moveSteps);
+  'sss', moveSteps;
 
   return (
     <>

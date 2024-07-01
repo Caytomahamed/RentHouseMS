@@ -9,6 +9,8 @@ router.get(
   maintanceController.getMaintenanceByLandlordId,
 );
 
+router.patch('/:id/markAsCompleted', maintanceController.markAsCompleted);
+
 router
   .route('/')
   .get(maintanceController.getAllMaintenance)

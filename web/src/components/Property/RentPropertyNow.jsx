@@ -17,7 +17,7 @@ import { toast } from 'react-toastify';
 import { appSelectUsers } from '../../store/slices/auth';
 
 const RentPropertyNow = ({ item, onRent, apply = false }) => {
-  console.log('applay', apply);
+  'applay', apply;
   const dispatch = useDispatch();
   const price = formatNumberWithCommas(item.rentAmount);
   const securityDeposit = formatNumberWithCommas(item.rentAmount * 0.35);

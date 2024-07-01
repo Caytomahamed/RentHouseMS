@@ -29,7 +29,7 @@ function DataTable({
   onOpenView,
 }) {
   const dispatch = useDispatch();
-  // console.log('table', tableType, data);
+  // ('table', tableType, data);
 
   const handleClickRow = (item) => {
     dispatch(setSelectItem(item));

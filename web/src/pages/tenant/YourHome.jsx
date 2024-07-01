@@ -124,7 +124,7 @@ const YourHome = () => {
 
   const [property] = yourProperty;
 
-  console.log('property home', yourProperty);
+  'property home', yourProperty;
 
   const handleReqCanclellation = (id) => {
     dispatch(requestCancellation(id));
@@ -233,7 +233,7 @@ const YourHome = () => {
                 property?.isConfirm !== 0 &&
                 yourProperty.map((property) => (
                   <>
-                    {console.log(property)}
+                    {property}
                     <Link
                       to={`/propertyDetails/${property.propertyId}`}
                       key={property.id}

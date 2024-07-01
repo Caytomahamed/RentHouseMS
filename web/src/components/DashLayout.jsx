@@ -1,17 +1,22 @@
 // eslint-disable-next-line no-unused-vars
-import React from 'react';
+import React, { useEffect } from 'react';
 import Logo from '../assets/images/logo.png';
-import profileImage from '../assets/images/person.jpg';
 
 // menu
 import Menu from './Menu';
 
 // icons
 import logoutIcon from '../assets/icons/logout.svg';
-import profileIcon from '../assets/icons/profile-icon.svg';
-import { useDispatch } from 'react-redux';
-import { userLogout } from '../store/slices/auth';
-import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  appSelectUsers,
+  getCurrentUser,
+  userLogout,
+} from '../store/slices/auth';
+import { Link, useNavigate } from 'react-router-dom';
+import { selectUsers } from '../store/slices/userSlice';
+import defaultImgIcon from '../assets/images/defaultImg.png';
+import { capitalize } from '@mui/material';
 
 // eslint-disable-next-line react/prop-types
 const DashLayout = ({ children, title, menuType }) => {
@@ -21,31 +26,20 @@ const DashLayout = ({ children, title, menuType }) => {
     dispatch(userLogout());
     navigateTo('/');
   };
-  // const getRandomColor = () => {
-  //   var letters = [
-  //     'linear-gradient( to right bottom,  rgba(255, 185, 0, 0.85),  rgba(255, 119, 48, 0.85))',
-  //     'linear-gradient(to right bottom,rgba(126, 213, 111, 0.85), rgba(40, 180, 133, 0.85))',
-  //     'linear-gradient(to right bottom,rgba(41, 152, 255, 0.85),rgba(86, 67, 250, 0.85))',
-  //     'linear-gradient(to right bottom,#c084fc,#581c87)',
-  //     'linear-gradient(to right bottom,#f472b6,#701a75)',
-  //     'linear-gradient(to right bottom, #fdba74,#c2410c)',
-  //     'linear-gradient(to right bottom, #74ebd5,#acb6e5 )',
-  //     'linear-gradient(to right bottom, #1cb5e0,#000046)',
-  //     'linear-gradient(to right bottom, #cbb4d4,#20002c)',
-  //   ];
 
-  //   // Generate a random index
-  //   const randomIndex = Math.floor(Math.random() * letters.length);
+  const { currentUser } = useSelector(appSelectUsers);
+  const { updateLoad } = useSelector(selectUsers);
 
-  //   // Get the random linear gradient
-  //   const randomGradient = letters[randomIndex];
+  useEffect(() => {
+    dispatch(getCurrentUser());
+  }, [dispatch, updateLoad]);
 
-  //   // Extract the first color from the random gradient
-  //   const match = randomGradient.match(/rgba?\([^)]+\)/);
-  //   const firstColor = match ? match[0] : null;
+  const img = currentUser?.imageUrl
+    ? `http://localhost:9000/uploads/${currentUser.imageUrl}`
+    : defaultImgIcon;
 
-  //   return firstColor;
-  // };
+  'meee', currentUser;
+
   return (
     <section className="dashboard">
       <div className="dashboard__sidebar">
@@ -63,12 +57,16 @@ const DashLayout = ({ children, title, menuType }) => {
         <div className="dashboard__profile">
           <div className="dashboard__profile_box">
             <div className="dashboard__profile__image">
-              <img src={profileImage} alt="profile" />
+              <Link to={'/profile'}>
+                <img src={img} alt="profile" />
+              </Link>
             </div>
-            <h3>user Name</h3>
+            <h3>
+              {currentUser.firstname && capitalize(currentUser?.firstname)}{' '}
+              {currentUser.lastname && capitalize(currentUser?.lastname)}
+            </h3>
           </div>
           <div className="dashboard__profile_icon">
-            <img src={profileIcon} alt="profileicon" />
             <img
               src={logoutIcon}
               alt="logouticon"

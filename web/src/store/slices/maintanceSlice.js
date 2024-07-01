@@ -18,6 +18,7 @@ const slice = createSlice({
     updateLoad: false,
     deleteLoad: false,
     createLoad: false,
+    markLoad: false,
     type: '',
     description: '',
   },
@@ -59,6 +60,7 @@ const slice = createSlice({
       maintanace.deleteLoad = false;
       maintanace.error = action.payload;
     },
+
     createRequest: (maintanace) => {
       maintanace.createLoad = true;
       maintanace.error = null;
@@ -68,11 +70,24 @@ const slice = createSlice({
       maintanace.successMsg = 'user successFully created';
     },
     createRequestFail: (maintanace, action) => {
+      '🚕🚕🚒🚍🛹🏍maintenance action create', action;
       maintanace.createLoad = false;
       maintanace.error = action.payload;
     },
+    markRequest: (maintanace) => {
+      maintanace.markLoad = true;
+      maintanace.error = null;
+    },
+    markRecieve: (maintanace) => {
+      maintanace.markLoad = false;
+      maintanace.successMsg = 'maintaince successFully created';
+    },
+    markRequestFail: (maintanace, action) => {
+      maintanace.markLoad = false;
+      maintanace.error = action.payload;
+    },
     setType: (maintanace, action) => {
-      console.log(action.payload);
+      action.payload;
       maintanace.type = action.payload;
     },
     setDescription: (maintanace, action) => {
@@ -125,6 +140,9 @@ export const {
   setCurrentPage,
   setItemsPerPage,
   setSortOrder,
+  markRequest,
+  markRecieve,
+  markRequestFail,
 } = slice.actions;
 
 export default slice.reducer;
@@ -157,7 +175,7 @@ export const getMaintanaceByLandLordId = (id) => {
 };
 
 export const updateMaintanace = (data) => {
-  console.log('👆👆👆', data);
+  '👆👆👆', data;
   return apiCallBegin({
     url: `/maintenance/${data.id}`,
     method: 'patch',
@@ -186,6 +204,16 @@ export const createMaintanace = (data) => {
     onStart: createRequest.type,
     onSuccess: createRecieve.type,
     onError: createRequestFail.type,
+  });
+};
+
+export const markedCompleted = (id) => {
+  return apiCallBegin({
+    url: `/maintenance/${id}/markAsCompleted`,
+    method: 'patch',
+    onStart: markRequest.type,
+    onSuccess: markRecieve.type,
+    onError: markRequestFail.type,
   });
 };
 

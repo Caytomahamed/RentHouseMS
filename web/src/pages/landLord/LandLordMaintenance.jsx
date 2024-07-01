@@ -43,6 +43,7 @@ const LandLordMaintenance = () => {
     searchQuery,
     sortKey,
     currentPage,
+    markLoad,
   } = useSelector(selectMaintanace);
 
   const { paginatedList, startIndex, endIndex, totalPages } = useSelector(
@@ -73,7 +74,7 @@ const LandLordMaintenance = () => {
     if (currentUser) {
       dispatch(getMaintanaceByLandLordId(currentUser.id));
     }
-  }, [dispatch, currentUser, deleteLoad, updateLoad]);
+  }, [dispatch, currentUser, deleteLoad, updateLoad, markLoad]);
 
   // State object to hold user information
   useEffect(() => {
@@ -160,7 +161,6 @@ const LandLordMaintenance = () => {
     onCloseEditModal,
     onCloseDeleteModal,
   };
-
 
   return (
     <TableWrapper

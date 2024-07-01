@@ -46,7 +46,7 @@ exports.getAllDrivers = catchAsync(async (req, res, next) => {
     return next(new AppError('No document found!', 401));
   }
 
-  console.log(doc);
+  doc;
   res.status(200).json({
     status: 'sucess',
     data: doc,

@@ -89,7 +89,7 @@ exports.findById = async id =>
 
 // Update user by ID and return the updated user
 exports.findByIdandUpdate = async (id, changes) => {
-  console.log('changes', changes);
+  'changes', changes;
   return db('users').update(changes).where('id', id).returning('*');
 };
 

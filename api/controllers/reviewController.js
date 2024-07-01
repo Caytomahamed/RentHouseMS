@@ -18,6 +18,7 @@ exports.getReviewsByProperty = catchAsync(async (req, res) => {
 // getReviewsByTenantId
 exports.getReviewsByTenantId = catchAsync(async (req, res) => {
   const { tenantId } = req.params;
+
   const reviews = await reviewModel.findReviewsByTenantId(tenantId);
 
   if (!reviews) {

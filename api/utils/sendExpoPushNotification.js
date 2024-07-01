@@ -13,7 +13,7 @@ async function sendExpoPushNotification(expoPushToken, title, body) {
 
   try {
     await expo.sendPushNotificationsAsync(messages);
-    console.log('Push notification sent successfully!');
+    ('Push notification sent successfully!');
   } catch (error) {
     console.error('Error sending push notification:', error);
     throw new Error('Failed to send push notification');

@@ -4,10 +4,13 @@ import React, { useEffect, useState } from 'react';
 import { Doughnut } from 'react-chartjs-2';
 import { useDispatch, useSelector } from 'react-redux';
 
+import { getAllUsers } from '../../store/slices/userSlice.js';
+import { appSelectUsers, getCurrentUser } from '../../store/slices/auth.js';
 import {
-  getAllUsers,
-  selectFilteredAndSortedUsers,
-} from '../../store/slices/userSlice.js';
+  getPropertyByLandlord,
+  selectFilteredAndSortedSchedule,
+  selectProperties,
+} from '../../store/slices/schedules.js';
 
 Chart.register(ArcElement, Tooltip, Legend);
 
@@ -16,14 +19,27 @@ const CarTypesPieChart = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    dispatch(getCurrentUser());
+  }, [dispatch]);
+
+  useEffect(() => {
     dispatch(getAllUsers());
   }, [dispatch]);
 
-  const { paginatedList } = useSelector(selectFilteredAndSortedUsers);
+  const { deleteLoad, updateLoad, createLoad } = useSelector(selectProperties);
+
+  const { currentUser } = useSelector(appSelectUsers);
+
+  // get properties
+  useEffect(() => {
+    dispatch(getPropertyByLandlord(currentUser.id));
+  }, [deleteLoad, createLoad, updateLoad, dispatch, currentUser]);
+
+  const { paginatedList } = useSelector(selectFilteredAndSortedSchedule);
 
   useEffect(() => {
     const carTypesData = paginatedList.reduce((acc, car) => {
-      acc[car.userType] = (acc[car.userType] || 0) + 1;
+      acc[car.propertyType] = (acc[car.propertyType] || 0) + 1;
       return acc;
     }, {});
 
@@ -45,7 +61,7 @@ const CarTypesPieChart = () => {
   return (
     <div style={{ width: '25rem' }}>
       <h2 style={{ marginLeft: '2rem', marginTop: '3rem', fontWeight: 'bold' }}>
-        Car Types Pie Chart
+        Houes Types Pie Chart
       </h2>
       {Object.keys(chartData).length > 0 && <Doughnut data={chartData} />}
     </div>

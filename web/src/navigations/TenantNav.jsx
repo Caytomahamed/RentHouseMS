@@ -6,9 +6,9 @@ import { Home } from '../pages/tenant/Home';
 import Footer from '../components/Footer/Footer';
 import PropertyList from '../components/Property/PropertyList';
 import PropertyDetails from '../components/Property/PropertyDetails';
-import Profile from '../pages/tenant/Profile';
 import YourHome from '../pages/tenant/YourHome';
-import YourInbox from '../pages/tenant/YourInbox';
+import Profile from '../pages/Profile';
+import YourInbox from '../pages/YourInbox';
 
 const TenantNav = () => {
   return (

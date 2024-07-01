@@ -33,7 +33,7 @@ exports.createOne = Model =>
   catchAsync(async (req, res, next) => {
     const doc = await Model.create(req.body);
 
-    console.log(doc);
+    doc;
 
     if (!doc) {
       return next(
@@ -84,7 +84,7 @@ exports.getAll = Model =>
 exports.searching = Model =>
   catchAsync(async (req, res, next) => {
     // 2) get all
-    console.log('query', req.query);
+    'query', req.query;
     const doc = await Model.searching(req.query);
 
     if (!doc || Object.keys(doc).length === 0) {

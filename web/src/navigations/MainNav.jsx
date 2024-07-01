@@ -46,7 +46,7 @@ const MainNav = () => {
       </div>
     );
   }
-  console.log('usertype', userType);
+  'usertype', userType;
   return (
     <div>
       {isLogin ? (

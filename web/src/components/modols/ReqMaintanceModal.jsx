@@ -27,6 +27,13 @@ const ReqMaintanceModal = ({
 
   const check = () => {
     if (selectedOption && text.length > 0) {
+      'maintance',
+        {
+          bookingId: item.id,
+          tenantId: item.tenantId,
+          type: selectedOption.value,
+          description: text,
+        };
       dispatch(
         createMaintanace({
           bookingId: item.id,
@@ -136,6 +143,7 @@ const ReqMaintanceModal = ({
                       width: '100%',
                     }}
                     onClick={check}
+                    disabled={!text || !selectedOption}
                   />
                 </div>
               </div>

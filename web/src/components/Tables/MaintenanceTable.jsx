@@ -1,15 +1,32 @@
 /* eslint-disable react/prop-types */
 // eslint-disable-next-line no-unused-vars
-import React from 'react';
-import { formatDate } from '../../utils/helperFunction';
+import React, { useEffect } from 'react';
+import { capitalize, formatDate } from '../../utils/helperFunction';
+import CustomButton from '../Custom/CustomButton';
+import { useDispatch } from 'react-redux';
+import { markedCompleted } from '../../store/slices/maintanceSlice';
+import { toast } from 'react-toastify';
 
 const MaintenanceTable = ({ item }) => {
+  const dispath = useDispatch();
+
+  const handleCompleted = () => {
+    if (item) {
+      dispath(markedCompleted(item.id));
+      toast.success('Maintenance Completed');
+      return;
+    }
+
+    toast.error('Error some thing wrong');
+    return;
+  };
+
   return (
     <>
       <td className="id">#{item.id}</td>
       <td
         style={{
-          width: '50rem',
+          width: '45rem',
           paddingRight: '2rem',
           lineHeight: 1.4,
         }}
@@ -43,6 +60,13 @@ const MaintenanceTable = ({ item }) => {
         >
           <p>{formatDate(item.created_at)}</p>
         </div>
+      </td>
+      <td>
+        {item.status === 'completed' ? (
+          <p> ✅ {capitalize(item.status)}</p>
+        ) : (
+          <CustomButton label="completed" onClick={handleCompleted} />
+        )}
       </td>
     </>
   );

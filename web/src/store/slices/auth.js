@@ -37,7 +37,7 @@ const usersSlice = createSlice({
       localStorage.setItem(USER_TYPE, action.payload.userType);
     },
     registerRequestFail: (state, action) => {
-      console.log('failed');
+      ('failed');
       state.token = null;
       state.isLoading = false;
       state.error = action.payload;
@@ -55,7 +55,7 @@ const usersSlice = createSlice({
       state.userType = action.payload.userType;
       state.isLogin = true;
       state.currentUser = action.payload;
-      console.log('action', action);
+      'action', action;
       localStorage.setItem(TOKEN_KEY, action.payload.token);
       if (!localStorage.getItem(USER_TYPE))
         localStorage.setItem(USER_TYPE, action.payload.userType);
@@ -91,7 +91,7 @@ const usersSlice = createSlice({
     },
     currentUserRequestFail: (state, action) => {
       // state.isLoading = false;
-      console.log('errd', action);
+      'errd', action;
       state.error = action.payload;
     },
   },

@@ -209,7 +209,7 @@ export const selectFilteredAndSortedBooks = (state) => {
   const totalPages = Math.ceil(list.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
 
-  console.log('filteredList', list);
+  'filteredList', list;
 
   let endIndex = startIndex + itemsPerPage;
   if (list && endIndex >= list?.length) endIndex = list?.length;
