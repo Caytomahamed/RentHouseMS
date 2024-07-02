@@ -43,6 +43,7 @@ const LandLordDash = () => {
     bookingsPerMonth,
     payments,
     rentORAvailable,
+    properties,
   } = useSelector(selectUsers);
 
   const myLabels = ['Available Properties', 'Rented Properties'];
@@ -61,7 +62,7 @@ const LandLordDash = () => {
             </div>
             <div className="systme__summary__box__text">
               <p>Properties</p>
-              <h1>{totals.totalProperties ? totals.totalBookings : 10}</h1>
+              <h1>{totals.totalProperties ? totals.totalProperties : 10}</h1>
             </div>
           </div>
           <div className="systme__summary__box">
@@ -198,7 +199,7 @@ const LandLordDash = () => {
             </table>
           </div>
           <div className="dashboard__popularloction">
-            <CarTypesPieChart />
+            <CarTypesPieChart list={properties} />
           </div>
         </div>
         <div className="dashboard__overview">

@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/prop-types */
 import { ArcElement, Chart, Legend, Tooltip } from 'chart.js/auto';
 // eslint-disable-next-line no-unused-vars
 import React, { useEffect, useState } from 'react';
@@ -14,31 +16,11 @@ import {
 
 Chart.register(ArcElement, Tooltip, Legend);
 
-const CarTypesPieChart = () => {
+const CarTypesPieChart = ({ list }) => {
   const [chartData, setChartData] = useState({});
-  const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getCurrentUser());
-  }, [dispatch]);
-
-  useEffect(() => {
-    dispatch(getAllUsers());
-  }, [dispatch]);
-
-  const { deleteLoad, updateLoad, createLoad } = useSelector(selectProperties);
-
-  const { currentUser } = useSelector(appSelectUsers);
-
-  // get properties
-  useEffect(() => {
-    dispatch(getPropertyByLandlord(currentUser.id));
-  }, [deleteLoad, createLoad, updateLoad, dispatch, currentUser]);
-
-  const { paginatedList } = useSelector(selectFilteredAndSortedSchedule);
-
-  useEffect(() => {
-    const carTypesData = paginatedList.reduce((acc, car) => {
+    const carTypesData = list.reduce((acc, car) => {
       acc[car.propertyType] = (acc[car.propertyType] || 0) + 1;
       return acc;
     }, {});
@@ -56,7 +38,7 @@ const CarTypesPieChart = () => {
         },
       ],
     });
-  }, [paginatedList]);
+  }, [list]);
 
   return (
     <div style={{ width: '25rem' }}>

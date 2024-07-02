@@ -35,4 +35,21 @@ exports.getByLandlord = catchAsync(async (req, res, next) => {
   });
 });
 
+exports.getByAdmin = catchAsync(async (req, res, next) => {
+  const reports = await reportModel.findReportsByAdmin();
+
+  console.log('me', reports);
+
+  if (!reports) {
+    return next(new appError('No reports found', 404));
+  }
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      reports,
+    },
+  });
+});
+
 exports.getAllTransportationReport = handleFactory.getAll(reportModel);

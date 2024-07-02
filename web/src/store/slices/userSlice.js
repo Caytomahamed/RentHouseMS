@@ -25,6 +25,7 @@ const init = {
   bookingsPerMonth: [],
   payments: [],
   rentORAvailable: [],
+  properties: [],
 };
 
 const slice = createSlice({
@@ -107,6 +108,7 @@ const slice = createSlice({
       users.reports = [];
     },
     reportRecieve: (users, action) => {
+      console.log('users', action);
       users.reportLoad = false;
       users.reports = action.payload;
       users.totals = action.payload.reports[0];
@@ -115,6 +117,7 @@ const slice = createSlice({
       users.bookingsPerMonth = action.payload.reports[4];
       users.payments = action.payload.reports[5];
       users.rentORAvailable = action.payload.reports[2];
+      users.properties = action.payload.reports[7];
     },
     reportRequestFail: (users, action) => {
       users.reportLoad = false;
@@ -207,6 +210,16 @@ export const deleteUser = (id) => {
 export const getReports = (id) => {
   return apiCallBegin({
     url: `/reports/${id}/landlord`,
+    method: 'get',
+    onSuccess: reportRecieve.type,
+    onStart: reportRequest.type,
+    onError: reportRequestFail.type,
+  });
+};
+export const getReportsAdmin = () => {
+  console.log('getReportsAdmin');
+  return apiCallBegin({
+    url: `/reports/admin`,
     method: 'get',
     onSuccess: reportRecieve.type,
     onStart: reportRequest.type,

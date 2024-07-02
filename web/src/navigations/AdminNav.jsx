@@ -6,6 +6,9 @@ import LandLords from '../pages/Admin/LandLords.jsx';
 import Bookings from '../pages/Admin/Bookings';
 import Properties from '../pages/Admin/Properties.jsx';
 import Tenants from '../pages/Admin/Tenants.jsx';
+import Profile from '../pages/Profile.jsx';
+import YourInbox from '../pages/YourInbox.jsx';
+
 
 const AdminNav = () => {
   return (
@@ -16,7 +19,8 @@ const AdminNav = () => {
         <Route path="/drivers" element={<LandLords />} />
         <Route path="/properties" element={<Properties />} />
         <Route path="/bookings" element={<Bookings />} />
-
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/yourinbox" element={<YourInbox />} />
         <Route path="*" element={<ErrorPage />} />
       </Routes>
     </Router>

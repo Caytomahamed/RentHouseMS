@@ -247,7 +247,7 @@ function Properties() {
               }}
             >
               {paginatedList.map((item) => (
-                <PropertyItem item={item} key={item.id} />
+                <PropertyItem item={item} key={item.id} previllage={true} />
               ))}
             </div>
           )}

@@ -5,17 +5,19 @@ const { findByDriverId, findByIdandUpdate } = require('./carModel');
 // find all booking
 exports.find = async () =>
   await db('booking as b')
-    .join('users as u', 'p.landLordId', 'u.id')
     .join('properties as p', 'b.propertyId', 'p.id')
-    .join('payments as pmt', 'b.id', 'pmt.bookingId')
     .join('propertyTypes as pt', 'p.propertyTypeId', 'pt.id')
+    .join('users as u', 'b.tenantId', 'u.id')
     .select(
       'b.id as id',
       'tenantId',
       'propertyId',
       'startDate',
       'endDate',
-      'securityDeposit',
+      'b.isConfirm as isConfirm',
+      'b.isCanclellation as isCanclellation',
+      'b.cancellationRequestedAt as cancellationRequestedAt',
+      'b.isReject as isReject',
       'p.address as address',
       'p.city as city',
       'p.state as state',
@@ -26,18 +28,18 @@ exports.find = async () =>
       'rentAmount',
       'available',
       'description',
-      'u.firstname as landLordFirstName',
-      'u.id as landLordId',
-      'u.lastname as landLordLastName',
-      'u.email as landLordEmail',
-      'u.phone as landLordPhone',
-      'u.imageUrl as landLordImageUrl',
-      'u.state as landLordState',
-      'u.city as landLordCity',
-      'u.address as landLordAddress',
+      'u.firstname as tenantFirstName',
+      'u.lastname as tenantLastName',
+      'u.email as tenantEmail',
+      'u.phone as tenantPhone',
+      'u.imageUrl as tenantImageUrl',
+      'u.state as tenantState',
+      'u.city as tenantCity',
+      'u.address as tenantAddress',
       'pt.type as propertyType',
       'imageUrls',
-    );
+    )
+    .orderBy('startDate', 'desc');
 
 // find booking by id
 exports.findById = async id =>

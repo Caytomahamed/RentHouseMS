@@ -7,122 +7,52 @@ import scheduleIcon from '../../assets/icons/dash-schedule.svg';
 import userIcon from '../../assets/icons/dash-users.svg';
 import driverIcon from '../../assets/icons/dash-driver.svg';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  getBooking,
-  selectFilteredAndSortedBooks,
-} from '../../store/slices/boookSlice.js';
 
 import '../../sass/main.scss';
 
 import CarTypesPieChart from '../../components/graphs/CarTypesPieChart.jsx';
 import MyLineChart from '../../components/graphs/MyLineChart.jsx';
 import { Link } from 'react-router-dom';
-import { getDashSummary, selectUsers } from '../../store/slices/userSlice.js';
-import PolarAreaChart from '../../components/graphs/PolarAreaChart.jsx';
-import {
-  getSchedules,
-  selectFilteredAndSortedSchedule,
-  selectProperties,
-} from '../../store/slices/schedules.js';
-import LineChart from '../../components/graphs/LineChart.jsx';
-import ScheduleChart from '../../components/graphs/ScheduleChart.jsx';
-import DynamicChart from '../../components/graphs/DynamicChart.jsx';
-import {
-  getTranportReport,
-  selectReport,
-} from '../../store/slices/reportSlices.js';
-import TransportationReport from '../../components/reports/TransportationReport.jsx';
+import { getReportsAdmin, selectUsers } from '../../store/slices/userSlice.js';
+
 import BarChart from '../../components/graphs/BarChart.jsx';
-import { groupBy } from '../../utils/groupBy.jsx';
+import {
+  formatDate,
+  formatNumberWithCommas,
+} from '../../utils/helperFunction.jsx';
 
 function Dashboard() {
-  // get user call
   const dispatch = useDispatch();
-  const { deleteLoad, updateLoad, createLoad } = useSelector(
-    (state) => state.entities.bookings
-  );
 
   useEffect(() => {
-    dispatch(getBooking());
-  }, [deleteLoad, createLoad, updateLoad, dispatch]);
+    dispatch(getReportsAdmin());
+    console.log('dis');
+  }, [dispatch]);
 
   const {
-    deleteLoad: schdeleteLoad,
-    createLoad: schcreateLoad,
-    updateLoad: schupdateLoad,
-  } = useSelector(selectProperties);
-  useEffect(() => {
-    dispatch(getSchedules());
-  }, [schdeleteLoad, schcreateLoad, schupdateLoad, dispatch]);
+    totals,
+    last30Days,
+    books,
+    bookingsPerMonth,
+    payments,
+    rentORAvailable,
+    properties,
+  } = useSelector(selectUsers);
 
-  const { paginatedList: schpaginatedList } = useSelector(
-    selectFilteredAndSortedSchedule
-  );
-  const { transportReport } = useSelector(selectReport);
+  const myLabels = ['Available Properties', 'Rented Properties'];
+  const myData = [
+    rentORAvailable.availableProperties,
+    rentORAvailable.rentedProperties,
+  ];
 
-  useEffect(() => {
-    dispatch(getDashSummary());
-  }, [dispatch]);
-
-  useEffect(() => {
-    dispatch(getTranportReport());
-  }, [dispatch]);
-
-  const { paginatedList } = useSelector(selectFilteredAndSortedBooks);
-
-  const { dash } = useSelector(selectUsers);
-
-  const { student, bookings, schedules, drivers } = dash;
-
-  const startPoints = schpaginatedList.map((item) => item.start);
-  const startCounts = startPoints.reduce((acc, start) => {
-    acc[start] = (acc[start] || 0) + 1;
-    return acc;
-  }, {});
-
-  const labels = Object.keys(startCounts);
-  const data = Object.values(startCounts);
-
-  const finishPoints = schpaginatedList.map((item) => item.finish);
-  const finishCounts = finishPoints.reduce((acc, finish) => {
-    acc[finish] = (acc[finish] || 0) + 1;
-    return acc;
-  }, {});
-
-  const finish = Object.keys(finishCounts);
-  const data2 = Object.values(finishCounts);
-
-  // Graphs data
-  // 1. User Roles Distribution:
-  // 2. Property Types Distribution:
-  // 3. Booking Relationships:
-  // How are properties, tenants, and bookings interconnected?
-  // This question visualizes the relationships between 'properties', 'users' (tenants), and 'booking' tables, highlighting how bookings are linked to specific properties and tenants.
-
-  // const scheduleGroupbyStart = groupBy(schpaginatedList, 'start');
-
-  // Function to calculate the total booked seats for each start point
-  function calculateTotalBookedSeats(data) {
-    const totals = {};
-    data.forEach((item) => {
-      if (!totals[item.start]) {
-        totals[item.start] = 0;
-      }
-      totals[item.start] += item.bookedSeats;
-    });
-
-    // Convert totals object to the desired format
-    const result = Object.keys(totals).map((start) => ({
-      start,
-      bookedSeats: totals[start],
-    }));
-
-    return result;
-  }
-  const sch = calculateTotalBookedSeats(schpaginatedList);
-
-  const starts = sch.map((item) => item.start);
-  const bookedSeats = sch.map((item) => item.bookedSeats);
+  console.log({
+    totals,
+    last30Days,
+    books,
+    bookingsPerMonth,
+    payments,
+    rentORAvailable,
+  });
 
   return (
     <>
@@ -133,8 +63,8 @@ function Dashboard() {
               <img src={userIcon} alt="" />
             </div>
             <div className="systme__summary__box__text">
-              <p>Student</p>
-              <h1>{student ? student : 10}</h1>
+              <p>Properties</p>
+              <h1>{totals.totalProperties ? totals.totalProperties : 10}</h1>
             </div>
           </div>
           <div className="systme__summary__box">
@@ -144,7 +74,7 @@ function Dashboard() {
 
             <div className="systme__summary__box__text">
               <p>Bookings</p>
-              <h1>{bookings ? bookings : 10}</h1>
+              <h1>{totals.totalBookings ? totals.totalBookings : 10}</h1>
             </div>
           </div>
           <div className="systme__summary__box">
@@ -153,8 +83,12 @@ function Dashboard() {
             </div>
 
             <div className="systme__summary__box__text">
-              <p>schedule</p>
-              <h1>{schedules ? schedules : 2}</h1>
+              <p>Income</p>
+              <h1>
+                {totals.totalIncome
+                  ? formatNumberWithCommas('' + totals.totalIncome)
+                  : 10}
+              </h1>
             </div>
           </div>
           <div className="systme__summary__box">
@@ -163,8 +97,12 @@ function Dashboard() {
             </div>
 
             <div className="systme__summary__box__text">
-              <p>Drivers</p>
-              <h1>{drivers ? drivers : 7}</h1>
+              <p>Pending Pays</p>
+              <h1>
+                {totals.totalMaintenanceRequests
+                  ? totals.totalMaintenanceRequests
+                  : 10}
+              </h1>
             </div>
           </div>
         </div>
@@ -191,7 +129,7 @@ function Dashboard() {
                 <th>take look</th>
               </thead>
               <tbody>
-                {paginatedList?.slice(0, 5).map((item) => {
+                {books?.slice(0, 5).map((item) => {
                   return (
                     <tr key={item.id} className="user-tr">
                       <td className="id">#{item.id}</td>
@@ -211,10 +149,9 @@ function Dashboard() {
                             borderWidth: '1px',
                             borderStyle: 'solid',
                             fontWeight: 'bold',
-                            width: '10rem',
                           }}
                         >
-                          <p>{item.startDate}</p>
+                          <p>{formatDate(item.startDate)}</p>
                         </div>
                       </td>
                       <td>
@@ -227,7 +164,7 @@ function Dashboard() {
                             borderStyle: 'solid',
                           }}
                         >
-                          <p>{item.endDate}</p>
+                          <p>{formatDate(item.endDate)}</p>
                         </div>
                       </td>
                       <td>
@@ -238,7 +175,7 @@ function Dashboard() {
                             justifyContent: 'center',
                           }}
                         >
-                          <Link to="/bookings">
+                          <Link to="/Bookings">
                             <div
                               style={{
                                 backgroundColor: '#2438F6',
@@ -264,12 +201,12 @@ function Dashboard() {
             </table>
           </div>
           <div className="dashboard__popularloction">
-            <CarTypesPieChart />
+            <CarTypesPieChart list={properties} />
           </div>
         </div>
         <div className="dashboard__overview">
           <div className="dashboard__overview__child">
-            <MyLineChart />
+            <MyLineChart bookingsPerMonth={bookingsPerMonth} />
           </div>
           <div className="dashboard__overview__child2">
             <h1 className="analysis__header">System analaysis</h1>
@@ -289,11 +226,14 @@ function Dashboard() {
                       style={{ width: '5rem', height: '5rem' }}
                     />
                     <span style={{ fontWeight: 'bold' }}>
-                      Students Register
+                      maintenance Requests
                     </span>
                   </div>
                   <h1 style={{ marginTop: '5px', color: 'gray' }}>
-                    10 last 30 days
+                    {last30Days.maintenanceRequestsLast30Days
+                      ? last30Days.maintenanceRequestsLast30Days
+                      : 10}{' '}
+                    last 30 days
                   </h1>
                 </div>
               </div>
@@ -311,10 +251,15 @@ function Dashboard() {
                       alt=""
                       style={{ width: '5rem', height: '5rem' }}
                     />
-                    <span style={{ fontWeight: 'bold' }}>Schedule created</span>
+                    <span style={{ fontWeight: 'bold' }}>
+                      Properties created
+                    </span>
                   </div>
                   <h1 style={{ marginTop: '5px', color: 'gray' }}>
-                    10 last 30 days
+                    {last30Days.bookingsLast30Days
+                      ? last30Days.bookingsLast30Days
+                      : 10}{' '}
+                    last 30 days
                   </h1>
                 </div>
               </div>
@@ -335,7 +280,10 @@ function Dashboard() {
                     <span style={{ fontWeight: 'bold' }}>Booking Of rides</span>
                   </div>
                   <h1 style={{ marginTop: '5px', color: 'gray' }}>
-                    10 last 30 days
+                    {last30Days.bookingsLast30Days
+                      ? last30Days.bookingsLast30Days
+                      : 10}{' '}
+                    last 30 days
                   </h1>
                 </div>
               </div>
@@ -353,10 +301,16 @@ function Dashboard() {
                       alt=""
                       style={{ width: '5rem', height: '5rem' }}
                     />
-                    <span style={{ fontWeight: 'bold' }}>Driver register</span>
+                    <span style={{ fontWeight: 'bold' }}>
+                      {' '}
+                      Pending Payments
+                    </span>
                   </div>
                   <h1 style={{ marginTop: '5px', color: 'gray' }}>
-                    10 last 30 days
+                    {last30Days.paymentsLast30Days
+                      ? last30Days.paymentsLast30Days
+                      : 10}{' '}
+                    last 30 days
                   </h1>
                 </div>
               </div>
@@ -369,16 +323,86 @@ function Dashboard() {
             style={{ minHeight: '20vh' }}
           >
             <div className="componay__report">
-              <h1>Company Reports</h1>
-              {transportReport &&
-                transportReport.summaryReports &&
-                transportReport?.summaryReports.map((item) => (
-                  <TransportationReport item={item} key={item} />
-                ))}
+              <h1>Latest Payments</h1>
+              <table id="Table" style={{ marginTop: '2rem' }}>
+                <thead>
+                  <th className="id">id no#</th>
+                  <th>amount</th>
+                  <th>Method</th>
+                  <th>status</th>
+                  <th>take look</th>
+                </thead>
+                <tbody>
+                  {payments?.slice(0, 4).map((item) => {
+                    return (
+                      <tr key={item.id} className="user-tr">
+                        <td className="id">#{item.id}</td>
+                        <td style={{ paddingLeft: '2rem', fontWeight: 'bold' }}>
+                          ${formatNumberWithCommas('' + item.amount)}
+                        </td>
+                        <td>
+                          <div
+                            className="userType"
+                            style={{
+                              color: '#FB5559',
+                              borderColor: '#FB5559',
+                              borderWidth: '1px',
+                              borderStyle: 'solid',
+                              fontWeight: 'bold',
+                            }}
+                          >
+                            <p>{item.paymentMethod}</p>
+                          </div>
+                        </td>
+                        <td>
+                          <div
+                            className="userType"
+                            style={{
+                              color: '#0000ff',
+                              borderColor: '#0000ff',
+                              borderWidth: '1px',
+                              borderStyle: 'solid',
+                            }}
+                          >
+                            <p>{item.status}</p>
+                          </div>
+                        </td>
+                        <td>
+                          <div
+                            style={{
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                            }}
+                          >
+                            <Link to="/payment">
+                              <div
+                                style={{
+                                  backgroundColor: '#2438F6',
+                                  color: 'white',
+                                  padding: '10px 15px',
+                                  textAlign: 'center',
+                                  textDecoration: 'none',
+                                  display: 'inline-block',
+                                  fontSize: '12px',
+                                  cursor: 'pointer',
+                                  borderRadius: '4px',
+                                }}
+                              >
+                                Try Look!
+                              </div>
+                            </Link>
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
             </div>
           </div>
           <div className="dashboard__overview__child">
-            <BarChart labels={starts} data={bookedSeats} />
+            <BarChart labels={myLabels} data={myData} />
           </div>
         </div>
 

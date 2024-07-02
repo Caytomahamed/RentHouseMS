@@ -317,6 +317,38 @@ exports.findReportsByLandlord = async landlordId => {
     .groupBy(db.raw('strftime("%Y-%m", created_at)'))
     .orderBy('month', 'asc');
 
+  const properties = await db('properties as p')
+    .join('users as u', 'p.landLordId', 'u.id')
+    .join('propertyTypes as pt', 'p.propertyTypeId', 'pt.id')
+    .select(
+      'p.id as id',
+      'p.address as address',
+      'p.city as city',
+      'p.state as state',
+      'maplink',
+      'squareFootage',
+      'bedrooms',
+      'bathrooms',
+      'lat',
+      'long',
+      'rentAmount',
+      'available',
+      'description',
+      'u.id as landLordId',
+      'u.firstname as landLordFirstName',
+      'u.lastname as landLordLastName',
+      'u.email as landLordEmail',
+      'u.phone as landLordPhone',
+      'u.imageUrl as landLordImageUrl',
+      'u.state as landLordState',
+      'u.city as landLordCity',
+      'u.address as landLordAddress',
+      'pt.type as propertyType',
+      'pt.Id as propertyTypeId',
+      'imageUrls',
+    )
+    .where('landLordId', landlordId);
+
   const bookings = await db('booking')
     .join('properties', 'booking.propertyId', 'properties.id')
     .where('properties.landLordId', landlordId)
@@ -365,5 +397,157 @@ exports.findReportsByLandlord = async landlordId => {
     detailedBookings,
     detailedPayments,
     detailedMaintenanceRequests,
+    properties,
+  ];
+};
+
+// website
+exports.findReportsByAdmin = async landlordId => {
+  const { totalProperties } = await db('properties')
+    .count('* AS totalProperties')
+    .first();
+
+  const { totalBookings } = await db('booking')
+    .count('* AS totalBookings')
+    .join('properties', 'booking.propertyId', 'properties.id')
+    .first();
+
+  const { totalIncome } = await db('payments')
+    .sum('amount AS totalIncome')
+    .join('booking', 'payments.bookingId', 'booking.id')
+    .join('properties', 'booking.propertyId', 'properties.id')
+    .first();
+
+  const { totalMaintenanceRequests } = await db('maintenanceRequests')
+    .count('* AS totalMaintenanceRequests')
+    .join('booking', 'maintenanceRequests.bookingId', 'booking.id')
+    .join('properties', 'booking.propertyId', 'properties.id')
+    .first();
+
+  const { bookingsLast30Days } = await db('booking')
+    .count('* AS bookingsLast30Days')
+    .join('properties', 'booking.propertyId', 'properties.id')
+    .andWhere('booking.created_at', '>=', db.raw("DATE('now', '-30 days')"))
+    .first();
+
+  const { paymentsLast30Days } = await db('payments')
+    .count('* AS paymentsLast30Days')
+    .join('booking', 'payments.bookingId', 'booking.id')
+    .join('properties', 'booking.propertyId', 'properties.id')
+    .andWhere('payments.created_at', '>=', db.raw("DATE('now', '-30 days')"))
+    .first();
+
+  const { maintenanceRequestsLast30Days } = await db('maintenanceRequests')
+    .count('* AS maintenanceRequestsLast30Days')
+    .join('booking', 'maintenanceRequests.bookingId', 'booking.id')
+    .join('properties', 'booking.propertyId', 'properties.id')
+    .andWhere(
+      'maintenanceRequests.created_at',
+      '>=',
+      db.raw("DATE('now', '-30 days')"),
+    )
+    .first();
+
+  // const propertiesLast30Days = await db('properties')
+  //   .count('* AS propertiesLast30Days')
+  //   .where('landLordId', landlordId)
+  //   .andWhere('created_at', '>=', db.raw("DATE('now', '-30 days')"))
+  //   .first();
+
+  const propertyStatus = await db('properties')
+    .select(
+      db.raw(`
+      SUM(CASE WHEN available = true THEN 1 ELSE 0 END) AS availableProperties,
+      SUM(CASE WHEN available = false THEN 1 ELSE 0 END) AS rentedProperties
+    `),
+    )
+    .first();
+
+  const detailedBookings = await db('booking')
+    .select(
+      db.raw('strftime("%Y-%m", created_at) AS month'),
+      db.raw('COUNT(*) AS count'),
+    )
+    .join('properties', 'booking.propertyId', 'properties.id')
+    .groupBy(db.raw('strftime("%Y-%m", created_at)'))
+    .orderBy('month', 'asc');
+
+  const bookings = await db('booking')
+    .join('properties', 'booking.propertyId', 'properties.id')
+    .orderBy('booking.created_at', 'DESC')
+    .select('booking.*');
+
+  const detailedPayments = await db('payments')
+    .select(
+      'payments.*',
+      'properties.address',
+      'properties.city',
+      'properties.state',
+    )
+    .join('booking', 'payments.bookingId', 'booking.id')
+    .join('properties', 'booking.propertyId', 'properties.id')
+    .orderBy('payments.created_at', 'DESC');
+
+  const detailedMaintenanceRequests = await db('maintenanceRequests')
+    .select(
+      'maintenanceRequests.*',
+      'properties.address',
+      'properties.city',
+      'properties.state',
+    )
+    .join('booking', 'maintenanceRequests.bookingId', 'booking.id')
+    .join('properties', 'booking.propertyId', 'properties.id')
+    .orderBy('maintenanceRequests.created_at', 'DESC');
+
+  const properties = await db('properties as p')
+    .join('users as u', 'p.landLordId', 'u.id')
+    .join('propertyTypes as pt', 'p.propertyTypeId', 'pt.id')
+    .select(
+      'p.id as id',
+      'p.address as address',
+      'p.city as city',
+      'p.state as state',
+      'maplink',
+      'squareFootage',
+      'bedrooms',
+      'bathrooms',
+      'lat',
+      'long',
+      'rentAmount',
+      'available',
+      'description',
+      'u.id as landLordId',
+      'u.firstname as landLordFirstName',
+      'u.lastname as landLordLastName',
+      'u.email as landLordEmail',
+      'u.phone as landLordPhone',
+      'u.imageUrl as landLordImageUrl',
+      'u.state as landLordState',
+      'u.city as landLordCity',
+      'u.address as landLordAddress',
+      'pt.type as propertyType',
+      'pt.Id as propertyTypeId',
+      'imageUrls',
+    );
+
+  return [
+    {
+      totalProperties,
+      totalBookings,
+      totalIncome,
+      totalMaintenanceRequests,
+    },
+    {
+      bookingsLast30Days,
+      paymentsLast30Days,
+      maintenanceRequestsLast30Days,
+      // propertiesLast30Days,
+    },
+    propertyStatus,
+    bookings,
+    detailedBookings,
+    detailedPayments,
+    detailedMaintenanceRequests,
+    properties,
   ];
 };
