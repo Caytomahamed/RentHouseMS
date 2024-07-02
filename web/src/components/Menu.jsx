@@ -88,8 +88,19 @@ function Menu({ menuType = 'admin' }) {
         path: '/bookings',
         icon: bookingIcon,
       },
+      {
+        name: 'Maintenance',
+        path: '/maintenance',
+        icon: bookingIcon,
+      },
+      {
+        name: 'Payments',
+        path: '/payments',
+        icon: bookingIcon,
+      },
     ];
   }
+
   return (
     <ul style={{ display: 'flex', flexDirection: 'column' }}>
       {menus.map((menu) => {

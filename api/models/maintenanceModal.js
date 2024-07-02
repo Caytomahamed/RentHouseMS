@@ -1,7 +1,21 @@
 const db = require('../data/dbConfig');
 
 // find all maintance
-exports.find = async () => await db('maintenanceRequests as m').select('*');
+exports.find = async () =>
+  await db('maintenanceRequests as m')
+    .join('booking as b', 'm.bookingId', 'b.id')
+    .join('properties as p', 'b.propertyId', 'p.id')
+    .select(
+      'm.id as id ',
+      'b.id as bookingId',
+      'p.landLordId as landLordId',
+      'm.tenantId as tenantId',
+      'p.id as propertyId',
+      'm.description as description',
+      'm.type as type',
+      'm.status',
+      'm.created_at',
+    );
 
 // find maintance by id
 exports.findById = async id =>

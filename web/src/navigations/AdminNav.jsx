@@ -8,7 +8,8 @@ import Properties from '../pages/Admin/Properties.jsx';
 import Tenants from '../pages/Admin/Tenants.jsx';
 import Profile from '../pages/Profile.jsx';
 import YourInbox from '../pages/YourInbox.jsx';
-
+import Maintenance from '../pages/Admin/Maintenance.jsx';
+import Payments from '../pages/Admin/Payments.jsx';
 
 const AdminNav = () => {
   return (
@@ -21,6 +22,8 @@ const AdminNav = () => {
         <Route path="/bookings" element={<Bookings />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/yourinbox" element={<YourInbox />} />
+        <Route path="/maintenance" element={<Maintenance />} />
+        <Route path="/payments" element={<Payments />} />
         <Route path="*" element={<ErrorPage />} />
       </Routes>
     </Router>
