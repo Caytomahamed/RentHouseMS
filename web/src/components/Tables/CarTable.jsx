@@ -2,6 +2,7 @@
 // eslint-disable-next-line no-unused-vars
 import React from 'react';
 import { carTypeColors } from '../../utils/tableConstants';
+import { uploadFolder } from '../../../config/config';
 
 const CarTable = ({ item }) => {
   const drivertypeColor = carTypeColors[item.carType];
@@ -16,7 +17,7 @@ const CarTable = ({ item }) => {
           >
             {`${item.carImg}`.startsWith('file') ? (
               <img
-                src={`http://localhost:9000/uploads/${item.carImg}`}
+                src={`${uploadFolder}/${item.carImg}`}
                 alt="image"
                 style={{ objectFit: 'contain' }}
               />

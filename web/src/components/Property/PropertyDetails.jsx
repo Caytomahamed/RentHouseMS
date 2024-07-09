@@ -30,6 +30,7 @@ import {
 } from '../../store/slices/reviewSlice';
 import ReviewItem from '../Reviews/ReviewItem';
 import { appSelectUsers, getCurrentUser } from '../../store/slices/auth';
+import { uploadFolder } from '../../../config/config';
 
 const PropertyDetails = () => {
   const params = useParams();
@@ -92,15 +93,9 @@ const PropertyDetails = () => {
     );
   }
 
-  const img_url = `http://localhost:9000/uploads/${
-    JSON.parse(property.imageUrls)[0]
-  }`;
-  const img_url1 = `http://localhost:9000/uploads/${
-    JSON.parse(property.imageUrls)[1]
-  }`;
-  const img_url2 = `http://localhost:9000/uploads/${
-    JSON.parse(property.imageUrls)[2]
-  }`;
+  const img_url = `${uploadFolder}/${JSON.parse(property.imageUrls)[0]}`;
+  const img_url1 = `${uploadFolder}/${JSON.parse(property.imageUrls)[1]}`;
+  const img_url2 = `${uploadFolder}/${JSON.parse(property.imageUrls)[2]}`;
 
   const img = img_url.replace(/['"]+/g, '');
   const img1 = img_url1.replace(/['"]+/g, '');

@@ -25,6 +25,7 @@ import { capitalize } from '@mui/material';
 import defaultImgIcon from '../../assets/images/defaultImg.png';
 import { appSelectUsers, getCurrentUser } from '../../store/slices/auth';
 import { selectUsers } from '../../store/slices/userSlice';
+import { uploadFolder } from '../../../config/config';
 
 // eslint-disable-next-line react/prop-types
 const ViewBookModel = ({ isView, onClose, onRef }) => {
@@ -42,10 +43,10 @@ const ViewBookModel = ({ isView, onClose, onRef }) => {
 
   // landlord and tenant profile
   const tenantImgUrl = selectItem?.tenantImageUrl
-    ? `http://localhost:9000/uploads/${selectItem?.tenantImageUrl}`
+    ? `${uploadFolder}/${selectItem?.tenantImageUrl}`
     : defaultImgIcon;
   const landLordImgUrl = currentUser?.imageUrl
-    ? `http://localhost:9000/uploads/${currentUser?.imageUrl}`
+    ? `${uploadFolder}/${currentUser?.imageUrl}`
     : defaultImgIcon;
 
   /// open modal;

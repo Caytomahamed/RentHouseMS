@@ -8,6 +8,7 @@ import {
   yearColors,
 } from '../../utils/tableConstants';
 import personImg from '../../assets/icons/profile-icon.svg';
+import { uploadFolder } from '../../../config/config';
 
 // eslint-disable-next-line react/prop-types
 const StudentTable = ({ item }) => {
@@ -24,10 +25,7 @@ const StudentTable = ({ item }) => {
             {item.imageUrl &&
             item.imageUrl !== 'undefined' &&
             item.imageUrl !== 'url_to_image' ? (
-              <img
-                src={`http://localhost:9000/uploads/${item.imageUrl}`}
-                alt="image"
-              />
+              <img src={`${uploadFolder}/${item.imageUrl}`} alt="image" />
             ) : (
               <img src={personImg} alt="image" />
             )}

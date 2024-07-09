@@ -22,7 +22,6 @@ import { formatDate } from '../../utils/helperFunction';
 import { toast } from 'react-toastify';
 import paymentTableData from './../../../config/paymentTableData.json';
 
-
 const Payments = () => {
   const dispatch = useDispatch();
 
@@ -157,7 +156,7 @@ const Payments = () => {
   };
   return (
     <TableWrapper
-      title="Your Payments"
+      title="All Payments"
       store={store}
       configTableData={paymentTableData}
       filterData={filterData}

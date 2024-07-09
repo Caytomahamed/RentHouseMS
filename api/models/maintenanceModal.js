@@ -31,9 +31,11 @@ exports.findByIdandUpdate = async (id, changes) => {
 
 // add maintance
 exports.create = async maintance => {
-  const [id] = await db('maintenanceRequests').insert(maintance);
+  const [id] = await db('maintenanceRequests').insert({
+    isIssue: true,
+    ...maintance,
+  });
 
-  await db('maintenanceRequests').where('id', id).update({ isIssue: true });
   return this.findById(id);
 };
 

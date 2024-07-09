@@ -8,6 +8,7 @@ import bedIcon from '../../assets/icons/bedcolor.svg';
 import bathIcon from '../../assets/icons/bathcolor.svg';
 import areaIcon from '../../assets/icons/areacolor.svg';
 import CustomButton from '../Custom/CustomButton';
+import { uploadFolder } from '../../../config/config';
 
 const PropertyItem = ({
   item,
@@ -16,9 +17,7 @@ const PropertyItem = ({
   onOpenActions,
   previllage = false,
 }) => {
-  const bg = `url('http://localhost:9000/uploads/${
-    JSON.parse(item.imageUrls)[0]
-  }')`;
+  const bg = `url('${uploadFolder}/${JSON.parse(item.imageUrls)[0]}')`;
 
   const price = formatNumberWithCommas(item.rentAmount);
   const type = capitalize(item.propertyType);
@@ -44,10 +43,6 @@ const PropertyItem = ({
             }}
           >
             &nbsp;
-            {/* <div className="card__picture__status">
-              <h1 style={{ color: 'white', fontSize: '1.8rem' }}>🎉 Popular</h1>
-            </div> */}
-            {/* <div className="right-triangle"></div> */}
           </div>
           <div className="card__details">
             <div className="card__details__header">
@@ -64,7 +59,8 @@ const PropertyItem = ({
             </div>
             <div className="card__details__body">
               <h1>
-                {item.landLordId} {type} {item.landLordFirstName}
+                {/* {item.landLordId} */}
+                {type} {item.landLordFirstName}
               </h1>
               <h4>{address}</h4>
             </div>

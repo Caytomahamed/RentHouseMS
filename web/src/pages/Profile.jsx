@@ -19,6 +19,7 @@ import { toast } from 'react-toastify';
 
 import { deleteUser, selectUsers, updateUser } from '../store/slices/userSlice';
 import { getUnReadInbox, selectInboxes } from '../store/slices/inboxSlice';
+import { uploadFolder } from '../../config/config';
 
 const Profile = (props) => {
   const dispatch = useDispatch();
@@ -56,7 +57,7 @@ const Profile = (props) => {
   'hasldfhk', currentUser.userType;
 
   const img = currentUser?.imageUrl
-    ? `http://localhost:9000/uploads/${currentUser.imageUrl}`
+    ? `${uploadFolder}/${currentUser.imageUrl}`
     : defaultImgIcon;
 
   const handleChangePassword = (event) => {
@@ -159,22 +160,22 @@ const Profile = (props) => {
                 marginTop: '3rem',
               }}
             />
-            {currentUser?.userType !== 'tenant' && (
-              <div style={{ height: '5rem' }}></div>
-            )}
-            {currentUser?.userType === 'tenant' && (
-              <Link to="/yourHome">
-                <CustomButton
-                  label="YourHome"
-                  color={'#E47675'}
-                  style={{
-                    padding: '1.5rem 2rem',
-                    marginTop: '3rem',
-                    width: '24rem',
-                  }}
-                />
-              </Link>
-            )}
+            {/* {currentUser?.userType !== 'tenant' && ( */}
+            <div style={{ height: '5rem' }}></div>
+            {/* // )} */}
+            {/* {currentUser?.userType === 'tenant' && ( */}
+            <Link to="/yourHome">
+              <CustomButton
+                label="YourHome"
+                color={'#E47675'}
+                style={{
+                  padding: '1.5rem 2rem',
+                  marginTop: '3rem',
+                  width: '24rem',
+                }}
+              />
+            </Link>
+            {/* // )} */}
 
             <Link to="/yourInbox" className="link">
               <div className="inbox-container ">

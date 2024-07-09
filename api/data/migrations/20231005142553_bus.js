@@ -38,7 +38,6 @@ exports.up = function (knex) {
       table.string('address', 255).notNullable();
       table.string('city', 100).notNullable();
       table.string('state', 50).notNullable();
-      table.string('maplink', 50).notNullable();
       table.integer('squareFootage');
       table.integer('bedrooms');
       table.integer('lat');
@@ -111,7 +110,7 @@ exports.up = function (knex) {
       table.string('paymentMethod').notNullable();
       table.string('transactionId').unique().notNullable();
       table.timestamp('paidAt').nullable();
-      table.timestamps(true, true); 
+      table.timestamps(true, true);
       table.decimal('securityDeposit').notNullable();
 
       table.index(['bookingId', 'status']); // Adding index for faster queries on booking_id and status

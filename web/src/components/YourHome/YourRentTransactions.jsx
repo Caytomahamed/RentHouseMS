@@ -6,17 +6,17 @@ import {
   formatNumberWithCommas,
 } from '../../utils/helperFunction';
 
+const capitalized = (string) => {
+  return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+};
+
 const YourRentTransactions = ({ isMoveDay, payments }) => {
-  //   .select(
-  //   'p.id',
-  //   'b.id as bookingId',
-  //   'b.tenantId as tenantId',
-  //   'p.amount as amount',
-  //   'p.status',
-  //   'p.paymentMethod',
-  //   'p.transactionId',
-  //   'p.paidAt',
-  // )
+  const paymentMethodColor = {
+    Cash: '#7a00b8',
+    Zaad: 'green',
+    Edahab: 'orange',
+  };
+
   return (
     <>
       {isMoveDay && (
@@ -26,7 +26,7 @@ const YourRentTransactions = ({ isMoveDay, payments }) => {
           }}
         >
           <h1 style={{ marginBottom: '5rem', fontSize: '3rem' }}>
-            Your Transitions
+            My Transations
           </h1>
           {/* transition table  */}
 
@@ -34,28 +34,53 @@ const YourRentTransactions = ({ isMoveDay, payments }) => {
             style={{ boxShadow: '0 1rem 2rem rgba(0,0,0,.1)', padding: '4rem' }}
           >
             <table>
-              <tr>
+              <tr style={{ height: '3rem' }}>
                 <th>TransactionId</th>
                 <th>Amout</th>
-                <th>Status</th>
                 {/* <th>Req. Maintance</th> */}
                 {/* <th>Payment Status</th> */}
-                <th>Payment Method</th>
+                <th>Method</th>
                 <th>TransactionId</th>
                 <th>Paid At</th>
+                <th>Status</th>
               </tr>
-              {payments.map((payment) => (
-                <tr key={payment.id}>
-                  <td>{payment?.id}</td>
-                  <td style={{ fontWeight: 'bold' }}>
-                    ${formatNumberWithCommas(payment?.amount)}
-                  </td>
-                  <td>{payment?.status}</td>
-                  <td>{payment?.paymentMethod}</td>
-                  <td>{payment?.transactionId}</td>
-                  <td>{formatDateWithLong(new Date(payment?.paidAt))}</td>
-                </tr>
-              ))}
+              {payments.map((payment) => {
+                const newString = capitalized(
+                  payment.paymentMethod.replace(/-/g, '')
+                );
+
+                return (
+                  <tr key={payment.id}>
+                    <td style={{ padding: '1.5rem 0' }}>{payment?.id}</td>
+                    <td style={{ fontWeight: 'bold' }}>
+                      ${formatNumberWithCommas(payment?.amount)}
+                    </td>
+                    <td>{capitalized(payment?.status)}</td>
+                    <td>{payment?.transactionId}</td>
+                    <td>{formatDateWithLong(new Date(payment?.paidAt))}</td>
+                    <td
+
+                    >
+                      <div
+                        style={{
+                          color: paymentMethodColor[newString],
+                          borderColor: paymentMethodColor[newString],
+                          borderWidth: '1px',
+                          borderStyle: 'solid',
+                          fontWeight: 'bold',
+                          textAlign: 'center',
+                          height: '3.5rem',
+                          display: 'flex',
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                        }}
+                      >
+                        {payment?.paymentMethod}
+                      </div>
+                    </td>
+                  </tr>
+                );
+              })}
             </table>
           </div>
         </div>

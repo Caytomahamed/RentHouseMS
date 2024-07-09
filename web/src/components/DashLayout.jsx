@@ -17,6 +17,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { selectUsers } from '../store/slices/userSlice';
 import defaultImgIcon from '../assets/images/defaultImg.png';
 import { capitalize } from '@mui/material';
+import { uploadFolder } from '../../config/config';
 
 // eslint-disable-next-line react/prop-types
 const DashLayout = ({ children, title, menuType }) => {
@@ -35,7 +36,7 @@ const DashLayout = ({ children, title, menuType }) => {
   }, [dispatch, updateLoad]);
 
   const img = currentUser?.imageUrl
-    ? `http://localhost:9000/uploads/${currentUser.imageUrl}`
+    ? `${uploadFolder}/${currentUser.imageUrl}`
     : defaultImgIcon;
 
   'meee', currentUser;

@@ -5,11 +5,12 @@ import { capitalize, formatDate } from '../../utils/helperFunction';
 import noReadIcon from '../../assets/icons/noread.svg';
 import readIcon from '../../assets/icons/read.svg';
 import defaultImgIcon from '../../assets/images/defaultImg.png';
+import { uploadFolder } from '../../../config/config';
 
 // eslint-disable-next-line react/prop-types
 const InboxItem = ({ inbox }) => {
   const img = inbox?.imageUrl
-    ? `http://localhost:9000/uploads/${inbox.imageUrl}`
+    ? `${uploadFolder}/${inbox.imageUrl}`
     : defaultImgIcon;
 
   const borderColor = inbox.FromOrTo === 'admin' ? 'red' : 'blue';

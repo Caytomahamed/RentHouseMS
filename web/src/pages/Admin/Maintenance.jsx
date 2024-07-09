@@ -155,7 +155,7 @@ const Maintenance = () => {
   };
   return (
     <TableWrapper
-      title="Your Maintenance"
+      title="All Maintenances"
       store={store}
       configTableData={maintenanceTableData}
       filterData={filterData}

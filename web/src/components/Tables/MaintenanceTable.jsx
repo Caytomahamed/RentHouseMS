@@ -26,7 +26,7 @@ const MaintenanceTable = ({ item }) => {
       <td className="id">#{item.id}</td>
       <td
         style={{
-          width: '45rem',
+          width: '40rem',
           paddingRight: '2rem',
           lineHeight: 1.4,
         }}

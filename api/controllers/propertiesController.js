@@ -4,7 +4,6 @@ const catchAsync = require('../utils/catchAsync');
 const appError = require('../utils/appError');
 
 exports.createProperties = catchAsync(async (req, res, next) => {
-  // const
   const files = req.files;
   const body = JSON.parse(req.body.body);
   const extractedFilenames = files.map(file => file.filename);
@@ -71,7 +70,6 @@ exports.updateProperty = catchAsync(async (req, res, next) => {
 
 // get by landlorid id
 exports.getByLandlordId = catchAsync(async (req, res, next) => {
-  'landlord properties', req.params;
   const properties = await propertiesModel.findByLandlordId(
     req.params.landlordId,
   );

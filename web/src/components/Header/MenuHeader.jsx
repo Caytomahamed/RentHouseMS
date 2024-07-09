@@ -7,6 +7,7 @@ import defaultImgIcon from '../../assets/images/defaultImg.png';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectUsers } from '../../store/slices/userSlice';
 import { appSelectUsers, getCurrentUser } from '../../store/slices/auth';
+import { uploadFolder } from '../../../config/config';
 
 const MenuHeader = () => {
   const dispatch = useDispatch();
@@ -19,7 +20,7 @@ const MenuHeader = () => {
   }, [dispatch, updateLoad]);
 
   const img = currentUser?.imageUrl
-    ? `http://localhost:9000/uploads/${currentUser.imageUrl}`
+    ? `${uploadFolder}/${currentUser.imageUrl}`
     : defaultImgIcon;
   return (
     <header className="header fs-4 shadow-sm mb-4">

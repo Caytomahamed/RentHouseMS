@@ -9,6 +9,7 @@ import {
   rejectRentProperty,
 } from '../../store/slices/boookSlice';
 import { toast } from 'react-toastify';
+import { uploadFolder } from '../../../config/config';
 
 // eslint-disable-next-line react/prop-types
 const BookingTable = ({ item }) => {
@@ -27,7 +28,10 @@ const BookingTable = ({ item }) => {
     <>
       <td
         className="id"
-        style={{ background: item.isCanclellation && '#E47675', color: item.isCanclellation && "#fff"  }}
+        style={{
+          background: item.isCanclellation && '#E47675',
+          color: item.isCanclellation && '#fff',
+        }}
       >
         #{item.id}
       </td>
@@ -37,10 +41,7 @@ const BookingTable = ({ item }) => {
             {item.tenantImageUrl &&
             item.tenantImageUrl !== 'undefined' &&
             item.tenantImageUrl !== 'url_to_image' ? (
-              <img
-                src={`http://localhost:9000/uploads/${item.tenantImageUrl}`}
-                alt="image"
-              />
+              <img src={`${uploadFolder}/${item.tenantImageUrl}`} alt="image" />
             ) : (
               <img src={personImg} alt="image" />
             )}

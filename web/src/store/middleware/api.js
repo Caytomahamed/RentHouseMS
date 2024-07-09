@@ -1,5 +1,6 @@
 import axios from 'axios';
 import * as actions from '../apiActionCreator';
+import { URL } from '../../../config/config';
 const TOKEN_KEY = 'authToken';
 
 const apiMiddleware =
@@ -16,9 +17,7 @@ const apiMiddleware =
     const token = await localStorage.getItem(TOKEN_KEY);
     try {
       const response = axios.request({
-        baseURL: 'http://localhost:9000/api/v1',
-        // baseURL: 'https://renthousems.onrender.com/api/v1',
-        // baseURL: 'https://renthousems.onrender.com/api/v1',
+        baseURL: URL,
         url,
         data,
         method,

@@ -4,13 +4,12 @@
 import React from 'react';
 import { formatDate, timeAgo } from '../../utils/helperFunction';
 import shellIcon from '../../assets/icons/shell.svg';
+import { uploadFolder } from '../../../config/config';
 
 const LandLordProperty = ({ data }) => {
   const date = formatDate(Date.now());
 
-  const img_url = `http://localhost:9000/uploads/${
-    JSON.parse(data.imageUrls)[0]
-  }`;
+  const img_url = `${uploadFolder}/${JSON.parse(data.imageUrls)[0]}`;
 
   const img = img_url.replace(/['"]+/g, '');
 

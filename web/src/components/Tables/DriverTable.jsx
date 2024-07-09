@@ -3,6 +3,7 @@
 import React from 'react';
 import personImg from '../../assets/icons/profile-icon.svg';
 import { userTypes, driverColors, status } from '../../utils/tableConstants';
+import { uploadFolder } from '../../../config/config';
 
 const DriverTable = ({ item }) => {
   const bg = userTypes[item.userType.toLowerCase()];
@@ -16,10 +17,7 @@ const DriverTable = ({ item }) => {
             {item.imageUrl &&
             item.imageUrl !== 'undefined' &&
             item.imageUrl !== 'url_to_image' ? (
-              <img
-                src={`http://localhost:9000/uploads/${item.imageUrl}`}
-                alt="image"
-              />
+              <img src={`${uploadFolder}/${item.imageUrl}`} alt="image" />
             ) : (
               <img src={personImg} alt="image" />
             )}

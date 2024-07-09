@@ -95,7 +95,9 @@ const CheckoutModal = ({
                 &nbsp;
               </div>
               <div className="checkout__form">
-                <h1 className="checkout__title">Enter your payment detail</h1>
+                <h1 className="checkout__title">
+                  Application for Rental Property
+                </h1>
                 <p>
                   Please enter your account information to complete the payment
                 </p>

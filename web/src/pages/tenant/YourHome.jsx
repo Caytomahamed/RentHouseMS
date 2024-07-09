@@ -233,7 +233,6 @@ const YourHome = () => {
                 property?.isConfirm !== 0 &&
                 yourProperty.map((property) => (
                   <>
-                    {property}
                     <Link
                       to={`/propertyDetails/${property.propertyId}`}
                       key={property.id}
