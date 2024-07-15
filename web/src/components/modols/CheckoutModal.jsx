@@ -18,6 +18,7 @@ const CheckoutModal = ({
   rentPaid = false,
   apply = false,
   landLordPaid1month,
+  buttonTitle = 'RENT NOW!!',
 }) => {
   const [isChecked, setIsChecked] = useState(false);
   const [selectedOption, setSelectedOption] = useState(null);
@@ -151,7 +152,7 @@ const CheckoutModal = ({
                   </div>
 
                   <CustomButton
-                    label="RENT NOW!"
+                    label={buttonTitle}
                     color={'#E47675'}
                     style={{
                       padding: '1.5rem 2rem',
@@ -161,7 +162,7 @@ const CheckoutModal = ({
                     disabled={apply}
                   />
                   {apply && (
-                    <p>
+                    <p style={{ color: 'red' }}>
                       Your already booked a house please check your inbox or
                       cantact us admin[id=1]
                     </p>
@@ -187,6 +188,7 @@ CheckoutModal.propTypes = {
   rentPaid: PropTypes.bool,
   apply: PropTypes.bool,
   landLordPaid1month: PropTypes.bool,
+  buttonTitle: PropTypes.string,
 };
 
 export default CheckoutModal;

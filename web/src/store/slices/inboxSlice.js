@@ -83,9 +83,9 @@ export default slice.reducer;
 export const selectInboxes = (state) => state.entities.inboxes;
 
 // Action Creators
-export const getMyInbox = (userId) => {
+export const getMyInbox = (userId, all) => {
   return apiCallBegin({
-    url: `/inbox/${userId}`,
+    url: `/inbox/${userId}/${all}/users`,
     onStart: myInboxRequest.type,
     onSuccess: myInboxRecieve.type,
     onError: myInboxRequestFail.type,

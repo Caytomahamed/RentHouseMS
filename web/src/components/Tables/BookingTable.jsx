@@ -24,6 +24,8 @@ const BookingTable = ({ item }) => {
     toast.error('Booking Rejected');
   };
 
+  const currentDay = formatDate(new Date());
+
   return (
     <>
       <td
@@ -35,7 +37,12 @@ const BookingTable = ({ item }) => {
       >
         #{item.id}
       </td>
-      <td className="table-user-profile">
+      <td
+        className="table-user-profile"
+        style={{
+          background: currentDay >= item.endDate && '#E47675d0',
+        }}
+      >
         <div>
           <div className="table-user-profile-box">
             {item.tenantImageUrl &&

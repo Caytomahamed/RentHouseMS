@@ -1,5 +1,5 @@
 // eslint-disable-next-line no-unused-vars
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import OverlayModal from '../OverlayModal';
 
@@ -7,6 +7,8 @@ import inboxImage from '../../assets/images/inbox.jpg';
 import { toast } from 'react-toastify';
 import CustomButton from '../Custom/CustomButton';
 import CustomDropdown from '../Custom/CustomDropdown';
+import { useDispatch, useSelector } from 'react-redux';
+import { appSelectUsers, getCurrentUser } from '../../store/slices/auth';
 
 const SentInboxModal = ({
   onCloseSentModal,
@@ -20,12 +22,41 @@ const SentInboxModal = ({
   const [subject, setSubject] = useState('');
   const [selectedOption, setSelectedOption] = useState(null);
   const [ownerId, setOwnerId] = useState(null);
+  const [owners, setOwners] = useState('');
+  const [tenants, setTenants] = useState('');
 
-  const options = [
-    { label: 'Sent who', value: '' },
-    { label: 'Admin', value: 'admin' },
-    { label: 'Owner', value: 'owner' },
-  ];
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getCurrentUser());
+  }, [dispatch]);
+
+  const { currentUser } = useSelector(appSelectUsers);
+
+  let options = [];
+
+  if (currentUser?.userType === 'admin') {
+    options = [
+      { label: 'Sent who', value: '' },
+      { label: 'Admin', value: 'admin' },
+      { label: 'Tenant', value: 'tenant' },
+      { label: 'Owner', value: 'owner' },
+      { label: 'All Owners', value: 'allowner' },
+      { label: 'All Tenants', value: 'alltenant' },
+    ];
+  } else if (currentUser?.userType === 'landlord') {
+    options = [
+      { label: 'Sent who', value: '' },
+      { label: 'Admin', value: 'admin' },
+      { label: 'Tenant', value: 'owner' },
+    ];
+  } else {
+    options = [
+      { label: 'Sent who', value: '' },
+      { label: 'Admin', value: 'admin' },
+      { label: 'Owner', value: 'owner' },
+    ];
+  }
 
   const initState = () => {
     setText('');
@@ -42,6 +73,8 @@ const SentInboxModal = ({
         message: text,
         FromOrTo: selectedOption.value,
         receiverId: ownerId ? +ownerId : 1,
+        allOwners: owners ? owners : '',
+        allTenants: tenants ? tenants : '',
       });
 
       initState();
@@ -58,6 +91,13 @@ const SentInboxModal = ({
   };
 
   const handleSelect = (option) => {
+    console.log('Options oasfd', option);
+    if (option.label === 'All Owners') {
+      setOwners('all');
+    }
+    if (option.label === 'All Tenants') {
+      setTenants('all');
+    }
     setSelectedOption(option);
   };
 
@@ -111,13 +151,14 @@ const SentInboxModal = ({
                     />
                   </label>
 
-                  {selectedOption?.value === 'Owner' && (
+                  {(selectedOption?.value === 'owner' ||
+                    selectedOption?.value === 'tenant') && (
                     <label>
                       <input
                         type="number"
                         name="amount"
                         value={ownerId}
-                        placeholder="Enter subject"
+                        placeholder="Enter owner Id "
                         onChange={(e) => setOwnerId(e.target.value)}
                       />
                     </label>

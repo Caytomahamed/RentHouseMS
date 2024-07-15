@@ -1,14 +1,18 @@
 // eslint-disable-next-line no-unused-vars
 import React from 'react';
 import emptyHouse from '../../assets/images/emptyhouse.jpg';
+import MenuHeader from '../Header/MenuHeader';
 
-const CustomEmptyHouse = () => {
+// eslint-disable-next-line react/prop-types, no-unused-vars
+const CustomEmptyHouse = ({ header = true }) => {
   return (
     <div
       style={{
         minHeight: '70vh',
       }}
     >
+      {header && <MenuHeader />}
+
       <div
         style={{
           display: 'flex',

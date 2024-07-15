@@ -81,7 +81,6 @@ function Properties() {
         address: '',
         city: '',
         state: '',
-        maplink: '',
         squareFootage: 0,
         bedrooms: 0,
         bathrooms: 0,
@@ -100,7 +99,8 @@ function Properties() {
       address: info.address,
       city: info.city,
       state: info.state,
-      maplink: info.maplink,
+      long: info.long,
+      lat: info.lat,
       squareFootage: +info.squareFootage,
       bedrooms: +info.bedrooms,
       bathrooms: +info.bathrooms,
@@ -118,50 +118,25 @@ function Properties() {
     delete changes.imageUrls;
 
     dispatch(updateProperties(changes, file));
-    onInfoSet({
-      address: '',
-      city: '',
-      state: '',
-      mapLink: '',
-      squareFootage: 0,
-      bedrooms: 0,
-      bathrooms: 0,
-      rentAmount: 0,
-      landLordId: 0,
-      propertyTypeId: 0,
-      description: '',
-      imageUrls: [],
-    });
     onCloseEditModal();
     onCloseActions();
+    onInfoSet({});
     toast.success('property update successfully');
   };
   const handleCreate = () => {
     const { imageUrls: file } = info;
     delete info.imageUrls;
 
-    onInfoSet({
-      address: '',
-      city: '',
-      state: '',
-      mapLink: '',
-      squareFootage: 0,
-      bedrooms: 0,
-      bathrooms: 0,
-      rentAmount: 0,
-      landLordId: 0,
-      propertyTypeId: 0,
-      description: '',
-      imageUrls: [],
-    });
     dispatch(createProperties(info, file));
     onCloseCreateModal();
     toast.success('property create successfully');
+    onInfoSet({});
   };
   const handleDelete = () => {
     dispatch(deleteProperty(+info.id));
     onCloseDeleteModal();
     toast.error('property delete successfully');
+    onInfoSet({});
   };
   const editDeleteModal = {
     isAction,

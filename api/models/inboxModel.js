@@ -1,7 +1,7 @@
 const db = require('../data/dbConfig');
 
 // find inbox by tenantId
-exports.findInboxByUserId = async userId => {
+exports.findInboxByUserId = async (userId, all) => {
   const inboxMessages = await db('inbox as i')
     .where('receiverId', userId)
     .orWhere('senderId', userId);
@@ -17,6 +17,54 @@ exports.findInboxByUserId = async userId => {
   }
 
   // Get the updated inbox with sender and receiver details
+  if (all === 'tenants') {
+    return await db('inbox as i')
+      .join('users as sender', 'i.senderId', 'sender.id')
+      .join('users as receiver', 'i.receiverId', 'receiver.id')
+      .select(
+        'i.id',
+        'sender.firstName as senderFirstName',
+        'sender.lastName as senderLastName',
+        'sender.id as senderId',
+        'receiver.firstName as receiverFirstName',
+        'receiver.lastName as receiverLastName',
+        'receiver.id as receiverId',
+        'i.subject',
+        'i.message',
+        'i.FromOrTo',
+        'i.allTenants',
+        'i.is_read',
+        'i.created_at',
+      )
+      .where('i.senderId', userId)
+      .orWhere('i.receiverId', userId)
+      .orWhere('i.allTenants', 'all')
+      .orderBy('i.created_at', 'desc');
+  }
+  if (all === 'owner') {
+    return await db('inbox as i')
+      .join('users as sender', 'i.senderId', 'sender.id')
+      .join('users as receiver', 'i.receiverId', 'receiver.id')
+      .select(
+        'i.id',
+        'sender.firstName as senderFirstName',
+        'sender.lastName as senderLastName',
+        'sender.id as senderId',
+        'receiver.firstName as receiverFirstName',
+        'receiver.lastName as receiverLastName',
+        'receiver.id as receiverId',
+        'i.subject',
+        'i.allOwners',
+        'i.message',
+        'i.FromOrTo',
+        'i.is_read',
+        'i.created_at',
+      )
+      .where('i.senderId', userId)
+      .orWhere('i.receiverId', userId)
+      .orWhere('i.allOwners', 'all')
+      .orderBy('i.created_at', 'desc');
+  }
   return await db('inbox as i')
     .join('users as sender', 'i.senderId', 'sender.id')
     .join('users as receiver', 'i.receiverId', 'receiver.id')
@@ -34,8 +82,8 @@ exports.findInboxByUserId = async userId => {
       'i.is_read',
       'i.created_at',
     )
-    .where('i.receiverId', userId)
-    .orWhere('i.senderId', userId)
+    .where('i.senderId', userId)
+    .orWhere('i.receiverId', userId)
     .orderBy('i.created_at', 'desc');
 };
 
@@ -45,6 +93,7 @@ exports.findById = async id => {
 };
 // create inbox
 exports.create = async inbox => {
+  console.log(inbox);
   const [id] = await db('inbox').insert(inbox);
   return this.findById(id);
 };
@@ -54,10 +103,10 @@ exports.deleteInbox = async id => {
   return await db('inbox').where('id', id).del();
 };
 
-exports.findInboxByUserIdNotReading = async tenantId => {
+exports.findInboxByUserIdNotReading = async userIdId => {
   const unreadCount = await db('inbox')
     .count('id as count')
-    .where('receiverId', tenantId)
+    .where('receiverId', userId)
     .andWhere('is_read', false)
     .first();
 

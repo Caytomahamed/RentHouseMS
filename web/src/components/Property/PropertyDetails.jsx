@@ -1,10 +1,11 @@
 // eslint-disable-next-line no-unused-vars
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getProperty, selectProperties } from '../../store/slices/schedules';
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import LandLordProperty from './LandLordProperty';
 import {
+  calculateAverageRating,
   calculateDateAfter35Days,
   capitalize,
 } from '../../utils/helperFunction';
@@ -16,7 +17,6 @@ import areaIcon from '../../assets/icons/area.svg';
 import activeIcon from '../../assets/icons/active.svg';
 import PropertyMap from './PropertyMap';
 import MenuHeader from '../Header/MenuHeader';
-import Loading from '../Custom/Loading';
 import {
   getAlreadyBooked,
   rentProperty,
@@ -31,10 +31,14 @@ import {
 import ReviewItem from '../Reviews/ReviewItem';
 import { appSelectUsers, getCurrentUser } from '../../store/slices/auth';
 import { uploadFolder } from '../../../config/config';
+import CustomEmptyHouse from '../Custom/CustomEmptyHouse';
+import heartIcon from '../../assets/icons/heart.svg';
+import heartFullIcon from '../../assets/icons/fullheart.svg';
 
 const PropertyDetails = () => {
   const params = useParams();
   const dispatch = useDispatch();
+  const [like, setLike] = useState(false);
 
   useEffect(() => {
     dispatch(getProperty(+params.id));
@@ -68,44 +72,26 @@ const PropertyDetails = () => {
   }, [dispatch, currentUser]);
 
   if (!property || Object.keys(property).length === 0) {
-    return (
-      <div
-        style={{
-          minHeight: '100vh',
-        }}
-      >
-        <MenuHeader />
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            minHeight: '70vh',
-            flexDirection: 'column',
-          }}
-        >
-          <Loading />
-          <div style={{ marginTop: '4rem' }}>
-            <Link to="/"> 👉Home</Link>
-          </div>
-        </div>
-      </div>
-    );
+    return <CustomEmptyHouse />;
   }
 
-  const img_url = `${uploadFolder}/${JSON.parse(property.imageUrls)[0]}`;
-  const img_url1 = `${uploadFolder}/${JSON.parse(property.imageUrls)[1]}`;
-  const img_url2 = `${uploadFolder}/${JSON.parse(property.imageUrls)[2]}`;
-
-  const img = img_url.replace(/['"]+/g, '');
-  const img1 = img_url1.replace(/['"]+/g, '');
-  const img2 = img_url2.replace(/['"]+/g, '');
+  const img = `${uploadFolder}/${JSON.parse(property.imageUrls)[0]}`.replace(
+    /['"]+/g,
+    ''
+  );
+  const img1 = `${uploadFolder}/${JSON.parse(property.imageUrls)[1]}`.replace(
+    /['"]+/g,
+    ''
+  );
+  const img2 = `${uploadFolder}/${JSON.parse(property.imageUrls)[2]}`.replace(
+    /['"]+/g,
+    ''
+  );
 
   const type = capitalize(property.propertyType);
 
   const handleRentNow = () => {
     const endRent = calculateDateAfter35Days();
-    // const transactionID = createTransactionId(method);
     dispatch(
       rentProperty({
         propertyId: property.id,
@@ -123,11 +109,59 @@ const PropertyDetails = () => {
     if (!errorr) toast.success('House rented successfully');
   };
 
+  const resultReviews = calculateAverageRating(reviewList);
+
+  const handleLike = (item) => {
+    let likes = localStorage.getItem('likes');
+
+    if (!item) return;
+
+    if (!currentUser) {
+      toast.error('Please Login or Sign up ');
+      return;
+    }
+
+    if (!likes) {
+      localStorage.setItem('likes', JSON.stringify([]));
+      likes = [];
+    } else {
+      likes = JSON.parse(likes);
+    }
+
+    const itemIndex = likes.findIndex((likeItem) => likeItem.id === item.id);
+
+    console.log('itemIndex', itemIndex);
+
+    if (itemIndex !== -1) {
+      likes.splice(itemIndex, 1); // Remove the item at itemIndex
+      setLike(false);
+      toast.error('Removed from your liked list');
+    } else {
+      likes.push(item); // Add item to likes array
+      setLike(true);
+      toast.success('Added to your liked list');
+    }
+
+    localStorage.setItem('likes', JSON.stringify(likes));
+  };
+
+  const checkIfLiked = (item) => {
+    const likes = JSON.parse(localStorage.getItem('likes'));
+    if (!likes || likes.length === 0) return false;
+    const itemIndex = likes.map((likeItem) => likeItem.id).indexOf(item.id);
+
+    if (itemIndex !== -1) return true;
+    else return false;
+  };
+
   return (
     <>
       <MenuHeader />
       <div className="propertydetails">
-        <section className="propertydetails__header">
+        <section
+          className="propertydetails__header"
+          style={{ position: 'relative' }}
+        >
           <h1>
             {type} {property.landLordFirstName}
           </h1>
@@ -135,6 +169,23 @@ const PropertyDetails = () => {
             <h4>
               {property.state},{property.city}, {property.address}
             </h4>
+          </div>
+
+          <div
+            className="card__details__header__icon"
+            style={{
+              position: 'absolute',
+              right: '4rem',
+              bottom: '2rem',
+              cursor: 'pointer',
+            }}
+            onClick={() => handleLike(property)}
+          >
+            {like || checkIfLiked(property) ? (
+              <img src={heartFullIcon} alt="heart Icon" />
+            ) : (
+              <img src={heartIcon} alt="heart Icon" />
+            )}
           </div>
         </section>
 
@@ -149,10 +200,6 @@ const PropertyDetails = () => {
         </section>
 
         <section className="propertydetails__info">
-          {/* <h3 className="propertdetails__info__title">Description</h3>
-        <p className="propertdetails__info__description">
-          {property.description}
-        </p> */}
           <div className="propertydetails__info__details">
             <div className="propertydetails__info__details__property">
               <div className="propertydetails__info__details__property__type">
@@ -238,8 +285,9 @@ const PropertyDetails = () => {
                         &#9733;
                       </span>
                     );
-                  })}
-                  4.7 property rating * 383K ratings
+                  })}{' '}
+                  {resultReviews && resultReviews.averageRating} property rating
+                  * {resultReviews && resultReviews.numberOfReviews} ratings
                 </h1>
                 <div className="testimonial__container">
                   {reviewList.length > 0 &&

@@ -40,9 +40,7 @@ const Footer = () => {
         </div>
       </div>
 
-      <p style={{ textAlign: 'center' }}>
-        Copyright &copy; Renter.com
-      </p>
+      <p style={{ textAlign: 'center' }}>Copyright &copy; kirodhow.com</p>
     </footer>
   );
 };

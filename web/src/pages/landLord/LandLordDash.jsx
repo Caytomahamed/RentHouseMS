@@ -6,11 +6,13 @@ import { appSelectUsers, getCurrentUser } from '../../store/slices/auth';
 // import TableLayout from '../components/TableLayout';
 import DashLayout from '../../components/DashLayout';
 import bookingIcon from '../../assets/icons/dash-book.svg';
-import scheduleIcon from '../../assets/icons/dash-schedule.svg';
-import userIcon from '../../assets/icons/dash-users.svg';
-import driverIcon from '../../assets/icons/dash-driver.svg';
+import propertiesIcon from '../../assets/icons/properties.svg';
+import paymentsIcon from '../../assets/icons/payments.svg';
+import maintenanceIcon from '../../assets/icons/maintenance.svg';
 import { useSelector } from 'react-redux';
 
+// import paidIcon from '../../assets/icons/paid.svg';
+// import unPaidIcon from '../../assets/icons/unpaid.svg';
 import CarTypesPieChart from '../../components/graphs/CarTypesPieChart.jsx';
 import MyLineChart from '../../components/graphs/MyLineChart.jsx';
 import { Link } from 'react-router-dom';
@@ -58,11 +60,15 @@ const LandLordDash = () => {
         <div className="dashboard__system__summary">
           <div className="systme__summary__box">
             <div className="img-box" style={{ backgroundColor: '#e0f2fe' }}>
-              <img src={userIcon} alt="" />
+              <img src={propertiesIcon} alt="properties" />
             </div>
             <div className="systme__summary__box__text">
               <p>Properties</p>
-              <h1>{totals.totalProperties ? totals.totalProperties : 10}</h1>
+              <h1>
+                {totals.totalProperties || totals.totalProperties === 0
+                  ? totals.totalProperties
+                  : 10}
+              </h1>
             </div>
           </div>
           <div className="systme__summary__box">
@@ -72,18 +78,22 @@ const LandLordDash = () => {
 
             <div className="systme__summary__box__text">
               <p>Bookings</p>
-              <h1>{totals.totalBookings ? totals.totalBookings : 10}</h1>
+              <h1>
+                {totals.totalBookings || totals.totalBookings === 0
+                  ? totals.totalBookings
+                  : 10}
+              </h1>
             </div>
           </div>
           <div className="systme__summary__box">
             <div className="img-box" style={{ backgroundColor: '#e0e7ff' }}>
-              <img src={scheduleIcon} alt="" />
+              <img src={paymentsIcon} alt="" />
             </div>
 
             <div className="systme__summary__box__text">
-              <p>Income</p>
+              <p>Total Income</p>
               <h1>
-                {totals.totalIncome
+                {totals.totalIncome || totals.totalIncome === 0
                   ? formatNumberWithCommas('' + totals.totalIncome)
                   : 10}
               </h1>
@@ -91,13 +101,14 @@ const LandLordDash = () => {
           </div>
           <div className="systme__summary__box">
             <div className="img-box" style={{ backgroundColor: '#fef9c3' }}>
-              <img src={driverIcon} alt="" />
+              <img src={maintenanceIcon} alt="" />
             </div>
 
             <div className="systme__summary__box__text">
-              <p>Pending Pays</p>
+              <p>Maintenances</p>
               <h1>
-                {totals.totalMaintenanceRequests
+                {totals.totalMaintenanceRequests ||
+                totals.totalMaintenanceRequests === 0
                   ? totals.totalMaintenanceRequests
                   : 10}
               </h1>
@@ -219,12 +230,12 @@ const LandLordDash = () => {
                     }}
                   >
                     <img
-                      src={userIcon}
+                      src={propertiesIcon}
                       alt=""
                       style={{ width: '5rem', height: '5rem' }}
                     />
                     <span style={{ fontWeight: 'bold' }}>
-                      maintenance Requests
+                      {/* maintenance Requests */} Property Created
                     </span>
                   </div>
                   <h1 style={{ marginTop: '5px', color: 'gray' }}>
@@ -245,17 +256,15 @@ const LandLordDash = () => {
                     }}
                   >
                     <img
-                      src={scheduleIcon}
+                      src={paymentsIcon}
                       alt=""
                       style={{ width: '5rem', height: '5rem' }}
                     />
-                    <span style={{ fontWeight: 'bold' }}>
-                      Properties created
-                    </span>
+                    <span style={{ fontWeight: 'bold' }}>Lastest Payments</span>
                   </div>
                   <h1 style={{ marginTop: '5px', color: 'gray' }}>
-                    {last30Days.bookingsLast30Days
-                      ? last30Days.bookingsLast30Days
+                    {last30Days.paymentsLast30Days
+                      ? last30Days.paymentsLast30Days
                       : 10}{' '}
                     last 30 days
                   </h1>
@@ -275,7 +284,9 @@ const LandLordDash = () => {
                       alt=""
                       style={{ width: '5rem', height: '5rem' }}
                     />
-                    <span style={{ fontWeight: 'bold' }}>Booking Of rides</span>
+                    <span style={{ fontWeight: 'bold' }}>
+                      Booking Of houses
+                    </span>
                   </div>
                   <h1 style={{ marginTop: '5px', color: 'gray' }}>
                     {last30Days.bookingsLast30Days
@@ -295,18 +306,18 @@ const LandLordDash = () => {
                     }}
                   >
                     <img
-                      src={driverIcon}
+                      src={maintenanceIcon}
                       alt=""
                       style={{ width: '5rem', height: '5rem' }}
                     />
                     <span style={{ fontWeight: 'bold' }}>
                       {' '}
-                      Pending Payments
+                      Req Maintenenace
                     </span>
                   </div>
                   <h1 style={{ marginTop: '5px', color: 'gray' }}>
-                    {last30Days.paymentsLast30Days
-                      ? last30Days.paymentsLast30Days
+                    {last30Days.maintenanceRequestsLast30Days
+                      ? last30Days.maintenanceRequestsLast30Days
                       : 10}{' '}
                     last 30 days
                   </h1>

@@ -250,3 +250,21 @@ export function formatRentalStatus(rentalDetails) {
 
   return { amountPaid, dueDate, daysLeft };
 }
+
+export function calculateAverageRating(reviews) {
+  if (reviews.length === 0) {
+    return {
+      averageRating: 0,
+      numberOfReviews: 0,
+    };
+  }
+
+  const totalRating = reviews.reduce((sum, review) => sum + review.rating, 0);
+  const numberOfReviews = reviews.length;
+  const averageRating = totalRating / numberOfReviews;
+
+  return {
+    averageRating: averageRating,
+    numberOfReviews: numberOfReviews,
+  };
+}

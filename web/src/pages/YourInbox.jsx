@@ -12,19 +12,28 @@ import {
   selectInboxes,
 } from '../store/slices/inboxSlice';
 import { toast } from 'react-toastify';
-import { appSelectUsers } from '../store/slices/auth';
+import { appSelectUsers, getCurrentUser } from '../store/slices/auth';
 import Loading from '../components/Custom/Loading';
 
 const YourInbox = () => {
   const [isSent, setIsSent] = useState(false);
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    dispatch(getCurrentUser());
+  }, [dispatch]);
+
   const { createLoad } = useSelector(selectInboxes);
   const { currentUser } = useSelector(appSelectUsers);
 
   useEffect(() => {
-    dispatch(getMyInbox(currentUser.id));
-  }, [dispatch, createLoad, currentUser.id]);
+    if (currentUser && currentUser.userType === 'tenants')
+      dispatch(getMyInbox(currentUser.id, 'tenants'));
+    if (currentUser && currentUser.userType === 'landlord')
+      dispatch(getMyInbox(currentUser.id, 'owner'));
+    if (currentUser && currentUser.userType === 'admin')
+      dispatch(getMyInbox(currentUser.id, 'admin'));
+  }, [dispatch, createLoad, currentUser]);
 
   const sendInbox = (inbox) => {
     if (!inbox && !Object.keys(inbox).length) {
@@ -32,15 +41,16 @@ const YourInbox = () => {
     }
     dispatch(
       createInbox({
-        senderId: 3,
+        senderId: currentUser.id,
         receiverId: inbox.receiverId,
         FromOrTo: inbox.FromOrTo,
         subject: inbox.subject,
         message: inbox.message,
+        allOwners: inbox.allOwners,
+        allTenants: inbox.allTenants,
       })
     );
     toast.success('Inbox sent successfully');
-    'inbox', inbox, currentUser;
   };
 
   const { myInbox, isLoading } = useSelector(selectInboxes);
@@ -49,9 +59,17 @@ const YourInbox = () => {
   const [inboxType, setInboxType] = useState('received');
   const title = inboxType === 'received' ? 'Received Inbox' : 'Sent Inbox';
 
-  const filteredInboxes = myInbox?.filter((inbox) => {
-    if (inboxType === 'received') {
-      return inbox.receiverId === currentUser.id;
+  let filteredInboxes = myInbox?.filter((inbox) => {
+    if (
+      currentUser?.userType === 'tenants' &&
+      (inboxType === 'received' || inbox.allTenants === 'all')
+    ) {
+      return inbox.receiverId === currentUser.id || inbox.allTenants === 'all';
+    } else if (
+      currentUser?.userType === 'landlord' &&
+      (inboxType === 'received' || inbox.allOwners === 'all')
+    ) {
+      return inbox.receiverId === currentUser.id || inbox.allOwners === 'all';
     } else {
       return inbox.senderId === currentUser.id;
     }
@@ -186,7 +204,10 @@ const YourInbox = () => {
                     border: `2px solid red`,
                   }}
                 ></span>
-                {inboxType === 'received' ? 'From' : 'To'}: Admin
+                {inboxType === 'received' ? 'From' : 'To'}:{' '}
+                {currentUser && currentUser && currentUser.userType === 'admin'
+                  ? 'Owner'
+                  : 'Admin'}
               </p>
               <p
                 style={{
@@ -203,7 +224,10 @@ const YourInbox = () => {
                     border: `2px solid blue`,
                   }}
                 ></span>
-                {inboxType === 'received' ? 'From' : 'To'}: Owner
+                {inboxType === 'received' ? 'From' : 'To'}:{' '}
+                {currentUser && currentUser.userType === 'tenants'
+                  ? 'Owner'
+                  : 'Tenant'}{' '}
               </p>
             </div>
 

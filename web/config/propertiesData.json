@@ -30,10 +30,20 @@
       }
     },
     {
-      "label": "Map Link",
-      "name": "maplink",
-      "type": "text",
-      "placeholder": "Enter Map Link",
+      "label": "Lat",
+      "name": "lat",
+      "type": "number",
+      "placeholder": "Enter lat",
+      "validationRules": {
+        "required": true,
+        "pattern": "^https?:\\/\\/.+$"
+      }
+    },
+    {
+      "label": "Long",
+      "name": "long",
+      "type": "number",
+      "placeholder": "Enter long",
       "validationRules": {
         "required": true,
         "pattern": "^https?:\\/\\/.+$"
@@ -42,7 +52,7 @@
     {
       "label": "Square Footage",
       "name": "squareFootage",
-      "type": "number",
+      "type": "text",
       "placeholder": "Enter Square Footage",
       "validationRules": {
         "required": true,

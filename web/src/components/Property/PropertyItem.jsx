@@ -4,6 +4,7 @@ import React from 'react';
 import { capitalize, formatNumberWithCommas } from '../../utils/helperFunction';
 
 import heartIcon from '../../assets/icons/heart.svg';
+import heartFullIcon from '../../assets/icons/fullheart.svg';
 import bedIcon from '../../assets/icons/bedcolor.svg';
 import bathIcon from '../../assets/icons/bathcolor.svg';
 import areaIcon from '../../assets/icons/areacolor.svg';
@@ -32,6 +33,15 @@ const PropertyItem = ({
     openDelete();
     onOpenActions(item);
   };
+
+  const checkIfLiked = (item) => {
+    const likes = JSON.parse(localStorage.getItem('likes'));
+    if (!likes || likes.length === 0) return false;
+    const itemIndex = likes.map((likeItem) => likeItem.id).indexOf(item.id);
+
+    if (itemIndex !== -1) return true;
+    else return false;
+  };
   return (
     <div className="col-1-of-3" data-id="11" key={item.id}>
       <div className="card" data-id="11">
@@ -54,7 +64,11 @@ const PropertyItem = ({
               </div>
 
               <div className="card__details__header__icon">
-                <img src={heartIcon} alt="heart Icon" />
+                {checkIfLiked(item) ? (
+                  <img src={heartFullIcon} alt="heart Icon" />
+                ) : (
+                  <img src={heartIcon} alt="heart Icon" />
+                )}
               </div>
             </div>
             <div className="card__details__body">

@@ -3,13 +3,16 @@ import React, { useState } from 'react';
 import './Login.css';
 import Logo from '../assets/images/logo.png';
 import { Link } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { login } from '../store/slices/auth';
+import { useDispatch, useSelector } from 'react-redux';
+import { appSelectUsers, login } from '../store/slices/auth';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 function Login() {
   const dispatch = useDispatch();
   const navigateTo = useNavigate();
+
+  const { loginError } = useSelector(appSelectUsers);
 
   const [formData, setFormData] = useState({
     email: 'me@gmail.com',
@@ -22,34 +25,8 @@ function Login() {
       ...prevData,
       [name]: value,
     }));
-
-    // window.location = 'http://localhost:5173/';
   };
 
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-
-  //   dispatch(login(formData));
-  //   setFormData({
-  //     email: '',
-  //     password: '',
-  //   });
-  //   // TODO: Replace with your actual login logic (API call, authentication server, etc.)
-  //   // try {
-  //   //   // Simulate a successful login with dummy credentials
-  //   //   if (email === 'admin@gmail.com' && password === '12345678') {
-  //   //     localStorage.setItem('isLoggedIn', true);
-  //   //     alert('Login successful!');
-  //   //     // Redirect to the home page or desired route
-  //   //     window.location.reload();
-  //   //   } else {
-  //   //     alert('Invalid email or password');
-  //   //   }
-  //   // } catch (error) {
-  //   //   console.error(error);
-  //   //   alert('An error occurred during login');
-  //   // }
-  // };
   const handleSubmit = async (e) => {
     e.preventDefault();
     dispatch(login(formData));
@@ -57,7 +34,13 @@ function Login() {
       email: '',
       password: '',
     });
-    navigateTo('/');
+
+    toast.error(loginError);
+
+    if (!loginError) {
+      navigateTo('/');
+      return;
+    }
   };
   return (
     <div className="login__form">

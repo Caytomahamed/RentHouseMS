@@ -43,7 +43,7 @@ const CarTypesPieChart = ({ list }) => {
   return (
     <div style={{ width: '25rem' }}>
       <h2 style={{ marginLeft: '2rem', marginTop: '3rem', fontWeight: 'bold' }}>
-        Houes Types Pie Chart
+        Houses Types Pie Chart
       </h2>
       {Object.keys(chartData).length > 0 && <Doughnut data={chartData} />}
     </div>

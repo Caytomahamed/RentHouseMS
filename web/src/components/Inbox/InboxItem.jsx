@@ -13,7 +13,12 @@ const InboxItem = ({ inbox }) => {
     ? `${uploadFolder}/${inbox.imageUrl}`
     : defaultImgIcon;
 
-  const borderColor = inbox.FromOrTo === 'admin' ? 'red' : 'blue';
+  const borderColor =
+    inbox?.FromOrTo === 'admin' ||
+    inbox?.FromOrTo === 'allowner' ||
+    inbox?.FromOrTo === 'alltenants'
+      ? 'red'
+      : 'blue';
 
   return (
     <div
@@ -53,8 +58,7 @@ const InboxItem = ({ inbox }) => {
                 : 'LastName'}
             </strong>
             <span className="testimonial__username">
-              SenderId: [{inbox.senderId}] From: [{' '}
-              {inbox.FromOrTo && capitalize(inbox.FromOrTo)}]
+              SenderId: [{inbox.senderId}]
             </span>
           </div>
         </div>
@@ -74,7 +78,7 @@ const InboxItem = ({ inbox }) => {
           {inbox.subject ? inbox.subject : 'Empty title'}
         </h1>
         <p>
-          {inbox?.message?.length < 100 || !inbox?.message?.length
+          {!inbox?.message?.length
             ? `Lorem ipsum dolor sit amet consectetur adipisicing elit.
           Exercitationem, quaerat quis? Provident temporibus architecto
           asperiores nobis maiores nisi a. Quae doloribus ipsum aliquam tenetur

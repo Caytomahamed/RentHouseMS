@@ -8,7 +8,7 @@ const RentNow = () => {
   return (
     <div className="rent__now">
       <div className="rent__now__info">
-        <h1 style={{ color: '#E47675' }}>Rent Renter for an item </h1>
+        <h1 style={{ color: '#E47675' }}>Rent House now! </h1>
         <NavLink to="/propertyList" className="link">
           <CustomButton
             label=" Rent Now"

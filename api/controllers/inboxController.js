@@ -4,8 +4,8 @@ const catchAsync = require('../utils/catchAsync');
 const appError = require('../utils/appError');
 
 exports.getInboxByUserId = catchAsync(async (req, res, next) => {
-  const { tenantId } = req.params;
-  const inbox = await inboxModel.findInboxByUserId(tenantId);
+  const { userId, all } = req.params;
+  const inbox = await inboxModel.findInboxByUserId(userId, all);
 
   if (!inbox) {
     return next(new appError('No inbox found', 404));
@@ -17,8 +17,10 @@ exports.getInboxByUserId = catchAsync(async (req, res, next) => {
 });
 
 exports.getInboxByUserIdNotReading = catchAsync(async (req, res, next) => {
-  const { tenantId } = req.params;
-  const unreadCount = await inboxModel.findInboxByUserIdNotReading(tenantId);
+  const { userId } = req.params;
+  const unreadCount = await inboxModel.findInboxByUserIdNotReading(userId);
+
+  console.log('unread', unreadCount);
 
   res.status(200).json({
     status: 'success',

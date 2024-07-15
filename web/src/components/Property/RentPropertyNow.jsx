@@ -17,11 +17,11 @@ import { toast } from 'react-toastify';
 import { appSelectUsers } from '../../store/slices/auth';
 
 const RentPropertyNow = ({ item, onRent, apply = false }) => {
-  'applay', apply;
   const dispatch = useDispatch();
   const price = formatNumberWithCommas(item.rentAmount);
   const securityDeposit = formatNumberWithCommas(item.rentAmount * 0.35);
   const owerFee = formatNumberWithCommas(item.rentAmount * 0.05);
+
   const total = item.available
     ? formatNumberWithCommas(
         item.rentAmount + item.rentAmount * 0.35 + item.rentAmount * 0.1
@@ -36,7 +36,11 @@ const RentPropertyNow = ({ item, onRent, apply = false }) => {
   };
 
   const onOpenCheckModal = () => {
-    setIsCheckout(true);
+    if (currentUser) {
+      setIsCheckout(true);
+      return;
+    }
+    toast.error('Please Login or Signup to Rent this House');
   };
 
   const onModalRef = useOutsideClick(() => onCloseCheckModal());
@@ -83,6 +87,7 @@ const RentPropertyNow = ({ item, onRent, apply = false }) => {
         color={'#E47675'}
         style={{ padding: '1.5rem 2rem', marginTop: '2rem', width: '100%' }}
         onClick={onOpenCheckModal}
+        // disabled={labels === 'Apply Now' && myReviews.length !== 0}
       />
 
       {item.available === 0 && (
@@ -92,6 +97,12 @@ const RentPropertyNow = ({ item, onRent, apply = false }) => {
           onClick={onOpenReviewModal}
           disabled={myReviews && myReviews.length !== 0}
         />
+      )}
+
+      {myReviews && myReviews.length !== 0 && item.available === 0 && (
+        <p style={{ marginTop: '1rem' }}>
+          You have already reviewed this house
+        </p>
       )}
 
       {myReviews && myReviews.length !== 0 && item.available === 0 && (

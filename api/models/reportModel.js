@@ -264,6 +264,16 @@ exports.findReportsByLandlord = async landlordId => {
     .where('properties.landLordId', landlordId)
     .first();
 
+  const currentDate = new Date();
+
+  const paid = db('booking')
+    .where('endDate', '<', currentDate)
+    .count('* As paid');
+
+  const unPaid = db('booking')
+    .where('endDate', '>=', currentDate)
+    .count('* As UnPaid');
+
   const { bookingsLast30Days } = await db('booking')
     .count('* AS bookingsLast30Days')
     .join('properties', 'booking.propertyId', 'properties.id')

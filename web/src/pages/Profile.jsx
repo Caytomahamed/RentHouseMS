@@ -24,6 +24,7 @@ import { uploadFolder } from '../../config/config';
 const Profile = (props) => {
   const dispatch = useDispatch();
   const navigateTo = useNavigate();
+  const [key, setKey] = useState(0);
 
   const { updateLoad } = useSelector(selectUsers);
   const { currentUser } = useSelector(appSelectUsers);
@@ -51,10 +52,9 @@ const Profile = (props) => {
 
   const handleLogout = () => {
     dispatch(userLogout());
+    setKey((prevKey) => prevKey + 1);
     navigateTo('/');
   };
-
-  'hasldfhk', currentUser.userType;
 
   const img = currentUser?.imageUrl
     ? `${uploadFolder}/${currentUser.imageUrl}`
@@ -142,6 +142,8 @@ const Profile = (props) => {
 
   const { unRead } = useSelector(selectInboxes);
 
+  console.log('UREAD', unRead);
+
   return (
     <>
       <MenuHeader />
@@ -163,19 +165,19 @@ const Profile = (props) => {
             {/* {currentUser?.userType !== 'tenant' && ( */}
             <div style={{ height: '5rem' }}></div>
             {/* // )} */}
-            {/* {currentUser?.userType === 'tenant' && ( */}
-            <Link to="/yourHome">
-              <CustomButton
-                label="YourHome"
-                color={'#E47675'}
-                style={{
-                  padding: '1.5rem 2rem',
-                  marginTop: '3rem',
-                  width: '24rem',
-                }}
-              />
-            </Link>
-            {/* // )} */}
+            {currentUser?.userType === 'tenants' && (
+              <Link to="/yourHome">
+                <CustomButton
+                  label="YourHome"
+                  color={'#E47675'}
+                  style={{
+                    padding: '1.5rem 2rem',
+                    marginTop: '3rem',
+                    width: '24rem',
+                  }}
+                />
+              </Link>
+            )}
 
             <Link to="/yourInbox" className="link">
               <div className="inbox-container ">

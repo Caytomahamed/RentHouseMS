@@ -37,6 +37,7 @@ const slice = createSlice({
     },
     booksRequestFail: (users, action) => {
       users.isLoading = false;
+      users.list = [];
       users.error = action.payload;
     },
     paidRequest: (users) => {
@@ -126,6 +127,7 @@ const slice = createSlice({
     alreadyBookedRequest: (users) => {
       users.alreadyLoading = true;
       users.error = null;
+      users.booked = [];
     },
     alreadyBookedRecieve: (users, action) => {
       users.alreadyLoading = false;

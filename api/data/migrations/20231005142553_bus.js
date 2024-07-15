@@ -175,6 +175,8 @@ exports.up = function (knex) {
         .inTable('users')
         .onDelete('CASCADE');
       table.string('FromOrTo').notNullable();
+      table.string('allOwners');
+      table.string('allTenants');
       table.string('subject').notNullable();
       table.text('message').notNullable();
       table.boolean('is_read').defaultTo(false);

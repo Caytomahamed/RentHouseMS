@@ -288,7 +288,7 @@ const YourHome = () => {
             </div>
           </>
         ) : (
-          <CustomEmptyHouse />
+          <CustomEmptyHouse header={false}/>
         )}
 
         <YourRentTransactions

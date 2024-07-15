@@ -3,12 +3,9 @@ const express = require('express');
 
 const router = express.Router();
 
-router.get('/:tenantId', inboxController.getInboxByUserId);
+router.get('/:userId/notReading', inboxController.getInboxByUserIdNotReading);
 
-router.get(
-  '/:tenantId/notReading',
-  inboxController.getInboxByUserIdNotReading,
-);
+router.get('/:userId/:all/users', inboxController.getInboxByUserId);
 
 router
   .route('/')

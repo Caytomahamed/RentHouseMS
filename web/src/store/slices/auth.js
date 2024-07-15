@@ -13,6 +13,7 @@ const initialState = {
   userType: null,
   currentUser: null,
   isLogin: false,
+  loginError: null,
 };
 
 const usersSlice = createSlice({
@@ -45,24 +46,25 @@ const usersSlice = createSlice({
     },
     loginRequest: (state) => {
       state.isLoading = true;
-      state.error = null;
+      state.loginError = null;
       state.isLogin = false;
     },
     loginReceive: (state, action) => {
+      state.loginError = null;
       state.token = action.payload.token;
       // state.userType = action.payload.data.roleId;s
       state.isLoading = false;
       state.userType = action.payload.userType;
       state.isLogin = true;
       state.currentUser = action.payload;
-      'action', action;
+
       localStorage.setItem(TOKEN_KEY, action.payload.token);
       if (!localStorage.getItem(USER_TYPE))
         localStorage.setItem(USER_TYPE, action.payload.userType);
     },
     loginRequestFail: (state, action) => {
       state.isLoading = false;
-      state.error = action.payload;
+      state.loginError = action.payload;
       state.isLogin = false;
     },
     authCheckStart: (state) => {
@@ -78,6 +80,7 @@ const usersSlice = createSlice({
       state.userType = null;
       localStorage.removeItem(TOKEN_KEY); // Clear the token from AsyncStorage
       localStorage.removeItem(USER_TYPE);
+      state.currentUser = null;
       state.isLogin = false;
     },
     currentUserRequest: (state) => {
@@ -130,8 +133,8 @@ export const login = (data) => {
     url: '/users/login',
     method: 'post',
     data,
-    onSuccess: loginReceive.type,
     onStart: loginRequest.type,
+    onSuccess: loginReceive.type,
     onError: loginRequestFail.type,
   });
 };

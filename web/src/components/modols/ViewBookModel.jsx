@@ -274,6 +274,7 @@ const ViewBookModel = ({ isView, onClose, onRef }) => {
             item={selectItem}
             landLordPaid1month={true}
             rentPaid={true}
+            buttonTitle='Pay Rent!'
           />
           <MoveInProcessModal
             isMoveInProcess={isMove}
