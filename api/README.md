@@ -24,8 +24,8 @@ Welcome to the Rent House Management System API! This API facilitates various op
 #### Clone the repository:
 
 ```bash
-git clone https://github.com/your-repo/rent-house-management-system.git
-cd rent-house-management-system
+https://github.com/Caytomahamed/RentHouseMS.git
+cd RentHouseMS
 ```
 
 #### Install dependencies:
