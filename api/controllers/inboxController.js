@@ -18,6 +18,7 @@ exports.getInboxByUserId = catchAsync(async (req, res, next) => {
 
 exports.getInboxByUserIdNotReading = catchAsync(async (req, res, next) => {
   const { userId } = req.params;
+  console.log('users', userId);
   const unreadCount = await inboxModel.findInboxByUserIdNotReading(userId);
 
   console.log('unread', unreadCount);

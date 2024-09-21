@@ -134,11 +134,10 @@ function Cars() {
 
   // sort by group ddata
   const groupByAddress = groupBy(paginatedList, 'address');
-  const groupByType = groupBy(paginatedList, 'driverType');
 
   const filterData = {
-    data: [groupByAddress, groupByType],
-    column: ['address', 'driverType'],
+    data: [groupByAddress],
+    column: ['address'],
   };
 
   const editDeleteModal = {

@@ -103,7 +103,7 @@ exports.deleteInbox = async id => {
   return await db('inbox').where('id', id).del();
 };
 
-exports.findInboxByUserIdNotReading = async userIdId => {
+exports.findInboxByUserIdNotReading = async userId => {
   const unreadCount = await db('inbox')
     .count('id as count')
     .where('receiverId', userId)

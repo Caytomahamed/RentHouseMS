@@ -1,6 +1,5 @@
 const db = require('../data/dbConfig');
 const { capitalize } = require('../utils/timeHelpers');
-const { findByDriverId, findByIdandUpdate } = require('./carModel');
 
 // find all booking
 exports.find = async () =>
@@ -287,9 +286,18 @@ exports.deleteOldCancellations = async () => {
   const sevenDaysAgo = new Date();
   sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 4);
 
-  await db('booking')
-    .where('cancellationRequestedAt', '<=', sevenDaysAgo)
-    .del();
+  const books = await db('booking').where(
+    'cancellationRequestedAt',
+    '<=',
+    sevenDaysAgo,
+  );
+
+  books.map(async book => {
+    await db('properties')
+      .update({ available: true })
+      .where('id', book.propertyId);
+    await db('booking').where('id', book.id).del();
+  });
 };
 
 // update cancellation process
@@ -313,6 +321,7 @@ exports.updateCancellationProcess = async () => {
       .update({
         cancellationStatus: update.status,
       });
+    return;
   }
 
   const sevenDaysAgo = new Date();
@@ -325,7 +334,34 @@ exports.updateCancellationProcess = async () => {
 };
 
 // delete booking
-exports.findByIdandDelete = async id => db('booking').where('id', id).del();
+exports.findByIdandDelete = async id => {
+  const [book] = await db('booking').where('id', id);
+
+  console.log(book);
+
+  if (!book) return null;
+
+  await db('properties')
+    .update({ available: true })
+    .where('id', book.propertyId);
+
+  // send a message to the tenant
+  const [property] = await db('properties').where('id', book.propertyId);
+
+  const subject = 'Booking Cancelled';
+  const message = `We regret to inform you that your booking for the house located in ${property.address} has been cancelled. We wish you the best in your search for a new home.`;
+
+  if (!property) return null;
+
+  await db('inbox').insert({
+    senderId: property.landLordId,
+    receiverId: book.tenantId,
+    FromOrTo: 'owner',
+    subject,
+    message,
+  });
+  return db('booking').where('id', id).del();
+};
 
 // unBooking
 exports.unBooking = async id => {
@@ -430,19 +466,3 @@ exports.findBookingsByLandlordId = async id => {
     .where('p.landLordId', id)
     .orderBy('startDate', 'desc');
 };
-
-// // Prepare the message content
-//       const subject = 'Cancellation Request for Rent House';
-//       let message = `Dear ${booking.tenantFirstName} ${booking.tenantLastName},\n\n`;
-//       message += `This is to inform you that a cancellation request for the rental house at ${booking.address}, ${booking.city}, ${booking.state} has been initiated. The cancellation process will begin tomorrow and is expected to take 4 days to complete.\n\n`;
-//       message += `Thank you for your understanding.\n\n`;
-//       message += `Best regards,\nThe Management`;
-
-//       // Send message to tenant's inbox
-//       await db('inbox').insert({
-//         senderId: booking.landLordId,
-//         receiverId: booking.tenantId,
-//         FromOrTo: 'owner',
-//         subject,
-//         message,
-//       });

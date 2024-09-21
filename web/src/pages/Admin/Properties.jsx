@@ -120,7 +120,19 @@ function Properties() {
     dispatch(updateProperties(changes, file));
     onCloseEditModal();
     onCloseActions();
-    onInfoSet({});
+    onInfoSet({
+      address: '',
+      city: '',
+      state: '',
+      squareFootage: 0,
+      bedrooms: 0,
+      bathrooms: 0,
+      rentAmount: 0,
+      landLordId: 0,
+      propertyTypeId: 0,
+      description: '',
+      imageUrls: [],
+    });
     toast.success('property update successfully');
   };
   const handleCreate = () => {
@@ -130,7 +142,19 @@ function Properties() {
     dispatch(createProperties(info, file));
     onCloseCreateModal();
     toast.success('property create successfully');
-    onInfoSet({});
+    onInfoSet({
+      address: '',
+      city: '',
+      state: '',
+      squareFootage: 0,
+      bedrooms: 0,
+      bathrooms: 0,
+      rentAmount: 0,
+      landLordId: 0,
+      propertyTypeId: 0,
+      description: '',
+      imageUrls: [],
+    });
   };
   const handleDelete = () => {
     dispatch(deleteProperty(+info.id));
@@ -183,13 +207,15 @@ function Properties() {
   };
 
   // sort by group ddata
-  const groupByPrice = groupBy(paginatedList, 'price');
-  // const groupByYear = groupBy(paginatedList, 'city');
+  const groupByState = groupBy(paginatedList, 'state');
+  const groupByCity = groupBy(paginatedList, 'city');
+  const groupByAdress = groupBy(paginatedList, 'address');
 
   const filterData = {
-    data: [groupByPrice],
-    column: ['price'],
+    data: [groupByState, groupByCity, groupByAdress],
+    column: ['state', 'city', 'address'],
   };
+
   return (
     <PageWrapper
       title="All properties"

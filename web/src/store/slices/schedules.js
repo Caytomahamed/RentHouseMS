@@ -240,7 +240,7 @@ export const deleteProperty = (id) => {
 export const selectFilteredAndSortedSchedule = (state) => {
   const {
     list,
-    searchQuery,
+    // searchQuery,
     filter,
     filterColumn,
     sortKey,
@@ -250,11 +250,12 @@ export const selectFilteredAndSortedSchedule = (state) => {
   } = state.entities.schedules;
 
   // Filtering
-  let filteredList = list.filter(
-    (user) => user.address.toLowerCase().includes(searchQuery.toLowerCase())
-    //||
-    //user.finish.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  let filteredList = list;
+  // let filteredList = list.filter(
+  //   (user) => user.address.toLowerCase().includes(searchQuery.toLowerCase())
+  //   ||
+  //   user.finish.toLowerCase().includes(searchQuery.toLowerCase())
+  // );
 
   // Applying filter
   if (filter) {

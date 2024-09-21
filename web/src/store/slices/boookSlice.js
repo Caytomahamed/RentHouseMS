@@ -178,7 +178,7 @@ export default slice.reducer;
 export const selectFilteredAndSortedBooks = (state) => {
   const {
     list,
-    // searchQuery,
+    searchQuery,
     filter,
     filterColumn,
     sortKey,
@@ -187,13 +187,16 @@ export const selectFilteredAndSortedBooks = (state) => {
     sortOrder,
   } = state.entities.bookings;
 
+  if (list.length === 0)
+    return { paginatedList: [], totalPages: 0, startIndex: 0, endIndex: 0 };
+
   // Filtering
-  let filteredList = list;
-  // let filteredList = list.filter(
-  //   (user) =>
-  //     user.firstname.toLowerCase().includes(searchQuery.toLowerCase()) ||
-  //     user.lastname.toLowerCase().includes(searchQuery.toLowerCase())
-  // );
+  // let filteredList = list;
+  let filteredList = list.filter(
+    (user) =>
+      user.tenantFirstName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      user.tenantLastName.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   // Applying filter
   if (filter) {

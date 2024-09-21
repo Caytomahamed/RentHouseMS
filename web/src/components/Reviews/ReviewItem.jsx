@@ -44,10 +44,7 @@ const ReviewItem = ({ review }) => {
       </div>
       <div className="testimonial__comment">
         <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit.
-          Exercitationem, quaerat quis? Provident temporibus architecto
-          asperiores nobis maiores nisi a. Quae doloribus ipsum aliquam tenetur
-          voluptates incidunt blanditiis sed atque cumque.
+          {review.comment}
         </p>
       </div>
     </div>

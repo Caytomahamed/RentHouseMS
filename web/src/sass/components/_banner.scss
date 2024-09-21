@@ -3,6 +3,7 @@
     center center;
   height: 80vh;
   background-size: cover;
+  background-position: left;
   position: relative;
 }
 .banner .logo {
@@ -22,7 +23,7 @@
 }
 .banner__info {
   //   background: linear-gradient(to bottom, orange, white);
-  background: radial-gradient(circle, #E47675, white);
+  background: radial-gradient(circle, #e47675, white);
   color: black;
   padding-top: 30vh;
   padding-left: 50px;

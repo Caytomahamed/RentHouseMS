@@ -5,23 +5,19 @@ const fileUpload = require('../utils/uploadFile');
 
 const router = express.Router();
 
-router.get(
-  '/search',
-  authController.proctect,
-  propertiesController.searchProperties,
-);
+router.get('/search', propertiesController.searching);
 
 router.get('/:landlordId/properties', propertiesController.getByLandlordId);
 
 router
   .route('/')
-  .get(propertiesController.getAllProperties)
+  .get(propertiesController.getAll)
   .post(fileUpload.propertyImages, propertiesController.createProperties);
 
 router
   .route('/:id')
-  .get(propertiesController.getProperty)
+  .get(propertiesController.getOne)
   .patch(fileUpload.propertyImages, propertiesController.updateProperty)
-  .delete(propertiesController.deleteProperty);
+  .delete(propertiesController.deleteOne);
 
 module.exports = router;

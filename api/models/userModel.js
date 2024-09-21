@@ -124,7 +124,10 @@ exports.create = async studentData => {
 };
 
 // Delete user by ID
-exports.findByIdandDelete = async id => db('users').where('id', id).del();
+exports.findByIdandDelete = async id => {
+  console.log('delete', id);
+  return await db('users').where('id', id).del();
+};
 
 // update me [update current user]
 exports.updateMe = async (id, changes) => {

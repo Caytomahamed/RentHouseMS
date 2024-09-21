@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import OverlayModal from '../OverlayModal';
 import CustomInput from '../Custom/CustomInput.jsx';
 import CustomButton from '../Custom/CustomButton.jsx';
+import { toast } from 'react-toastify';
 
 const CreateModal = ({
   isCreate,
@@ -19,6 +20,19 @@ const CreateModal = ({
   // Function to handle file input change
   const handleFileChange = (event, props) => {
     const files = event.target.files;
+    const validImageTypes = [
+      'image/jpeg',
+      'image/png',
+      'image/gif',
+      'image/jpg',
+    ];
+    for (let i = 0; i < files.length; i++) {
+      const fileType = files[i].type;
+      if (!validImageTypes.includes(fileType)) {
+        toast.error(`File  is not an image.`);
+        return;
+      }
+    }
     onInfoSet({ ...info, [props]: files });
   };
 
@@ -52,6 +66,7 @@ const CreateModal = ({
                         onInfoSet({ ...info, [field.name]: value })
                       }
                       validationRules={field.validationRules}
+                      required
                     />
                   )}
 

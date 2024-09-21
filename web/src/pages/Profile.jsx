@@ -207,7 +207,9 @@ const Profile = (props) => {
 
           <div className="profile__detial">
             <h1>Hi, I’m {currentUser?.firstname}</h1>
-            <p className="profile__detial-join">Joined in 2022</p>
+            <p className="profile__detial-join">
+              Joined in 2022 [{currentUser?.id}]
+            </p>
 
             <div className="profile__detial__forms profile__detial__forms--1">
               <div>

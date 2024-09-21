@@ -75,6 +75,16 @@ const YourInbox = () => {
     }
   });
 
+  if (currentUser.userType === 'admin') {
+    filteredInboxes = myInbox?.filter((inbox) => {
+      if (inboxType === 'received') {
+        return inbox.receiverId === currentUser.id;
+      } else {
+        return inbox.senderId === currentUser.id;
+      }
+    });
+  }
+
   // filter the inbox type and give me the length of the inbox
   const inboxLength = myInbox?.reduce(
     (acc, inbox) => {

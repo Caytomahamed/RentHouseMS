@@ -136,22 +136,24 @@ const TableWrapper = ({
     isView = view.isView;
     onRefView = view.onRefView;
     onCloseView = view.onCloseView;
-    onOpenView = view.onOpenView
+    onOpenView = view.onOpenView;
   }
   return (
     <DashLayout title={title} menuType={menuType}>
       <div className="table__box">
         <div className="table__ssf">
           {/* Search input */}
-          <div className="search__input">
-            <img src={searchIcon} alt="search icon" />
-            <input
-              type="text"
-              placeholder="Standard searching"
-              value={store.searchQuery}
-              onChange={(e) => handleSearchWrapper(e.target.value)}
-            />
-          </div>
+          {!['payment', 'maintenance', 'properties'].includes(tableType) && (
+            <div className="search__input">
+              <img src={searchIcon} alt="search icon" />
+              <input
+                type="text"
+                placeholder="Standard searching"
+                value={store.searchQuery}
+                onChange={(e) => handleSearchWrapper(e.target.value)}
+              />
+            </div>
+          )}
 
           {/* Filter button and modal */}
           <button className="filter" onClick={openFilterModal}>
@@ -168,17 +170,20 @@ const TableWrapper = ({
           </button>
 
           {/* Sort button and modal */}
-          <button className="sort" onClick={openSortModal}>
-            <img src={sortIcon} alt="sort icon" />
-            <h3>sort</h3>
-            <SortModal
-              isSort={isSortOpen}
-              modalRef={sortModalRef}
-              onSort={handleSortChangeWrapper}
-              data={sortOptions}
-              sortKey={store.sortKey}
-            />
-          </button>
+          {!['bookings', 'payment', 'maintenance'].includes(tableType) && (
+            <button className="sort" onClick={openSortModal}>
+              <img src={sortIcon} alt="sort icon" />
+              <h3>sort</h3>
+              <SortModal
+                isSort={isSortOpen}
+                modalRef={sortModalRef}
+                onSort={handleSortChangeWrapper}
+                data={sortOptions}
+                sortKey={store.sortKey}
+              />
+            </button>
+          )}
+
           {!['students', 'bookings', 'maintenance'].includes(tableType) && (
             <div style={{ position: 'absolute', right: 0, top: '-5px' }}>
               <CustomButton label="create new" onClick={onOpenCreateModal} />

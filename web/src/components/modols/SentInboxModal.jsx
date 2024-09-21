@@ -38,7 +38,6 @@ const SentInboxModal = ({
   if (currentUser?.userType === 'admin') {
     options = [
       { label: 'Sent who', value: '' },
-      { label: 'Admin', value: 'admin' },
       { label: 'Tenant', value: 'tenant' },
       { label: 'Owner', value: 'owner' },
       { label: 'All Owners', value: 'allowner' },
@@ -158,7 +157,7 @@ const SentInboxModal = ({
                         type="number"
                         name="amount"
                         value={ownerId}
-                        placeholder="Enter owner Id "
+                        placeholder="Enter UserId "
                         onChange={(e) => setOwnerId(e.target.value)}
                       />
                     </label>

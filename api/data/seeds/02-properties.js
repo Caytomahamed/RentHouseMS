@@ -15,7 +15,7 @@ exports.seed = async function (knex) {
     {
       address: 'calamada',
       city: 'Hargiesa',
-      state: 'Another State',
+      state: 'M/jeex',
       squareFootage: 1200,
       bedrooms: 2,
       bathrooms: 1,
@@ -35,7 +35,7 @@ exports.seed = async function (knex) {
     {
       address: '150',
       city: 'Hargiesa',
-      state: 'Another State',
+      state: 'M/jeex',
       squareFootage: 1200,
       bedrooms: 2,
       bathrooms: 1,
@@ -55,7 +55,7 @@ exports.seed = async function (knex) {
     {
       address: 'new hargiesa',
       city: 'Hargiesa',
-      state: 'Another State',
+      state: 'M/jeex',
       squareFootage: 1200,
       bedrooms: 2,
       bathrooms: 1,
@@ -75,7 +75,7 @@ exports.seed = async function (knex) {
     {
       address: 'xawaadle',
       city: 'Hargiesa',
-      state: 'Another State',
+      state: 'M/jeex',
       squareFootage: 1200,
       bedrooms: 2,
       bathrooms: 1,
@@ -95,7 +95,7 @@ exports.seed = async function (knex) {
     {
       address: 'maxamed mooge',
       city: 'Hargiesa',
-      state: 'Another State',
+      state: 'M/jeex',
       squareFootage: 1200,
       bedrooms: 2,
       bathrooms: 1,
@@ -115,7 +115,7 @@ exports.seed = async function (knex) {
     {
       address: 'siinay',
       city: 'Hargiesa',
-      state: 'Another State',
+      state: 'M/jeex',
       squareFootage: 1200,
       bedrooms: 2,
       bathrooms: 1,
@@ -135,7 +135,7 @@ exports.seed = async function (knex) {
     {
       address: 'calamada',
       city: 'Hargiesa',
-      state: 'Another State',
+      state: 'M/jeex',
       squareFootage: 1200,
       bedrooms: 2,
       bathrooms: 1,
@@ -155,7 +155,7 @@ exports.seed = async function (knex) {
     {
       address: '150',
       city: 'Hargiesa',
-      state: 'Another State',
+      state: 'M/jeex',
       squareFootage: 1200,
       bedrooms: 2,
       bathrooms: 1,
@@ -175,7 +175,7 @@ exports.seed = async function (knex) {
     {
       address: 'new hargiesa',
       city: 'Hargiesa',
-      state: 'Another State',
+      state: 'M/jeex',
       squareFootage: 1200,
       bedrooms: 2,
       bathrooms: 1,
@@ -195,7 +195,7 @@ exports.seed = async function (knex) {
     {
       address: 'xawaadle',
       city: 'Hargiesa',
-      state: 'Another State',
+      state: 'M/jeex',
       squareFootage: 1200,
       bedrooms: 2,
       bathrooms: 1,
@@ -215,7 +215,7 @@ exports.seed = async function (knex) {
     {
       address: 'maxamed mooge',
       city: 'Hargiesa',
-      state: 'Another State',
+      state: 'M/jeex',
       squareFootage: 1200,
       bedrooms: 2,
       bathrooms: 1,
@@ -235,7 +235,7 @@ exports.seed = async function (knex) {
     {
       address: 'siinay',
       city: 'Hargiesa',
-      state: 'Another State',
+      state: 'M/jeex',
       squareFootage: 1200,
       bedrooms: 2,
       bathrooms: 1,
@@ -255,7 +255,7 @@ exports.seed = async function (knex) {
     {
       address: 'calamada',
       city: 'Hargiesa',
-      state: 'Another State',
+      state: 'M/jeex',
       squareFootage: 1200,
       bedrooms: 2,
       bathrooms: 1,
@@ -275,7 +275,7 @@ exports.seed = async function (knex) {
     {
       address: '150',
       city: 'Hargiesa',
-      state: 'Another State',
+      state: 'M/jeex',
       squareFootage: 1200,
       bedrooms: 2,
       bathrooms: 1,
@@ -295,7 +295,7 @@ exports.seed = async function (knex) {
     {
       address: 'new hargiesa',
       city: 'Hargiesa',
-      state: 'Another State',
+      state: 'M/jeex',
       squareFootage: 1200,
       bedrooms: 2,
       bathrooms: 1,
@@ -315,7 +315,7 @@ exports.seed = async function (knex) {
     {
       address: 'xawaadle',
       city: 'Hargiesa',
-      state: 'Another State',
+      state: 'M/jeex',
       squareFootage: 1200,
       bedrooms: 2,
       bathrooms: 1,
@@ -335,7 +335,7 @@ exports.seed = async function (knex) {
     {
       address: 'maxamed mooge',
       city: 'Hargiesa',
-      state: 'Another State',
+      state: 'M/jeex',
       squareFootage: 1200,
       bedrooms: 2,
       bathrooms: 1,
@@ -355,7 +355,7 @@ exports.seed = async function (knex) {
     {
       address: 'siinay',
       city: 'Hargiesa',
-      state: 'Another State',
+      state: 'M/jeex',
       squareFootage: 1200,
       bedrooms: 2,
       bathrooms: 1,
@@ -375,7 +375,7 @@ exports.seed = async function (knex) {
     {
       address: 'calamada',
       city: 'Hargiesa',
-      state: 'Another State',
+      state: 'M/jeex',
       squareFootage: 1200,
       bedrooms: 2,
       bathrooms: 1,

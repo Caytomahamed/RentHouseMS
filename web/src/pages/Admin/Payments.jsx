@@ -130,12 +130,11 @@ const Payments = () => {
   };
 
   // sort by group ddata
-  const groupByType = groupBy(paginatedList, 'type');
-  const groupByStatus = groupBy(paginatedList, 'status');
+  const groupByMethod = groupBy(paginatedList, 'paymentMethod');
 
   const filterData = {
-    data: [groupByType, groupByStatus],
-    column: ['type', 'status'],
+    data: [groupByMethod],
+    column: ['paymentMethod'],
   };
 
   const editDeleteModal = {

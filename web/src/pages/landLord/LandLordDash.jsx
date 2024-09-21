@@ -95,7 +95,7 @@ const LandLordDash = () => {
               <h1>
                 {totals.totalIncome || totals.totalIncome === 0
                   ? formatNumberWithCommas('' + totals.totalIncome)
-                  : 10}
+                  : 0}
               </h1>
             </div>
           </div>
