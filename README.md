@@ -1,62 +1,62 @@
-# Rent House
+![Kiro Dhow Logo](ReadmeImage/dashboard.PNG)
 
-A comprehensive rental management platform for landlords and tenants.
+# Kiro Dhow
 
-## Features:
+A comprehensive rental management platform designed to streamline the experience for both landlords and tenants.
 
-✅ **User Authentication**
+## Features
 
-- User registration and login functionality for landlords and tenants.
-- Secure authentication and authorization mechanisms.
+### ✅ User Authentication
+- Secure user registration and login for landlords and tenants.
+- Robust authentication and authorization mechanisms to protect user data.
 
-✅ **Property Management**
+### ✅ Property Management
+- Landlords can easily add, edit, and delete property listings.
+- Detailed property information, including:
+  - Address
+  - Description
+  - Rent amount
+  - Available date
+  - Amenities and images
+- Intuitive search and filter options for tenants to find suitable properties.
 
-- Landlords can add, edit, and delete property listings.
-- Detailed property information including address, description, rent amount, available date, amenities, and images.
-- Basic search and filter options for tenants to find suitable properties.
+### ✅ Tenant Management
+- Tenants can search for available properties tailored to their preferences.
+- View detailed property information, including images and landlord contact info.
+- Option for tenants to request a viewing or inquire about specific properties.
 
-✅ **Tenant Management**
+### ✅ Booking and Lease Management
+- Seamless booking functionality for tenants to reserve properties.
+- Comprehensive lease management features, including:
+  - Generation of lease agreements
+  - Tracking lease terms
+  - Handling renewals or terminations
+- Access to resources regarding tenant rights and responsibilities ([Your Renting Rights](https://www.consumer.vic.gov.au/resources-and-tools/other-languages/somali/your-renting-rights)).
 
-- Tenants can search for available properties based on their preferences.
-- View property details with images, amenities, and landlord contact information.
-- Option for tenants to request a viewing or inquire about a property.
+### ✅ Payment Integration
+- Secure payment processing through a reliable payment gateway for rent payments and booking fees.
 
-✅ **Booking and Lease Management**
-
-- Booking functionality for tenants to reserve a property.
-- Lease management features like generating agreements, tracking lease terms, and handling renewals or terminations.
-- Integration with resources regarding tenant rights and responsibilities ([Xuquuqda iyo waajibaadkaaga la xiriira kireynta](https://www.consumer.vic.gov.au/resources-and-tools/other-languages/somali/your-renting-rights)).
-
-## In Progress:
-
-✅ **Payment Integration**
-
-- Implementing secure payment processing through a payment gateway for rent payments and booking fees.
-
-✅ **Notifications**
-
-- Email or SMS notifications for important events like:
+### ✅ Notifications
+- Timely email or SMS notifications for critical events such as:
   - New property listings
   - Booking requests
   - Lease updates
   - Payment reminders
 
-✅ **Admin Panel**
-
-- Admin dashboard for managing users, properties, bookings, and leases.
+### ✅ Admin Panel
+- Comprehensive admin dashboard for managing users, properties, bookings, and leases.
 - Role-based access control for administrators, landlords, and tenants.
 
-✅ **Reporting**
+### ✅ Reporting
+- Basic reporting functionality for landlords to monitor property occupancy, rental income, and other relevant metrics.
 
-- Basic reporting functionality for landlords to track property occupancy, rental income, and other relevant metrics.
+### ✅ Responsive Design
+- User-friendly and responsive design optimized for both desktop and mobile devices.
 
-✅ **Responsive Design**
+### ✅ Testing and Deployment
+- Thorough testing to ensure functionality and security.
+- Minimum Viable Product (MVP) deployed for public access.
 
-- Responsive and user-friendly design for desktop and mobile devices.
+---
 
-✅ **Testing and Deployment**
-
-- Application is thoroughly tested to ensure functionality and security.
-- Minimum Viable Product (MVP) is deployed to a hosting environment for public access.
-
-We are continuously working on improving the platform and adding new features.
+We are committed to continuously improving the platform and adding new features to enhance user experience. Your feedback is welcome!
